@@ -1,0 +1,34 @@
+{
+  "items": [
+	{
+	  "id": "about",
+	  "title": "About",
+	  "model": null,
+	  "view": "tpl/sections/about.tpl.html"
+	},
+	{
+	  "id": "services",
+	  "title": "Features",
+	  "model": "api/services.json",
+	  "view": "tpl/sections/services.tpl.html"
+	},
+	{
+	  "id": "call-to-action",
+	  "title": null,
+	  "model": null,
+	  "view": "tpl/sections/calltoaction.tpl.html"
+	},
+	{
+	  "id": "quickstart",
+	  "title": "Quickstart",
+	  "model": null,
+	  "view": "tpl/sections/quickstart.tpl.html"
+	},
+	{
+	  "id": "contact",
+	  "title": "Contact",
+	  "model": null,
+	  "view": "tpl/sections/contact.tpl.html"
+	}
+  ]
+}

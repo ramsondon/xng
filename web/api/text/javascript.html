@@ -1,0 +1,14 @@
+<script type="text/javascript">
+	(function() {
+		_.xng
+			.listen({
+				"on-template-rendered": function () {
+					// my-template has been rendered successfully
+				}
+			})
+			.xng()
+			.then(function() {
+				// finished rendering all xng-views
+			});
+	})();
+</script>

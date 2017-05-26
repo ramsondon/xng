@@ -1,0 +1,3 @@
+<% _.forEach(xngModel.items, function(item) { %>
+	<div data-xng-view="<%- item.view %>"<% if (item.model) { %> data-xng-model="<%- item.model %>"<% } %> data-xng-listen="<%- item.id %>"></div>
+<% }); %>

@@ -1,0 +1,45 @@
+{
+    "title": "ngx",
+    "name": "ngx",
+    "version": "1.0.0-alpha",
+    "description": "Lightweight javascript templating engine on top of lodash",
+    "keywords": [
+        "javascript",
+        "single page applications",
+        "templating",
+        "fetch"
+    ],
+    "homepage": "https://ramsondon.github.io/ngx",
+    "bugs": {
+        "url": "https://github.com/ramsondon/ngx/issues",
+        "email": "ramsondon@gmail.com"
+    },
+    "license": "MIT",
+    "author": "Matthias Schmid",
+    "contributors": [
+        "Matthias Schimd (https://ramsondon.github.io)"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ramsondon/ngx.git"
+    },
+    "dependencies": {
+        "bootstrap": "^4.0.0-alpha.6",
+        "font-awesome": "4.7.0",
+        "jquery": "^3.2.1",
+        "jquery.easing":    "^1.4.1",
+        "magnific-popup": "^1.1.0",
+        "scrollreveal": "3.3.5",
+        "tether": "^1.4.0",
+        "lodash": "^4.17.4"
+    },
+    "devDependencies": {
+        "browser-sync": "^2.18.8",
+        "gulp": "^3.9.1",
+        "gulp-clean-css": "3.2.0",
+        "gulp-header": "1.8.8",
+        "gulp-rename": "^1.2.2",
+        "gulp-sass": "^3.1.0",
+        "gulp-uglify": "^2.1.2"
+    }
+}

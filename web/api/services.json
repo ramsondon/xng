@@ -1,0 +1,45 @@
+{
+  "items": [
+	{
+	  "title": "Expressive",
+	  "iconclass" : "fa-code",
+	  "text": "xng.js is made with expressive simple custom attributes and fully HTML5 compliant."
+	},
+	{
+	  "title": "Nested",
+	  "iconclass" : "fa-sitemap",
+	  "text": "xng.js is designed for reuseability of code and to allow modularity therefore it supports nested template structures and even template recursions."
+	},
+	{
+	  "title": "Asynchronous",
+	  "iconclass" : "fa-fast-forward",
+	  "text": "xng.js is completely asynchronous. Templates and models are loaded asynchronously."
+	},
+	{
+	  "title": "Cached",
+	  "iconclass" : "fa-database",
+	  "text": "xng.js templates and models are cached speed up and be reusable from scratch."
+	},
+	{
+	  "title": "Light Weight",
+	  "iconclass" : "fa-balance-scale",
+	  "text": "xng.js templates and models are cached speed up and be reusable from scratch."
+	},
+	{
+	  "title": "Modular",
+	  "iconclass" : "fa-pie-chart",
+	  "text": "xng.js templates and models are cached speed up and be reusable from scratch."
+	},
+	{
+	  "title": "Contributable",
+	  "iconclass" : "fa-users",
+	  "offset": "offset-lg-0",
+	  "text": "xng.js is made for contribution! fork it!"
+	},
+	{
+	  "title": "Awesome",
+	  "iconclass" : "fa-thumbs-up",
+	  "text": "Built with the javascript fetch api and Promises with information about polyfills."
+	}
+  ]
+}
