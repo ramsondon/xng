@@ -12,7 +12,7 @@
 	},
 	{
 	  "title": "Asynchronous",
-	  "iconclass" : "fa-fast-forward",
+	  "iconclass" : "fa-random",
 	  "text": "xng.js is completely asynchronous. Templates and models are loaded asynchronously."
 	},
 	{
