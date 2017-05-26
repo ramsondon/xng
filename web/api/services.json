@@ -39,7 +39,7 @@
 	{
 	  "title": "Awesome",
 	  "iconclass" : "fa-thumbs-up",
-	  "text": "Built with the javascript fetch api and Promises with information about polyfills."
+	  "text": "Built with the javascript fetch api and Promises."
 	}
   ]
 }
