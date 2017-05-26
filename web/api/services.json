@@ -8,7 +8,7 @@
 	{
 	  "title": "Nested",
 	  "iconclass" : "fa-sitemap",
-	  "text": "xng.js is designed for reuseability of code and to allow modularity therefore it supports nested template structures and even template recursions."
+	  "text": "xng.js supports nested template structures and template recursions."
 	},
 	{
 	  "title": "Asynchronous",
@@ -28,7 +28,7 @@
 	{
 	  "title": "Modular",
 	  "iconclass" : "fa-pie-chart",
-	  "text": "xng.js templates and models are cached speed up and be reusable from scratch."
+	  "text": "no html mess anymore! xng.js is designed for creating small reuseable pieces of code."
 	},
 	{
 	  "title": "Contributable",
