@@ -11,9 +11,9 @@ _.xng = function () {
 			listen: 'data-xng-listen'
 		};
 		this.templateSettings = {
-			escape: /{{-([\s\S]+?)}}/g,
-			evaluate:  /{{([\s\S]+?)}}/g,
-			interpolate: /{{=([\s\S]+?)}}/g
+			escape: /{{\\([\s\S]+?)}}/g,
+			evaluate:  /{%([\s\S]+?)%}/g,
+			interpolate: /{{([\s\S]+?)}}/g
 		};
 		this.base_route = "";
 		this.wait_cache_freq = 0;
