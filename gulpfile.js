@@ -19,10 +19,10 @@ var banner = ['/*!\n',
 
 // Compiles SCSS files from /scss into /css
 gulp.task('sass', function() {
-    return gulp.src('doc/src/scss/creative.scss')
+    return gulp.src('docs/src/scss/creative.scss')
         .pipe(sass())
         .pipe(header(banner, { pkg: pkg }))
-        .pipe(gulp.dest('doc/src/css'))
+        .pipe(gulp.dest('docs/src/css'))
         .pipe(browserSync.reload({
             stream: true
         }))
