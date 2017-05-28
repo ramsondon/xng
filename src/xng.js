@@ -4,12 +4,16 @@ if (!_ || typeof(_) === 'undefined') {
 
 _.xng = function () {
 
-
 	var xng = function () {
 		this.attributes = {
 			view: 'data-xng-view',
 			model: 'data-xng-model',
 			listen: 'data-xng-listen'
+		};
+		this.templateSettings = {
+			escape: /{{-([\s\S]+?)}}/g,
+			evaluate:  /{{([\s\S]+?)}}/g,
+			interpolate: /{{=([\s\S]+?)}}/g
 		};
 		this.base_route = "";
 		this.wait_cache_freq = 0;
@@ -204,6 +208,11 @@ _.xng = function () {
 	 * @return Promise
 	 */
 	xng.prototype.xng = function () {
+		// lodash settings
+		for (var s in this.templateSettings) {
+			_.templateSettings[s] = this.templateSettings[s];
+		}
+
 		return this.include(document.querySelectorAll('[' + this.attributes.view + ']'))
 	};
 
@@ -279,7 +288,7 @@ _.xng = function () {
 		}.bind(this));
 	};
 
-	return new xng;
+	return new xng();
 }();
 
 
