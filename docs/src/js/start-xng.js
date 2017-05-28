@@ -1,16 +1,11 @@
-/*!
- * ramsondon.github.io - ngx v1.0.0-alpha (https://ramsondon.github.io/ngx)
- * Copyright 2017 -2017 Matthias Schmid
- * Licensed under MIT (https://github.com/ramsondon/ngx/blob/master/LICENSE)
- */
 (function () {
 	'use strict';
 
 	_.xng
-		.base('doc/web')
+		.base('docs/web')
 		.listen({
 			"contact": function () {
-				_.xng.require("doc/web/js/twitter.min.js")
+				_.xng.require("docs/web/js/twitter.min.js")
 					.then(function (src) {
 						console.log(src + ' downloaded');
 					});
@@ -22,7 +17,7 @@
 		})
 		.xng()
 		.then(function() {
-			_.xng.require('doc/web/js/creative.min.js').then(function() {
+			_.xng.require('docs/web/js/creative.min.js').then(function() {
 				console.log('xng totally rocks and finished rendering!');
 			});
 		});

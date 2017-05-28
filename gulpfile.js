@@ -30,10 +30,10 @@ gulp.task('sass', function() {
 
 // Minify compiled CSS
 gulp.task('minify-css', ['sass'], function() {
-    return gulp.src('doc/src/css/creative.css')
+    return gulp.src('docs/src/css/creative.css')
         .pipe(cleanCSS({ compatibility: 'ie8' }))
         .pipe(rename({ suffix: '.min' }))
-        .pipe(gulp.dest('doc/web/css'))
+        .pipe(gulp.dest('docs/web/css'))
         .pipe(browserSync.reload({
             stream: true
         }))
@@ -41,11 +41,11 @@ gulp.task('minify-css', ['sass'], function() {
 
 // Minify custom JS
 gulp.task('minify-js', function() {
-    return gulp.src(['doc/src/js/**/*.js', 'src/xng.js'])
-    // .pipe(uglify()) // fixme:
+    return gulp.src(['docs/src/js/**/*.js', 'src/xng.js'])
+    	.pipe(uglify())
         .pipe(header(banner, { pkg: pkg }))
         .pipe(rename({ suffix: '.min' }))
-        .pipe(gulp.dest('doc/web/js'))
+        .pipe(gulp.dest('docs/web/js'))
         .pipe(browserSync.reload({
             stream: true
         }))
@@ -100,11 +100,11 @@ gulp.task('browserSync', function() {
 
 // Dev task with browserSync
 gulp.task('dev', ['browserSync', 'sass', 'minify-css', 'minify-js'], function() {
-    gulp.watch('doc/src/scss/*.scss', ['sass']);
-    gulp.watch('doc/src/css/*.css', ['minify-css']);
-    gulp.watch('doc/src/js/*.js', ['minify-js']);
+    gulp.watch('docs/src/scss/*.scss', ['sass']);
+    gulp.watch('docs/src/css/*.css', ['minify-css']);
+    gulp.watch('docs/src/js/*.js', ['minify-js']);
     gulp.watch('src/xng.js', ['minify-js']);
     // Reloads the browser whenever HTML or JS files change
     gulp.watch('*.html', browserSync.reload);
-    gulp.watch('doc/js/**/*.js', browserSync.reload);
+    gulp.watch('docs/js/**/*.js', browserSync.reload);
 });
