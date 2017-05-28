@@ -53,7 +53,8 @@ gulp.task('minify-js', function() {
 
 // Copy vendor files from /node_modules into /vendor
 // NOTE: requires `npm install` before running!
-// gulp.task('copy', function() {
+gulp.task('copy', function() {
+	gulp.src(['docs/web/js/xng.min.js']).pipe(gulp.dest('src'));
 //     gulp.src(['node_modules/bootstrap/dist/**/*', '!**/npm.js', '!**/bootstrap-theme.*', '!**/*.map'])
 //         .pipe(gulp.dest('vendor/bootstrap'));
 //
@@ -84,7 +85,7 @@ gulp.task('minify-js', function() {
 //             '!node_modules/font-awesome/*.json'
 //         ])
 //         .pipe(gulp.dest('vendor/font-awesome'))
-// });
+});
 
 // Default task
 gulp.task('default', ['sass', 'minify-css', 'minify-js', 'copy']);
@@ -94,9 +95,9 @@ gulp.task('browserSync', function() {
     browserSync.init({
         server: {
             baseDir: ''
-        },
+        }
     })
-})
+});
 
 // Dev task with browserSync
 gulp.task('dev', ['browserSync', 'sass', 'minify-css', 'minify-js'], function() {
