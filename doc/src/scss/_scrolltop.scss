@@ -1,0 +1,18 @@
+
+.scroll-top {
+  position: fixed;
+  right: 2%;
+  bottom: 2%;
+  width: 50px;
+  height: 50px;
+  z-index: 1049;
+  .btn {
+	font-size: 20px;
+	background-color: $gray-darker;
+	color: white;
+	width: 50px;
+	height: 50px;
+	border-radius: 100%;
+	line-height: 28px;
+  }
+}

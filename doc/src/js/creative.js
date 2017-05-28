@@ -1,8 +1,3 @@
-/*!
- * ramsondon.github.io - ngx v1.0.0-alpha (https://ramsondon.github.io/ngx)
- * Copyright 2017 -2017 Matthias Schmid
- * Licensed under MIT (https://github.com/ramsondon/ngx/blob/master/LICENSE)
- */
 (function($) {
     "use strict"; // Start of use strict
 
@@ -39,6 +34,18 @@
             $("#mainNav").removeClass("navbar-shrink");
         }
     });
+
+    var top_offset = 50;
+	var scrollTop = function () {
+		if ($(document).scrollTop() > top_offset) {
+			$('.scroll-top').stop().fadeIn();
+		} else {
+			$('.scroll-top').stop().fadeOut();
+		}
+	};
+	$(document).bind('scroll', scrollTop);
+	$(window).bind('resize', scrollTop);
+	scrollTop();
 
     // Scroll reveal calls
     window.sr = ScrollReveal();
