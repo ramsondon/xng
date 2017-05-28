@@ -16,9 +16,9 @@
         "email": "ramsondon@gmail.com"
     },
     "license": "MIT",
-    "author": "Matthias Schmid",
+    "author": "Matthias Schimd <ramsondon@gmail.com> (https://ramsondon.github.io)",
     "contributors": [
-        "Matthias Schimd (https://ramsondon.github.io)"
+        "Matthias Schimd <ramsondon@gmail.com> (https://ramsondon.github.io)"
     ],
     "repository": {
         "type": "git",
