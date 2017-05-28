@@ -2,7 +2,7 @@
     "title": "xng.js",
     "name": "xng",
     "version": "1.0.0",
-    "description": "Lightweight powerful javascript template loader on top of lodash",
+    "description": "the lightweight powerful javascript template loader on top of lodash",
     "keywords": [
         "javascript",
         "single page applications",

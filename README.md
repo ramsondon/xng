@@ -1,2 +1,2 @@
 # xng
-Lightweight javascript templating engine based on lodash
+the lightweight powerful javascript template loader on top of lodash
