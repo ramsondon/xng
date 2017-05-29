@@ -8,7 +8,7 @@
         "single page applications",
         "templating",
         "fetch",
-        "prosmise"
+        "promise"
     ],
     "homepage": "https://ramsondon.github.io/xng",
     "bugs": {
