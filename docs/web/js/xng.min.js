@@ -1,5 +1,5 @@
 /*!
- * ramsondon.github.io - xng.js v1.0.0 (https://ramsondon.github.io/xng)
+ * ramsondon.github.io - xng.js v1.0.1 (https://ramsondon.github.io/xng)
  * Copyright 2017 -2017 Matthias Schimd <ramsondon@gmail.com> (https://ramsondon.github.io)
  * Licensed under MIT (https://github.com/ramsondon/xng/blob/master/LICENSE)
  */
