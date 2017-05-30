@@ -3,7 +3,7 @@
 #v 2.0.0 
 #### incompatible changes
 	* sources are now available in dist directory at the corresponding version
-	* method xng() has been repalced by view()
+	* method xng() has been repalced by run()
 	
 #### compatible changes
 	* window.Xng is available in browser mode and also wrapped by umd as xng.

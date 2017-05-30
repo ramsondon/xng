@@ -15,7 +15,7 @@
 					});
 			}
 		})
-		.view()
+		.run()
 		.then(function() {
 			_.xng.require('docs/web/js/creative.min.js').then(function() {
 				console.log('xng totally rocks and finished rendering!');

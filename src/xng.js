@@ -202,7 +202,7 @@
 	/**
 	 * @return Promise
 	 */
-	Xng.prototype.view = function () {
+	Xng.prototype.run = function () {
 		// lodash settings
 		for (var s in this.templateSettings) {
 			_.templateSettings[s] = this.templateSettings[s];
