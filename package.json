@@ -1,39 +1,42 @@
 {
-    "title": "xng.js",
-    "name": "xng",
-    "version": "1.0.1",
-    "description": "the lightweight powerful javascript template loader on top of lodash",
-    "keywords": [
-        "javascript",
-        "single page applications",
-        "templating",
-        "fetch",
-        "promise"
-    ],
-    "homepage": "https://ramsondon.github.io/xng",
-    "bugs": {
-        "url": "https://github.com/ramsondon/xng/issues",
-        "email": "ramsondon@gmail.com"
-    },
-    "license": "MIT",
-    "author": "Matthias Schimd <ramsondon@gmail.com> (https://ramsondon.github.io)",
-    "contributors": [
-        "Matthias Schimd <ramsondon@gmail.com> (https://ramsondon.github.io)"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/ramsondon/xng.git"
-    },
-    "dependencies": {
-        "lodash": "^4.17.4"
-    },
-    "devDependencies": {
-        "browser-sync": "^2.18.8",
-        "gulp": "^3.9.1",
-        "gulp-clean-css": "3.2.0",
-        "gulp-header": "1.8.8",
-        "gulp-rename": "^1.2.2",
-        "gulp-sass": "^3.1.0",
-        "gulp-uglify": "^2.1.2"
-    }
+  "title": "xng.js",
+  "name": "xng",
+  "version": "2.0.0",
+  "description": "the lightweight powerful javascript template loader on top of lodash",
+  "keywords": [
+    "frontend",
+    "javascript",
+    "single page applications",
+    "templating",
+    "fetch",
+    "promise"
+  ],
+  "homepage": "https://ramsondon.github.io/xng",
+  "bugs": {
+    "url": "https://github.com/ramsondon/xng/issues",
+    "email": "ramsondon@gmail.com"
+  },
+  "license": "MIT",
+  "author": "Matthias Schimd <ramsondon@gmail.com> (https://ramsondon.github.io)",
+  "contributors": [
+    "Matthias Schimd <ramsondon@gmail.com> (https://ramsondon.github.io)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ramsondon/xng.git"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.18.8",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-clean-css": "3.2.0",
+    "gulp-header": "1.8.8",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-uglify": "^2.1.2",
+    "gulp-umd": "^0.2.1"
+  }
 }

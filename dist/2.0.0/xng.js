@@ -1,3 +1,12 @@
+;(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define(['lodash'], factory);
+  } else if (typeof exports === 'object') {
+    module.exports = factory(require('lodash'));
+  } else {
+    root.Xng = factory(root._);
+  }
+}(this, function(_) {
 
 	var Xng = function () {
 		this.attributes = {
@@ -284,3 +293,5 @@
 	};
 
 	_.xng = new Xng();
+return Xng;
+}));
