@@ -74,9 +74,17 @@
 <body id="page-top">
 
 
-<div data-xng-view="tpl/nav.tpl.html" 			data-xng-model="api/sections.json"></div>
-<div data-xng-view="tpl/header.tpl.html"></div>
-<div data-xng-view="tpl/sections.tpl.html" 		data-xng-model="api/sections.json"></div>
+<div data-xng-route=".">
+	<div data-xng-view="tpl/nav.tpl.html" 			data-xng-model="api/sections.json"></div>
+	<div data-xng-view="tpl/header.tpl.html"></div>
+	<div data-xng-view="tpl/sections.tpl.html" 		data-xng-model="api/sections.json"></div>
+</div>
+
+<div data-xng-route="doc">
+	<div data-xng-view="docs/nav.tpl.html"></div>
+	<div data-xng-view="docs/2.0.0/doc.tpl.html"></div>
+</div>
+
 <div data-xng-view="tpl/footer.tpl.html" 		data-xng-listen="footer"></div>
 
 
@@ -100,7 +108,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/components/prism-json.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/plugins/line-numbers/prism-line-numbers.js"></script>
 <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
-<script src="dist/2.0.0/xng.min.js"></script>
+<script src="dist/xng.min.js"></script>
 <script src="docs/web/js/start-xng.min.js"></script>
 
 </body>

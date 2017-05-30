@@ -53,11 +53,11 @@ gulp.task('minify-js', ['umd'],function() {
             stream: true
         }));
 
-	gulp.src(['dist/' + pkg.version + '/xng.js'])
+	gulp.src(['dist/xng.js'])
     	.pipe(uglify())
         .pipe(header(banner, { pkg: pkg }))
         .pipe(rename({ suffix: '.min' }))
-        .pipe(gulp.dest('dist/' + pkg.version))
+        .pipe(gulp.dest('dist'))
         .pipe(browserSync.reload({
             stream: true
         }));
@@ -88,7 +88,7 @@ gulp.task('umd', function(file) {
 
 	return gulp.src('src/xng.js')
 		.pipe(umd(umdDefinition))
-		.pipe(gulp.dest('dist/' + pkg.version));
+		.pipe(gulp.dest('dist'));
 
 });
 

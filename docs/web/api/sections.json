@@ -25,6 +25,12 @@
 	  "view": "tpl/sections/quickstart.tpl.html"
 	},
 	{
+	  "id": "documentation",
+	  "title": "Documentation",
+	  "model": null,
+	  "view": "tpl/sections/documentation.tpl.html"
+	},
+	{
 	  "id": "contact",
 	  "title": "Contact",
 	  "model": null,
