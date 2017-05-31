@@ -14,7 +14,7 @@
 	},
 	{
 	  "id": "call-to-action",
-	  "title": "xng.js latest version",
+	  "title": null,
 	  "model": "api/doc/versions.json",
 	  "view": "tpl/sections/calltoaction.tpl.html"
 	},
