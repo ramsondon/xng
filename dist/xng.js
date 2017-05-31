@@ -8,6 +8,26 @@
   }
 }(this, function(_) {
 
+var _addListener = function(listeners, key, cb) {
+	if (_.isObject(key) && _.isUndefined(cb)) {
+		for (var k in key) {
+			_addListener(listeners, k, key[k]);
+		}
+	} else if (_.isString(key) && _.isFunction(cb)) {
+		listeners[key] = cb;
+	}
+};
+
+var _triggerListeners = function(listeners, key) {
+	if (_.isString(key) && key in listeners) {
+		listeners[key](key);
+	}
+	if ("*" in listeners) {
+		listeners["*"](key);
+	}
+};
+
+
 var Xng = function () {
 	this.attributes = {
 		view: 'data-xng-view',
@@ -20,7 +40,8 @@ var Xng = function () {
 		evaluate:  /{%([\s\S]+?)%}/g,
 		interpolate: /{{([\s\S]+?)}}/g
 	};
-	this.base_route = "";
+	this.base_remote_dir = "";
+	this.current_route = "";
 	this.wait_cache_freq = 0;
 	this.model_cache = {
 		mark: {},
@@ -30,7 +51,10 @@ var Xng = function () {
 		mark: {},
 		cache: {}
 	};
-	this.listeners = {};
+	this.listeners = {
+		route: {},
+		view: {}
+	};
 };
 
 /**
@@ -40,7 +64,7 @@ var Xng = function () {
  */
 Xng.prototype.fetch = function(resource, type) {
 	return new Promise(function (resolve, reject) {
-		var url = _.trimEnd(this.base_route, '/') + '/' + _.trimStart(resource, '/');
+		var url = _.trimEnd(this.base_remote_dir, '/') + '/' + _.trimStart(resource, '/');
 
 		fetch(url).then(function(response) {
 			if (response.status !== 200) {
@@ -92,9 +116,7 @@ Xng.prototype.render = function (filepath, model, el, listener) {
 				this.include(el.querySelectorAll('['+ this.attributes.view +']'))
 					.then(function () {
 						resolve();
-						if (_.isString(listener) && listener in this.listeners) {
-							this.listeners[listener]();
-						}
+						_triggerListeners(this.listeners.view, listener);
 					}.bind(this));
 
 		}.bind(this);
@@ -111,6 +133,13 @@ Xng.prototype.render = function (filepath, model, el, listener) {
 
 Xng.prototype.put = function(html, selector) {
 	document.querySelector(selector).innerHTML = html;
+};
+
+Xng.prototype.guid = function() {
+	var s = function() {
+		return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+	};
+	return [s() + s(), s(), s(), s(), s() + s() + s()].join('-');
 };
 
 Xng.prototype.cacheResource = function (resource, cache, res_type) {
@@ -142,7 +171,7 @@ Xng.prototype.parseDirectives = function (el) {
 
 Xng.prototype.include = function(includes) {
 
-	return new Promise(function (resolve, reject) {
+	return new Promise(function (resolve) {
 
 		// count finish rendering actions
 		var f_count = 0;
@@ -150,12 +179,15 @@ Xng.prototype.include = function(includes) {
 		// fixme: refactor to Promise.all([render_promises]) after _.forEach()
 		var _render = function (directive, model, $cur) {
 			this.render(directive.template, {
+				$route: this.current_route,
+				$model: model,
 				xngModel: model
 			}, $cur, directive.listener)
 				.then(function() {
 					// wait for all components to resolve this promise
 					if (++f_count === includes.length) {
 						resolve();
+						this.routing($cur);
 					}
 				}.bind(this));
 		}.bind(this);
@@ -210,7 +242,7 @@ Xng.prototype.readAssignment = function (obj) {
 };
 
 Xng.prototype.base = function(base_dir) {
-	this.base_route = base_dir;
+	this.base_remote_dir = base_dir;
 	return this;
 };
 
@@ -224,46 +256,64 @@ Xng.prototype.matches = function(str, href) {
 	return str === url;
 };
 
+/**
+ * executes the router
+ * @param el
+ */
 Xng.prototype.routing = function (el) {
 
-	var _routing = function() {
-		var selector = '[' + this.attributes.route + ']';
-		var routes = el.querySelectorAll(selector);
+	var selector = '[' + this.attributes.route + ']';
+	var routes = el.querySelectorAll(selector);
 
-		var root = null, match = null;
-		_.forEach(routes, function(element) {
-			var route = element.getAttribute(this.attributes.route);
-			root = (null === root ? {el: element, route: route }: root);
-			if (this.matches(route, window.location.hash)) {
-				element.style.display = 'block';
-				match = element;
-			} else {
-				element.style.display = 'none';
-			}
-		}.bind(this));
-
-		if (null === match) {
-			// root.element.style.display = 'block';
-			window.location.hash = "";
+	var root = null, match = null;
+	_.forEach(routes, function(element) {
+		var route = element.getAttribute(this.attributes.route);
+		root = (null === root ? route : root);
+		if (this.matches(route, window.location.hash)) {
+			element.style.display = 'block';
+			match = window.location.hash;
+			_triggerListeners(this.listeners.route, route);
+		} else {
+			element.style.display = 'none';
 		}
+	}.bind(this));
 
-	}.bind(this);
-
-	window.onhashchange = _routing;
-	_routing();
+	if (null === match) {
+		// root.element.style.display = 'block';
+		match = root;
+		window.location.hash = "";
+	}
+	this.current_route = match;
 };
 
-Xng.prototype.listen = function(key, cb) {
-	if (_.isObject(key) && _.isUndefined(cb)) {
-		for (var k in key) {
-			this.listen(k, key[k]);
-		}
-	} else if (_.isString(key) && _.isFunction(cb)) {
-		this.listeners [key] = cb;
-	}
+/**
+ * Adds routing listeners
+ * @param route
+ * @param cb
+ * @return {Xng}
+ */
+Xng.prototype.route = function(route, cb) {
+	_addListener(this.listeners.route, route, cb);
 	return this;
 };
 
+/**
+ * Adds view listeners
+ * @param key
+ * @param cb
+ * @return {Xng}
+ */
+Xng.prototype.listen = function(key, cb) {
+	_addListener(this.listeners.view, key, cb);
+	return this;
+};
+
+/**
+ * loads a given src asynchronously and returns a Promise for that
+ * @param src
+ * @param attrs
+ * @return Promise
+ */
 Xng.prototype.require = function (src, attrs) {
 	return new Promise(function(resolve) {
 
@@ -321,6 +371,7 @@ Xng.prototype.require = function (src, attrs) {
 };
 
 /**
+ * runs the xng application
  * @return Promise
  */
 Xng.prototype.run = function () {
@@ -328,8 +379,13 @@ Xng.prototype.run = function () {
 	for (var s in this.templateSettings) {
 		_.templateSettings[s] = this.templateSettings[s];
 	}
-	this.routing(document);
-	return this.include(document.querySelectorAll('[' + this.attributes.view + ']'));
+	var p = this.include(document.querySelectorAll('[' + this.attributes.view + ']'));
+	p.then(function() {
+		window.onhashchange = function() {
+			this.routing(document);
+		}.bind(this);
+	}.bind(this));
+	return p;
 };
 
 _.xng = new Xng();
