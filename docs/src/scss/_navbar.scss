@@ -1,5 +1,6 @@
 // Styling for the navbar
-#mainNav {
+//#mainNav, #docNav {
+nav.navbar.fixed-top {
     border-color: fade-out($gray-darker, .95);
     background-color: white;
     @include sans-serif-font;
