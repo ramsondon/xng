@@ -265,9 +265,10 @@ Xng.prototype.routing = function (el) {
 	var routes = el.querySelectorAll(selector);
 
 	var root = null, match = null;
+
 	_.forEach(routes, function(element) {
 		var route = element.getAttribute(this.attributes.route);
-		root = (null === root ? route : root);
+		root = ((route === '.' || null === root) ? route : root);
 		if (this.matches(route, window.location.hash)) {
 			element.style.display = 'block';
 			match = window.location.hash;
@@ -277,10 +278,11 @@ Xng.prototype.routing = function (el) {
 		}
 	}.bind(this));
 
-	if (null === match) {
+	if (null === match && routes.length > 0) {
 		// root.element.style.display = 'block';
 		match = root;
-		window.location.hash = "";
+		// redirect on invalid route
+		window.location.hash = root.replace('.', '');
 	}
 	this.current_route = match;
 };
@@ -378,12 +380,15 @@ Xng.prototype.run = function () {
 	for (var s in this.templateSettings) {
 		_.templateSettings[s] = this.templateSettings[s];
 	}
+
 	var p = this.include(document.querySelectorAll('[' + this.attributes.view + ']'));
+
 	p.then(function() {
 		window.onhashchange = function() {
 			this.routing(document);
 		}.bind(this);
 	}.bind(this));
+
 	return p;
 };
 
