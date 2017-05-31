@@ -9,12 +9,12 @@ var _addListener = function(listeners, key, cb) {
 	}
 };
 
-var _triggerListeners = function(listeners, key) {
+var _triggerListeners = function(listeners, key, param) {
 	if (_.isString(key) && key in listeners) {
-		listeners[key](key);
+		listeners[key](key, param);
 	}
 	if ("*" in listeners) {
-		listeners["*"](key);
+		listeners["*"](key, param);
 	}
 };
 
@@ -107,7 +107,7 @@ Xng.prototype.render = function (filepath, model, el, listener) {
 				this.include(el.querySelectorAll('['+ this.attributes.view +']'))
 					.then(function () {
 						resolve();
-						_triggerListeners(this.listeners.view, listener);
+						_triggerListeners(this.listeners.view, listener, filepath);
 					}.bind(this));
 
 		}.bind(this);
