@@ -4,14 +4,14 @@
   "items": [
 	{
 	  "id": "v020000",
-	  "version": "2.0.0-alpha",
-	  "name": "Version 2.0.0",
+	  "version": "2.0.0",
+	  "name": "2.0.0-alpha",
 	  "href": "#doc/2.0.0"
 	},
 	{
 	  "id": "v010001",
 	  "version": "1.0.1",
-	  "name": "Version 1.0.1",
+	  "name": "1.0.1",
 	  "href": "#doc/1.0.1"
 	}
   ]
