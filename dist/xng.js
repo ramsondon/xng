@@ -180,8 +180,7 @@ Xng.prototype.include = function(includes) {
 		var _render = function (directive, model, $cur) {
 			this.render(directive.template, {
 				$route: this.current_route,
-				$model: model,
-				xngModel: model
+				$model: model
 			}, $cur, directive.listener)
 				.then(function() {
 					// wait for all components to resolve this promise
