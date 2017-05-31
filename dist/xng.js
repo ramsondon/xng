@@ -64,7 +64,13 @@ var Xng = function () {
  */
 Xng.prototype.fetch = function(resource, type) {
 	return new Promise(function (resolve, reject) {
-		var url = _.trimEnd(this.base_remote_dir, '/') + '/' + _.trimStart(resource, '/');
+		var url;
+		if (/^http(s)?/.exec(resource)) {
+			url = resource;
+		} else {
+			url = _.trimEnd(this.base_remote_dir, '/') + '/' + _.trimStart(resource, '/');
+		}
+
 
 		fetch(url).then(function(response) {
 			if (response.status !== 200) {
