@@ -10,7 +10,7 @@
 	</div>
 	<div class="container">
 		<div class="row">
-			{% _.forEach(xngModel.items, function(item) { %}
+			{% _.forEach($model.items, function(item) { %}
 				<div class="col-lg-3 col-md-6 text-center {{\ item.offset }}" data-xng-view="tpl/items/service-box.tpl.html" data-xng-model="{{\ _.xng.assign(item) }}"></div>
 			{% }); %}
 		</div>

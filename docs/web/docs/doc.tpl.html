@@ -1,18 +1,22 @@
 
-<section class="bg-primary" id="docs">
+<section class="bg-success" id="docs">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-8 offset-lg-2 text-center">
-				<h2 class="section-heading text-white">xng.js version {{ xngModel.version }} documentation</h2>
+				<h2 class="section-heading text-white">xng.js version {{\ $model.version }} documentation</h2>
 				<hr class="light">
 				<p class="text-faded">
-					Welcome to the xng.js documentation of xng.js version {{ xngModel.version }}
+					Welcome to the xng.js documentation of xng.js version {{\ $model.version }}
 				</p>
 			</div>
 		</div>
+	</div>
+</section>
+<section class="" id="doc-content">
+	<div class="container">
 		<div class="row"
-			 data-xng-view="tpl/items/code-box.tpl.html"
-			 data-xng-model="{{\ _.xng.assign({xngModel: xngModel}) }}">
+		   data-xng-view="tpl/items/code-box.tpl.html"
+		   data-xng-model="{{\ _.xng.assign($model) }}">
 		</div>
 	</div>
 </section>

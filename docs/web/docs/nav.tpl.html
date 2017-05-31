@@ -1,13 +1,14 @@
 
 <!-- Navigation -->
-<nav class="navbar fixed-top navbar-toggleable-md navbar-light" id="mainNav">
-	<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarExample" aria-controls="navbarExample" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar fixed-top navbar-toggleable-md navbar-light" id="docNav{{ $model.id }}">
+	<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#docNavbar{{ $model.id }}" aria-controls="navbarExample" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
 	<div class="container">
 		<a class="navbar-brand" href="#">xng.js</a>
-		<div class="collapse navbar-collapse" id="navbarExample">
+		<div class="collapse navbar-collapse" id="docNavbar{{ $model.id }}">
 			<ul class="navbar-nav ml-auto">
+				<li class="nav-item" data-xng-view="tpl/items/dropdown.tpl.html" data-xng-model="api/doc/versions.json"></li>
 			</ul>
 		</div>
 	</div>

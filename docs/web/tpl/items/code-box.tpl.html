@@ -1,12 +1,14 @@
-{% _.forEach(xngModel.items, function(item, idx) { %}
+{% _.forEach($model.items, function(item, idx) { %}
 	<div class="col-lg-8 offset-lg-2">
 		<p class="text-center">
 			{{ item.description }}
 		</p>
 		<pre>
-			<code id="code-ex-{{\ idx }}" class="language-{{\ item.language }} line-numbers">
+			<!-- create guid to reuse the same template: do not take index! -->
+			{% var guid = _.xng.guid() %}
+			<code id="code-ex-{{\ guid }}" class="language-{{\ item.language }} line-numbers">
 				{% _.xng.fetch(item.code, 'text').then(function(data) { %}
-					{{ _.xng.put(_.escape(data), '#code-ex-' + idx) }}
+					{{ _.xng.put(_.escape(data), '#code-ex-' + guid) }}
 					{% Prism.highlightAll() %}
 				{% }); %}
 			</code>

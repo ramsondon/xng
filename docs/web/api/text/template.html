@@ -1,9 +1,9 @@
 <!--
-	the xngModel variable is always assigned to the loaded template
+	the $model variable is always assigned to the loaded template
 	if you define your data-xng-model attribute
 -->
 <h1 class="heading">
-	{% _.forEach(xngModel.items, function(item) { %}
+	{% _.forEach($model.items, function(item) { %}
 		{{ item.text }}
 	{% }); %}
 </h1>

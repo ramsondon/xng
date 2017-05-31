@@ -8,7 +8,7 @@
 		<a class="navbar-brand" href="#page-top">xng.js</a>
 		<div class="collapse navbar-collapse" id="navbarExample">
 			<ul class="navbar-nav ml-auto">
-				{% _.forEach(xngModel.items, function(item) { %}
+				{% _.forEach($model.items, function(item) { %}
 					{% if (item.title) { %}
 						<li class="nav-item">
 							<a class="nav-link" href="#{{\ item.id }}">{{\ item.title }}</a>
