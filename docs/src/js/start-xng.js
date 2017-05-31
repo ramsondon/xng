@@ -15,6 +15,16 @@
 					});
 			}
 		})
+		.route({
+			"*": function (cur) {
+				console.log('routing * at', cur);
+				if ( cur !== '.') {
+					$('html, body').stop().animate({
+						scrollTop: 0
+					});
+				}
+			}
+		})
 		.run()
 		.then(function() {
 			_.xng.require('docs/web/js/creative.min.js').then(function() {

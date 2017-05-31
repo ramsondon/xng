@@ -2,7 +2,7 @@
     "use strict"; // Start of use strict
 
     // Smooth scrolling using jQuery easing
-    $('a[href*="#"]:not([href="#"])').click(function() {
+    $('a[href*="#"]:not([href="#"]):not([class="dropdown-item"])').click(function() {
         if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
             var target = $(this.hash);
             target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
@@ -28,11 +28,15 @@
 
     // Collapse the navbar when page is scrolled
     $(window).scroll(function() {
-        if ($("#mainNav").offset().top > 100) {
-            $("#mainNav").addClass("navbar-shrink");
-        } else {
-            $("#mainNav").removeClass("navbar-shrink");
-        }
+        $("nav.navbar.fixed-top").each(function() {
+            var nav = $(this);
+			// var nav = $("#mainNav");
+			if (nav.offset().top > 100) {
+				nav.addClass("navbar-shrink");
+			} else {
+				nav.removeClass("navbar-shrink");
+			}
+        });
     });
 
     var top_offset = 50;
@@ -43,7 +47,7 @@
 			$('.scroll-top').stop().fadeOut();
 		}
 	};
-	$(document).bind('scroll', scrollTop);
+	$(window).bind('scroll', scrollTop);
 	$(window).bind('resize', scrollTop);
 	scrollTop();
 
@@ -63,21 +67,5 @@
         scale: 0.3,
         distance: '0px'
     }, 300);
-
-    // Magnific popup calls
-    $('.popup-gallery').magnificPopup({
-        delegate: 'a',
-        type: 'image',
-        tLoading: 'Loading image #%curr%...',
-        mainClass: 'mfp-img-mobile',
-        gallery: {
-            enabled: true,
-            navigateByImgClick: true,
-            preload: [0, 1]
-        },
-        image: {
-            tError: '<a href="%url%">The image #%curr%</a> could not be loaded.'
-        }
-    });
 
 })(jQuery); // End of use strict
