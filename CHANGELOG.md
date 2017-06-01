@@ -1,6 +1,6 @@
 # Changelog
 
-#v 2.0.0
+# v2.0.0
 
 #### new features
 	* added ``` data-xng-route ``` directive
