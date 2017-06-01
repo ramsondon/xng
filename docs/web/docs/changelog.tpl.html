@@ -22,6 +22,7 @@
 				<markdown id="md-{{ guid }}">
 					{% _.xng.fetch("../../CHANGELOG.md", 'text').then(function(data) { %}
 						{{ _.xng.put(_.escape(data), '#md-' + guid, "markdown_init") }}
+						{% Prism.highlightAll() %}
 					{% }); %}
 				</markdown>
 			</div>
