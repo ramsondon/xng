@@ -19,10 +19,13 @@ views in the ``` . ``` route container will be replaced by the ``` bar ``` route
 </div>
 ``` 
 	* implemented routing listeners: ``` _.xng.route() ``` [executable before startup]
+	
 ``` javascript
 _.xng.route({
-	"*": function() {} 			  // triggered for all routing events
-	"my/url/path": function() {}, // triggered only for domain.com/#my/url/path routing event 
+	// triggered for all routing events
+	"*": function() {}
+	// triggered only for domain.com/#my/url/path routing event
+	"my/url/path": function() {},  
 });
 ``` 
 	* implemented the "*" trigger for view listeners _.xng.listeners({})
