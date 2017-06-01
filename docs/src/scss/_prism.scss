@@ -1,0 +1,6 @@
+pre[class*=language-] {
+  &:after,
+  &:before {
+	box-shadow: none;
+  }
+}

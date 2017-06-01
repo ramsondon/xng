@@ -280,6 +280,9 @@ footer .footer-above {
     border-radius: 100%;
     line-height: 28px; }
 
+pre[class*=language-]:after, pre[class*=language-]:before {
+  box-shadow: none; }
+
 .text-primary {
   color: #52BC50 !important; }
 
