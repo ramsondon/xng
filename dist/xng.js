@@ -122,7 +122,7 @@ Xng.prototype.render = function (filepath, model, el, listener) {
 				this.include(el.querySelectorAll('['+ this.attributes.view +']'))
 					.then(function () {
 						resolve();
-						_triggerListeners(this.listeners.view, listener, filepath);
+						_triggerListeners(this.listeners.view, listener, el);
 					}.bind(this));
 
 		}.bind(this);
@@ -137,8 +137,10 @@ Xng.prototype.render = function (filepath, model, el, listener) {
 	}.bind(this));
 };
 
-Xng.prototype.put = function(html, selector) {
-	document.querySelector(selector).innerHTML = html;
+Xng.prototype.put = function(html, selector, trigger) {
+	var el = document.querySelector(selector);
+	el.innerHTML = html;
+	_triggerListeners(this.listeners.view, trigger, el);
 };
 
 Xng.prototype.guid = function() {
