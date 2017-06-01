@@ -1,0 +1,30 @@
+<section class="bg-success" id="changelog">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 offset-lg-2 text-center">
+				<h2 class="section-heading text-white">xng.js changelog</h2>
+				<hr class="light">
+				<p class="text-faded">
+					Welcome to the xng.js changelog
+				</p>
+				<p class="text-faded">
+					Help to keep the documentation up to date!
+				</p>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="" id="changelog-content">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 offset-lg-2">
+				{% var guid = _.xng.guid() %}
+				<markdown id="md-{{ guid }}">
+					{% _.xng.fetch("../../CHANGELOG.md", 'text').then(function(data) { %}
+						{{ _.xng.put(_.escape(data), '#md-' + guid, "markdown_init") }}
+					{% }); %}
+				</markdown>
+			</div>
+		</div>
+	</div>
+</section>

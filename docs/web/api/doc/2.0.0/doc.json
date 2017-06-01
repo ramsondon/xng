@@ -2,11 +2,6 @@
   "version": "2.0.0-alpha",
   "items" : [
 	{
-	  "language": "markdown",
-	  "description": "Github Changelog",
-	  "code": "https://raw.githubusercontent.com/ramsondon/xng/master/CHANGELOG.md"
-	},
-	{
 	  "language": "markup",
 	  "description": "Include requirements at the end of the body tag to prevent the browser from blocking.",
 	  "code": "api/text/index.html"

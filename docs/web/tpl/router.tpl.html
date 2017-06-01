@@ -3,7 +3,10 @@
 	<div data-xng-view="tpl/header.tpl.html"></div>
 	<div data-xng-view="tpl/sections.tpl.html" 		data-xng-model="api/sections.json"></div>
 </div>
-
+<div data-xng-route="changelog"  style="display: none">
+	<div data-xng-view="docs/nav.tpl.html" data-xng-model="{{\ _.xng.assign($model.items[0]) }}"></div>
+	<div data-xng-view="docs/changelog.tpl.html"></div>
+</div>
 <div data-xng-route="doc" style="display: none">
 	<div data-xng-view="docs/nav.tpl.html" data-xng-model="{{\ _.xng.assign($model.items[0]) }}"></div>
 	<div data-xng-view="docs/doc.tpl.html" data-xng-model="api/doc/{{ $model.items[0].version}}/doc.json"></div>

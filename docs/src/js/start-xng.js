@@ -5,7 +5,7 @@
 		.base('docs/web')
 		.listen({
 			"*": function (trigger, view) {
-				console.log('view: ', view, trigger);
+				console.log('view: ', view.getAttribute('data-xng-view'), trigger);
 			},
 			"footer": function () {
 				_.xng.require([
@@ -14,6 +14,9 @@
 				]).then(function (src) {
 					console.log(src + ' downloaded');
 				});
+			},
+			"markdown_init" : function () {
+				_.xng.require('https://spikespaz.github.io/tagdownjs/scripts/tagdown.min.js');
 			}
 		})
 		.route({
