@@ -16,7 +16,7 @@
 				});
 			},
 			"markdown_init" : function () {
-				_.xng.require('https://spikespaz.github.io/tagdownjs/scripts/tagdown.min.js');
+				_.xng.require('docs/vendor/tagdown.min.js', 'async');
 			}
 		})
 		.route({
