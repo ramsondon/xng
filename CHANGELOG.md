@@ -41,7 +41,7 @@ _.xng.route({
 	
 #### compatible changes
 	* window.Xng is available in browser mode and also wrapped by umd as xng.
-	* the ``` _.xng variable ``` is still available
+	* the ``` _.xng ``` variable is still available
 	* implemented ``` _.xng.guid() ```
 	* implemented trigger variable for method ``` _.xng.put(content, selector, trigger_name) ``` for custom triggering data-xng-listeners when asynchronously fetching resources 
 
