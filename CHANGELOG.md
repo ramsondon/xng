@@ -3,11 +3,11 @@
 #v 2.0.0
 
 #### new features
-	* added data-xng-route directive
+	* added ``` data-xng-route ``` directive
 	
-here is an example: the "." route will be rendered at the 
+here is an example: the ``` . ``` route will be rendered at the 
 beginning. if you would click on the anchor all containing 
-views in the "." route container will be replaced by the "bar" route  
+views in the ``` . ``` route container will be replaced by the ``` bar ``` route  
 	
 ``` html
 <div data-xng-route="." style="display: none">
@@ -18,7 +18,7 @@ views in the "." route container will be replaced by the "bar" route
 	<p>bar</p>
 </div>
 ``` 
-	* implemented routing listeners: _.xng.route() [executable before startup]
+	* implemented routing listeners: ``` _.xng.route() ``` [executable before startup]
 ``` javascript
 _.xng.route({
 	"*": function() {} 			  // triggered for all routing events
@@ -30,14 +30,15 @@ _.xng.route({
  
  
 #### incompatible changes
-	* sources are now available in ./dist directory
-	* development is still the ./src directory
-	* method xng() has been replaced by run()
+	* sources are now available in ``` ./dist ``` directory
+	* development is still the ``` ./src ``` directory
+	* method ``` _.xng.xng() ``` has been replaced by ``` _.xng.run() ```
 	* _.xng.base_route has been replaced by _.xng.base_remote_dir
 	* replaced the xngModel variable assigned to views by $model variable
 	
 #### compatible changes
 	* window.Xng is available in browser mode and also wrapped by umd as xng.
-	* the _.xng variable is still available
-	* implemented Xng.guid()
+	* the ``` _.xng variable ``` is still available
+	* implemented ``` _.xng.guid() ```
+	* implemented trigger variable for method ``` _.xng.put(content, selector, trigger_name) ``` for custom triggering data-xng-listeners when asynchronously fetching resources 
 
