@@ -36,7 +36,7 @@ _.xng.route({
 	* sources are now available in ``` ./dist ``` directory
 	* development is still the ``` ./src ``` directory
 	* method ``` _.xng.xng() ``` has been replaced by ``` _.xng.run() ```
-	* ``` _.xng.base_route ``` has been replaced by ``` _.xng.base_remote_dir ```
+	* variable ``` _.xng.base_route ``` has been replaced by ``` _.xng.base_remote_dir ```
 	* replaced the xngModel variable assigned to views by $model variable
 	
 #### compatible changes
