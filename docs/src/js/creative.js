@@ -1,5 +1,6 @@
 (function($) {
     "use strict"; // Start of use strict
+	var top_offset = 50;
 
     // Smooth scrolling using jQuery easing
     $('a[href*="#"]:not([href="#"]):not([class="dropdown-item"]):not(".xng-route")').click(function() {
@@ -18,7 +19,7 @@
     // Activate scrollspy to add active class to navbar items on scroll
     $('body').scrollspy({
         target: '#mainNav',
-        offset: 48
+        offset: top_offset
     });
 
     // Closes responsive menu when a link is clicked
@@ -39,7 +40,6 @@
         });
     });
 
-    var top_offset = 50;
 	var scrollTop = function () {
 		if ($(document).scrollTop() > top_offset) {
 			$('.scroll-top').stop().fadeIn();

@@ -1,20 +1,23 @@
-<div data-xng-route="." style="display: none">
-	<div data-xng-view="tpl/nav.tpl.html" 			data-xng-model="api/sections.json"></div>
-	<div data-xng-view="tpl/header.tpl.html"></div>
-	<div data-xng-view="tpl/sections.tpl.html" 		data-xng-model="api/sections.json"></div>
+<div data-xng-route="." style="display: none" class="full-height-sm">
+	<div data-xng-view="tpl/nav.tpl.html" data-xng-model="api/sections.json"></div>
+	<div data-xng-view="tpl/header.tpl.html" class="full-height-sm"></div>
+	<div data-xng-view="tpl/sections.tpl.html" data-xng-model="api/sections.json" style="position: relative;"></div>
+	<div data-xng-view="tpl/footer.tpl.html"></div>
 </div>
 <div data-xng-route="changelog"  style="display: none">
 	<div data-xng-view="docs/nav.tpl.html" data-xng-model="{{\ _.xng.assign($model.items[0]) }}"></div>
 	<div data-xng-view="docs/changelog.tpl.html"></div>
+	<div data-xng-view="tpl/footer.tpl.html"></div>
 </div>
 <div data-xng-route="doc" style="display: none">
 	<div data-xng-view="docs/nav.tpl.html" data-xng-model="{{\ _.xng.assign($model.items[0]) }}"></div>
 	<div data-xng-view="docs/doc.tpl.html" data-xng-model="api/doc/{{ $model.items[0].version}}/doc.json"></div>
+	<div data-xng-view="tpl/footer.tpl.html"></div>
 </div>
 {% _.forEach($model.items, function(item) { %}
 	<div data-xng-route="doc/{{ item.version }}" style="display: none">
 		<div data-xng-view="docs/nav.tpl.html" data-xng-model="{{\ _.xng.assign(item) }}"></div>
 		<div data-xng-view="docs/doc.tpl.html" data-xng-model="api/doc/{{\ item.version}}/doc.json"></div>
+		<div data-xng-view="tpl/footer.tpl.html"></div>
 	</div>
 {% }); %}
-

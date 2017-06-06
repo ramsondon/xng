@@ -1,0 +1,145 @@
+@-webkit-keyframes uil-ripple {
+  0% {
+	width: 0;
+	height: 0;
+	opacity: 0;
+	margin: 0 0 0 0;
+  }
+  33% {
+	width: 44%;
+	height: 44%;
+	margin: -22% 0 0 -22%;
+	opacity: 1;
+  }
+  100% {
+	width: 88%;
+	height: 88%;
+	margin: -44% 0 0 -44%;
+	opacity: 0;
+  }
+}
+@-moz-keyframes uil-ripple {
+  0% {
+	width: 0;
+	height: 0;
+	opacity: 0;
+	margin: 0 0 0 0;
+  }
+  33% {
+	width: 44%;
+	height: 44%;
+	margin: -22% 0 0 -22%;
+	opacity: 1;
+  }
+  100% {
+	width: 88%;
+	height: 88%;
+	margin: -44% 0 0 -44%;
+	opacity: 0;
+  }
+}
+@-webkit-keyframes uil-ripple {
+  0% {
+	width: 0;
+	height: 0;
+	opacity: 0;
+	margin: 0 0 0 0;
+  }
+  33% {
+	width: 44%;
+	height: 44%;
+	margin: -22% 0 0 -22%;
+	opacity: 1;
+  }
+  100% {
+	width: 88%;
+	height: 88%;
+	margin: -44% 0 0 -44%;
+	opacity: 0;
+  }
+}
+@-o-keyframes uil-ripple {
+  0% {
+	width: 0;
+	height: 0;
+	opacity: 0;
+	margin: 0 0 0 0;
+  }
+  33% {
+	width: 44%;
+	height: 44%;
+	margin: -22% 0 0 -22%;
+	opacity: 1;
+  }
+  100% {
+	width: 88%;
+	height: 88%;
+	margin: -44% 0 0 -44%;
+	opacity: 0;
+  }
+}
+@keyframes uil-ripple {
+  0% {
+	width: 0;
+	height: 0;
+	opacity: 0;
+	margin: 0 0 0 0;
+  }
+  33% {
+	width: 44%;
+	height: 44%;
+	margin: -22% 0 0 -22%;
+	opacity: 1;
+  }
+  100% {
+	width: 88%;
+	height: 88%;
+	margin: -44% 0 0 -44%;
+	opacity: 0;
+  }
+}
+
+$loader-dimension: 160px;
+
+.uil.remove-on-loaded {
+  position: absolute;
+  z-index: 20;
+}
+
+.uil-wrapper {
+
+  .uil-ripple-css {
+
+	margin: 0 auto;
+	vertical-align: middle;
+	background: none;
+	position: relative;
+	width: $loader-dimension;
+	height: $loader-dimension;
+
+	div {
+	  position: absolute;
+	  top: 50%;
+	  left: 50%;
+	  margin: 0;
+	  width: 0;
+	  height: 0;
+	  opacity: 0;
+	  border-radius: 50%;
+	  border-width: 12px;
+	  border-style: solid;
+	  -webkit-animation: uil-ripple 2s ease-out infinite;
+	  animation: uil-ripple 2s ease-out infinite;
+	}
+
+	div:nth-of-type(2) {
+	  border-color: #ffffff;
+	}
+	div:nth-of-type(1) {
+	  border-color: #52bc50;
+	  -webkit-animation-delay: -1s;
+	  animation-delay: -1s;
+	}
+  }
+
+}

@@ -7,14 +7,6 @@
 			"*": function (trigger, view) {
 				console.log('view: ', view.getAttribute('data-xng-view'), trigger);
 			},
-			"footer": function () {
-				_.xng.require([
-					"docs/web/js/twitter.min.js",
-					"https://buttons.github.io/buttons.js"
-				]).then(function (src) {
-					console.log(src + ' downloaded');
-				});
-			},
 			"markdown_init" : function () {
 				_.xng.require('docs/vendor/tagdown.min.js', 'async');
 			}
@@ -31,9 +23,20 @@
 		})
 		.run()
 		.then(function() {
-			_.xng.require('docs/web/js/creative.min.js').then(function() {
+			$('.remove-on-loaded').animate({
+				opacity: 0,
+				complete:function() {
+					$(this).remove();
+				}
+			}, 2000);
+			_.xng.require([
+				'docs/web/js/creative.min.js',
+				"docs/web/js/twitter.min.js",
+				"https://buttons.github.io/buttons.js"
+			]).then(function() {
 				console.log('xng totally rocks and finished rendering!');
 			});
+
 		});
 
 })();
