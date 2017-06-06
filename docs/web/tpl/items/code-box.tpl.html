@@ -7,7 +7,7 @@
 			<!-- create guid to reuse the same template: do not take index! -->
 			{% var guid = _.xng.guid() %}
 			<code id="code-ex-{{\ guid }}" class="language-{{\ item.language }} line-numbers">
-				{% _.xng.fetch(item.code, 'text').then(function(data) { %}
+				{% _.xng.fetch(item.code.replace('$version$', $model.version), 'text').then(function(data) { %}
 					{{ _.xng.put(_.escape(data), '#code-ex-' + guid) }}
 					{% Prism.highlightAll() %}
 				{% }); %}
