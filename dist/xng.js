@@ -21,6 +21,10 @@ var _addListener = function(listeners, key, cb) {
 var _triggerListeners = function(listeners, key, param) {
 	if (_.isString(key) && key in listeners) {
 		listeners[key](key, param);
+	} else if (_.isArray(key)) {
+		_.forEach(key, function (k) {
+			_triggerListeners(listeners, k, param);
+		});
 	}
 	if ("*" in listeners) {
 		listeners["*"](key, param);
@@ -254,13 +258,22 @@ Xng.prototype.base = function(base_dir) {
 };
 
 Xng.prototype.matches = function(str, href) {
-	var url = _.trimStart(href, '#');
-	// root route
-	if ((! str || str === '.') && url.length <= 0) {
-		return true;
+	var match = false;
+	var _calcMatch = function(str) {
+		var url = _.trimStart(href, '#');
+		// root route
+		if (((! str || str === '.') && url.length <= 0) || (str === url)) {
+			match = true;
+			return false;
+		}
+	};
+	if (_.isArray(str)) {
+		_.forEach(str, _calcMatch);
+	} else {
+		_calcMatch(_.toString(str));
 	}
 
-	return str === url;
+	return match;
 };
 
 /**
@@ -275,10 +288,11 @@ Xng.prototype.routing = function (el) {
 	var root = null, match = null;
 
 	_.forEach(routes, function(element) {
-		var route = element.getAttribute(this.attributes.route);
-		root = ((route === '.' || null === root) ? route : root);
+		var route = _.split(element.getAttribute(this.attributes.route), ',').map(function (v) {return _.trim(v);});
+
+		root = ((_.find('.', route) || null === root) ? _.first(route) : root);
 		if (this.matches(route, window.location.hash)) {
-			element.style.display = 'block';
+			element.style.display = '';
 			match = window.location.hash;
 			_triggerListeners(this.listeners.route, route);
 		} else {
