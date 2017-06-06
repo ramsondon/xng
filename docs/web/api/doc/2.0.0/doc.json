@@ -76,8 +76,28 @@
 	{
 	  "name": "API Reference",
 	  "language": "markup",
-	  "description": "Here you can lookup all useful methods offered by xng",
-	  "code": null
+	  "description": "xng's javascript api is being listed in this section",
+	  "code": null,
+	  "items": [
+		{
+		  "name": "_.xng.assign",
+		  "language": "markup",
+		  "description": "serializes an object and escapes the serialized object",
+		  "code": null
+		},
+		{
+		  "name": "_.xng.fetch",
+		  "language": "markup",
+		  "description": "fetches a resource as type \"text\" or \"json\"",
+		  "code": null
+		},
+		{
+		  "name": "_.xng.nl2br",
+		  "language": "markup",
+		  "description": "replaces <code>\\n</code> to <code>&lt;br/&gt;</code>",
+		  "code": null
+		}
+	  ]
 	}
   ]
 }
