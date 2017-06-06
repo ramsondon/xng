@@ -86,15 +86,51 @@
 		  "code": null
 		},
 		{
+		  "name": "_.xng.base",
+		  "language": "markup",
+		  "description": "sets the base directory prefix for loading templates and models",
+		  "code": null
+		},
+		{
 		  "name": "_.xng.fetch",
 		  "language": "markup",
 		  "description": "fetches a resource as type \"text\" or \"json\"",
 		  "code": null
 		},
 		{
+		  "name": "_.xng.listen",
+		  "language": "markup",
+		  "description": "listens to one or more specific view rendered events",
+		  "code": null
+		},
+		{
 		  "name": "_.xng.nl2br",
 		  "language": "markup",
 		  "description": "replaces <code>\\n</code> to <code>&lt;br/&gt;</code>",
+		  "code": null
+		},
+		{
+		  "name": "_.xng.put",
+		  "language": "markup",
+		  "description": "puts specific content to a given dom selector",
+		  "code": null
+		},
+		{
+		  "name": "_.xng.require",
+		  "language": "markup",
+		  "description": "includes one or more javascript files asynchronously and offers a callback on loaded",
+		  "code": null
+		},
+		{
+		  "name": "_.xng.route",
+		  "language": "markup",
+		  "description": "listens to one or more specified routing events",
+		  "code": null
+		},
+		{
+		  "name": "_.xng.run",
+		  "language": "markup",
+		  "description": "xng start up method",
 		  "code": null
 		}
 	  ]
