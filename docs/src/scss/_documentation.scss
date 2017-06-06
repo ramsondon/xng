@@ -1,0 +1,29 @@
+@mixin docNavFontStyle() {
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10px;
+  color: $gray-darker;
+}
+
+#doc-content {
+  ol.nav {
+	counter-reset: item;
+	padding-left: 5px;
+	li.nav-item {
+	  &:before {
+		@include docNavFontStyle();
+		content: counters(item, ".");
+		counter-increment: item;
+		padding-right: 5px;
+	  }
+	}
+  }
+
+  .nav {
+	.nav-item a {
+	  @include docNavFontStyle();
+	  &.title {
+		font-weight: bold;
+	  }
+	}
+  }
+}
