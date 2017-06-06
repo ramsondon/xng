@@ -24,11 +24,10 @@
 		.run()
 		.then(function() {
 			$('.remove-on-loaded').animate({
-				opacity: 0,
-				complete:function() {
-					$(this).remove();
-				}
-			}, 2000);
+				opacity: 0
+			}, 2000, function() {
+				$('.remove-on-loaded').remove();
+			});
 			_.xng.require([
 				'docs/web/js/creative.min.js',
 				"docs/web/js/twitter.min.js",
