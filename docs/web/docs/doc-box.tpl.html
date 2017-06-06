@@ -1,0 +1,25 @@
+<div id="{{ _.kebabCase($model.name + $model.version) }}" class="col-lg-12">
+	<h5>{{ $model.name }}</h5>
+	<p class="">
+		{{ $model.description }}
+	</p>
+	{% if ($model.code) { %}
+	<pre>
+		<!-- create guid to reuse the same template: do not take index! -->
+		{% var guid = _.xng.guid() %}
+		<code id="code-ex-{{\ guid }}" class="language-{{\ $model.language }} line-numbers">
+			{% _.xng.fetch($model.code.replace('$version$', $model.version), 'text').then(function(data) { %}
+				{{ _.xng.put(_.escape(data), '#code-ex-' + guid) }}
+				{% Prism.highlightAll() %}
+			{% }); %}
+		</code>
+	</pre>
+	{% } %}
+</div>
+
+{% if ($model.items) { %}
+	{% _.forEach($model.items, function(item, idx) { %}
+	<div data-xng-view="docs/doc-box.tpl.html"
+		 data-xng-model="{{\ _.xng.assign(_.extend(item, { version: $model.version})) }}"></div>
+	{% }); %}
+{% } %}

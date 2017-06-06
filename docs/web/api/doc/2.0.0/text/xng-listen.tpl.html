@@ -1,0 +1,27 @@
+<!--
+	the data-xng-listen attribute is marking a view to be
+	listened to its on view rendered automatic callback
+	function via the exact given name in the attribute's
+	value.
+
+ 	the data-xng-listen attribute comes always as the
+ 	data-xng-model attribute together with a data-xng-view
+ 	attribute.
+-->
+<div data-xng-view="views/my/view.tpl.html"
+	 data-xng-listen="on-view-rendered">
+</div>
+
+
+<script type="text/javascript">
+	// the _.xng.listen() method has to be called before calling
+	// the _.xng.run() method
+	_.xng.listen({
+		// triggered for all on view rendered events
+		"*": function () {},
+
+		// for all specified data-xng-listen="on-view-rendered"
+		// events
+		"on-view-rendered": function() {}
+	})
+</script>

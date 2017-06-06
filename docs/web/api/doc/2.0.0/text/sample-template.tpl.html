@@ -1,0 +1,30 @@
+<div class="person">
+	<table>
+		<!--
+			{{ ... }} this doubly enclosing parenthesis print
+			unescaped content as it is.
+
+			{{\ ... }} the backslash after the second opening
+			parenthesis defines the output to be escaped
+		-->
+		<tr>
+			<td>Firstname</td>
+			<td>{{\ $model.firstname }}</td>
+		</tr>
+		<tr>
+			<td>Lastname</td>
+			<td>{{\ $model.lastname }}</td>
+		</tr>
+		<!--
+			the content of the enclosing {% ... %} parenthesis
+			is being evaluated as javascript code and is being
+			executed when the view is rendered
+		-->
+		{% if ($model.email) { %}
+			<tr>
+				<td>Email</td>
+				<td>{{ $model.email }}</td>
+			</tr>
+		{% } %}
+	</table>
+</div>

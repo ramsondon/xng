@@ -1,0 +1,38 @@
+<!--
+	the xng route attribute with a "." value defines
+	the main page's route
+-->
+<div data-xng-route="."
+	 style="display: none">
+	...
+</div>
+
+<!--
+	the xng route attribute can hold multiple route aliases
+-->
+<div data-xng-route="changelog, changes, change/log"
+	 style="display: none;">
+	...
+</div>
+
+<!--
+	we have to implement the style="display: none" attribute to
+	prevent displaying the routes which currently do not match.
+	they will be removed automatically from the xng router in
+	case of being displayed.
+-->
+
+
+<script type="text/javascript">
+	// the _.xng.route() method has to be called before calling
+	// the _.xng.run() method
+	_.xng.route({
+		// triggered for all on routing events
+		// (when the application's route is changing)
+		"*": function () {},
+
+		// for the specified data-xng-route="changlog"
+		// or domain.com/#changlog
+		"changelog": function() {}
+	})
+</script>

@@ -1,35 +1,83 @@
 {
-  "version": "2.0.0-alpha",
+  "version": "2.0.0",
   "items" : [
 	{
+	  "name": "Installation",
 	  "language": "markup",
-	  "description": "Include requirements at the end of the body tag to prevent the browser from blocking.",
-	  "code": "api/text/index.html"
+	  "description": null,
+	  "code": "",
+	  "items": [
+		{
+		  "name": "npm or github",
+		  "language": "markup",
+		  "description": "You can install xng via <a href=\"https://www.npmjs.com/package/xng\">npm</a> or download it directly from the <a href=\"https://github.com/ramsondon/xng\">xng github repository</a>",
+		  "code": "api/doc/$version$/text/install.tpl.html"
+		},
+		{
+		  "name": "Requirements",
+		  "language": "markup",
+		  "description": "xng requires <a href=\"https://lodash.com\">lodash</a> and is tested under the current version 4.17.4.<br/>Include requirements at the end of the body tag to prevent the browser from blocking. Moreover xng is built with the fetch api and therefore requires the browser to support it!",
+		  "code": "api/text/index.html"
+		},
+		{
+		  "name": "init xng via javascript",
+		  "language": "javascript",
+		  "description": "start your xng in your main entry point. in this website we use the github page's index.html",
+		  "code": "api/doc/$version$/text/run-js.tpl.js"
+		}
+	  ]
 	},
 	{
+	  "name": "Concept",
 	  "language": "markup",
-	  "description": "index.html at root<code>./index.html</code>",
-	  "code": "api/text/include-template.html"
+	  "description": "xng has been designed for offering a short and simple api and therefore works with only 4 HTML5 custom attributes.",
+	  "code": "api/doc/$version$/text/concept.tpl.html",
+	  "items": [
+		{
+		  "name": "Routing",
+		  "language": "markup",
+		  "description": "xng routing is realized via the window location's hash value. This means the main page will be accessible e.g. at <pre>https://ramsondon.github.io/xng</pre> and the changelog page will be at<pre>https://ramsondon.github.io/xng/#changes</pre> and <pre>https://ramsondon.github.io/xng/#changelog</pre>",
+		  "code": "api/doc/$version$/text/xng-route.tpl.html"
+		},
+		{
+		  "name": "Views",
+		  "language": "markup",
+		  "description": "xng views are included automatically asynchronously via the \"data-xng-view\" attribute",
+		  "code": "api/doc/$version$/text/xng-view.tpl.html",
+		  "items": [
+			{
+			  "name": "Sample api model",
+			  "language": "json",
+			  "description": "api route <code>api/my/model.json</code>",
+			  "code": "api/doc/$version$/text/sample-model.json.html"
+			},
+			{
+			  "name": "Sample view",
+			  "language": "markup",
+			  "description": "template to include at <code>views/my/inner.tpl.html</code>",
+			  "code": "api/doc/$version$/text/sample-template.tpl.html"
+			}
+		  ]
+		},
+		{
+		  "name": "Models",
+		  "language": "markup",
+		  "description": "a model or view data can be automatically assigned via the \"data-xng-model\" attribute or can be assigned directly as objects using the <pre>_.xng.assign(&lt;object&gt;)</pre> method",
+		  "code": "api/doc/$version$/text/xng-model.tpl.html"
+		},
+		{
+		  "name": "View Listener",
+		  "language": "markup",
+		  "description": null,
+		  "code": "api/doc/$version$/text/xng-listen.tpl.html"
+		}
+	  ]
 	},
 	{
-	  "language": "json",
-	  "description": "api route <code>./api/model.json</code>",
-	  "code": "api/text/json.html"
-	},
-	{
+	  "name": "API Reference",
 	  "language": "markup",
-	  "description": "template to include at <code>./tpl/main.tpl.html</code>",
-	  "code": "api/text/template.html"
-	},
-	{
-	  "language": "markup",
-	  "description": "start your xng in your <code>index.html</code>",
-	  "code": "api/text/javascript.html"
-	},
-	{
-	  "language": "markup",
-	  "description": "resulting <code>index.html</code> after page loading",
-	  "code": "api/text/result.html"
+	  "description": null,
+	  "code": null
 	}
   ]
 }

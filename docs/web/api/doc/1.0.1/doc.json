@@ -2,31 +2,37 @@
   "version": "1.0.1",
   "items" : [
 	{
+	  "name": "Requirements",
 	  "language": "markup",
 	  "description": "Include requirements at the end of the body tag to prevent the browser from blocking.",
 	  "code": "api/doc/$version$/text/index.html"
 	},
 	{
+	  "name": "Directives",
 	  "language": "markup",
 	  "description": "index.html at root<code>./index.html</code>",
 	  "code": "api/doc/$version$/text/include-template.html"
 	},
 	{
+	  "name": "Json data source",
 	  "language": "json",
 	  "description": "api route <code>./api/model.json</code>",
 	  "code": "api/doc/$version$/text/json.html"
 	},
 	{
+	  "name": "Sample template",
 	  "language": "markup",
 	  "description": "template to include at <code>./tpl/main.tpl.html</code>",
 	  "code": "api/doc/$version$/text/template.html"
 	},
 	{
+	  "name": "xng startup via javascript",
 	  "language": "markup",
 	  "description": "start your xng in your <code>index.html</code>",
 	  "code": "api/doc/$version$/text/javascript.html"
 	},
 	{
+	  "name": "Result Html",
 	  "language": "markup",
 	  "description": "resulting <code>index.html</code> after page loading",
 	  "code": "api/doc/$version$/text/result.html"

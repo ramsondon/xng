@@ -1,0 +1,35 @@
+
+<!--
+	Example 1:
+	automatic model fetching of an api
+-->
+<div data-xng-view="views/my/template.tpl.html"
+	 data-xng-model="api/my/model.json">
+
+	<!--
+		the return value of the route "api/my/model.json" is
+		assigned as "$model" variable to the content of the
+		loaded view "views/my/template.tpl.html"
+	-->
+</div>
+
+
+<!--
+	Example 2:
+	direct model assignment in a loaded template via javascript
+
+	consider this as the content of "views/my/template.tpl.html"
+	and the "api/my/model.json" is returning the sample model object
+
+-->
+<div data-xng-view="my/inner/template.tpl.html"
+	 data-xng-model="{{\ _.xng.assign($model.firstname + ' ' + $model.lastname) }}">
+
+	<!--
+		the value of the $model variable available in the
+		"my/inner/template.tpl.html" will be "Matthias Schmid" because
+		of the assignment above at line nr. 30
+
+	-->
+</div>
+
