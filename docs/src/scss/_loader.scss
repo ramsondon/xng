@@ -1,3 +1,8 @@
+
+$loader-dimension: 160px;
+$loader-speed: 1.5s;
+$loader-anim-delay: $loader-speed/3;
+
 @-webkit-keyframes uil-ripple {
   0% {
 	width: 0;
@@ -99,7 +104,6 @@
   }
 }
 
-$loader-dimension: 160px;
 
 .uil.remove-on-loaded {
   position: absolute;
@@ -128,8 +132,8 @@ $loader-dimension: 160px;
 	  border-radius: 50%;
 	  border-width: 12px;
 	  border-style: solid;
-	  -webkit-animation: uil-ripple 2s ease-out infinite;
-	  animation: uil-ripple 2s ease-out infinite;
+	  -webkit-animation: uil-ripple $loader-speed ease-out infinite;
+	  animation: uil-ripple $loader-speed ease-out infinite;
 	}
 
 	div:nth-of-type(2) {
@@ -137,8 +141,8 @@ $loader-dimension: 160px;
 	}
 	div:nth-of-type(1) {
 	  border-color: #52bc50;
-	  -webkit-animation-delay: -1s;
-	  animation-delay: -1s;
+	  -webkit-animation-delay: $loader-anim-delay;
+	  animation-delay: $loader-anim-delay;
 	}
   }
 
