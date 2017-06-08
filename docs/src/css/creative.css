@@ -207,23 +207,35 @@ header.masthead {
     height: 100%;
     min-height: 600px; } }
 
-#doc-content ol.nav {
-  counter-reset: item;
-  padding-left: 5px; }
-  #doc-content ol.nav li.nav-item:before {
-    font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
-    font-size: 10px;
-    color: #222222;
-    content: counters(item, ".");
-    counter-increment: item;
-    padding-right: 5px; }
-
-#doc-content .nav .nav-item a {
-  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
-  font-size: 10px;
-  color: #222222; }
-  #doc-content .nav .nav-item a.title {
-    font-weight: bold; }
+#doc-content {
+  padding-top: 0px; }
+  #doc-content .nav-wrapper {
+    margin-top: 40px;
+    overflow-y: auto;
+    max-height: 600px; }
+    #doc-content .nav-wrapper ol.nav {
+      width: 100%;
+      overflow-y: auto;
+      counter-reset: item;
+      padding-left: 5px; }
+      #doc-content .nav-wrapper ol.nav li.nav-item a {
+        font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+        font-size: 10px;
+        color: #222222;
+        border-bottom: 1px dotted; }
+        #doc-content .nav-wrapper ol.nav li.nav-item a.title {
+          font-weight: bold; }
+      #doc-content .nav-wrapper ol.nav li.nav-item:before {
+        font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+        font-size: 10px;
+        color: #222222;
+        content: counters(item, ".");
+        counter-increment: item;
+        padding-right: 5px; }
+  #doc-content h5 {
+    background-color: #eeeeee;
+    padding: 20px;
+    margin-top: 40px; }
 
 .service-box {
   max-width: 400px;

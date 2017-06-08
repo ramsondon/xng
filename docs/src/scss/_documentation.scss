@@ -5,25 +5,45 @@
 }
 
 #doc-content {
-  ol.nav {
-	counter-reset: item;
-	padding-left: 5px;
-	li.nav-item {
-	  &:before {
-		@include docNavFontStyle();
-		content: counters(item, ".");
-		counter-increment: item;
-		padding-right: 5px;
+  padding-top: 0px;
+
+  .nav-wrapper {
+	margin-top: 40px;
+	//background-color: orange;
+	//position: fixed;
+	overflow-y: auto;
+	max-height: 600px;
+
+	ol.nav {
+	  width: 100%;
+	  //height: 100%;
+	  overflow-y: auto;
+
+	  counter-reset: item;
+	  padding-left: 5px;
+	  li.nav-item {
+
+		a {
+		  @include docNavFontStyle();
+		  border-bottom: 1px dotted;
+		  &.title {
+			font-weight: bold;
+		  }
+		}
+
+		&:before {
+		  @include docNavFontStyle();
+		  content: counters(item, ".");
+		  counter-increment: item;
+		  padding-right: 5px;
+		}
 	  }
 	}
+  }
+  h5 {
+	background-color: $gray-lighter;
+	padding: 20px;
+	margin-top: 40px;
   }
 
-  .nav {
-	.nav-item a {
-	  @include docNavFontStyle();
-	  &.title {
-		font-weight: bold;
-	  }
-	}
-  }
 }
