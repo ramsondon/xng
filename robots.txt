@@ -1,2 +1,4 @@
 # robots.txt for https://ramsondon.github.io/xng/
+User-Agent: *
+Allow: *
 Sitemap: https://ramsondon.github.io/xng/sitemap.txt
