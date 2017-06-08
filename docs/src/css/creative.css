@@ -212,7 +212,13 @@ header.masthead {
   #doc-content .nav-wrapper {
     margin-top: 40px;
     overflow-y: auto;
-    max-height: 600px; }
+    width: 100%;
+    position: absolute;
+    top: 0; }
+    @media (max-width: 575px) {
+      #doc-content .nav-wrapper {
+        position: relative;
+        top: 0; } }
     #doc-content .nav-wrapper ol.nav {
       width: 100%;
       overflow-y: auto;
