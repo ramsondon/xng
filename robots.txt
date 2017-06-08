@@ -1,1 +1,2 @@
+# robots.txt for https://ramsondon.github.io/xng/
 Sitemap: https://ramsondon.github.io/xng/sitemap.txt
