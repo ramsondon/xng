@@ -10,7 +10,7 @@
 		{
 		  "name": "npm or github",
 		  "language": "markup",
-		  "description": "You can install xng via <a href=\"https://www.npmjs.com/package/xng\">npm</a> or download it directly from the <a href=\"https://github.com/ramsondon/xng\">xng github repository</a>",
+		  "description": "You can install xng via <a href=\"https://www.npmjs.com/package/xng\">npm</a> or download it directly from the <a href=\"https://github.com/ramsondon/xng\">xng github repository</a>. Copy the file xng.min.js from <code>node_modules/xng/dist/xng.min.js</code> into the directory you desire",
 		  "code": "api/doc/$version$/text/install.tpl.html"
 		},
 		{
@@ -68,7 +68,7 @@
 		{
 		  "name": "View Listener",
 		  "language": "markup",
-		  "description": null,
+		  "description": "a view listener is a pair consisting of one \"data-xng-listener\" attribute and of one handler callback function. the callback is executed when the corresponding view has been rendered successfully",
 		  "code": "api/doc/$version$/text/xng-listen.tpl.html"
 		}
 	  ]
@@ -82,20 +82,20 @@
 		{
 		  "name": "_.xng.assign",
 		  "language": "markup",
-		  "description": "serializes an object and escapes the serialized object",
-		  "code": null
+		  "description": "<code>_.xng.assign(&lt;obj : object&gt;) : string</code> serializes an object and escapes the serialized object. this method is used to assign a model to a nested view e.g. an item of an list into a separate item's view. the following example shows the navigation template of this documentation page",
+		  "code": "docs/doc-nav.tpl.html"
 		},
 		{
 		  "name": "_.xng.base",
 		  "language": "markup",
-		  "description": "sets the base directory prefix for loading templates and models",
+		  "description": "<code>_.xng.base(&lt;path : string&gt;) : xng</code> sets the base directory prefix for loading templates and models and returns the xng object itself for method chaining. <code>_.xng.base()</code> is an initialization method and should be called before calling <code>_.xng.run()</code>. if it is called afterwards it will not have any effect.",
 		  "code": null
 		},
 		{
 		  "name": "_.xng.fetch",
 		  "language": "markup",
-		  "description": "fetches a resource as type \"text\" or \"json\"",
-		  "code": null
+		  "description": "<code>_.xng.fetch(&lt;resource : string&gt;,&lt;type: string&gt;) : Promise</code>fetches a resource as type \"text\" or \"json\". the resource can be an absolute or relative URL. in the example below we see the asynchronous rendering of the CHANGELOG.md file of this project",
+		  "code": "api/doc/$version$/functions/fetch.tpl.html"
 		},
 		{
 		  "name": "_.xng.listen",

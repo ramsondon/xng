@@ -1,0 +1,9 @@
+<div class="col-lg-8 offset-lg-2">
+	{% var guid = _.xng.guid() %}
+	<markdown id="md-{{ guid }}">
+		{% _.xng.fetch("../../CHANGELOG.md", 'text').then(function(data) { %}
+		{{ _.xng.put(_.escape(data), '#md-' + guid, "markdown_init") }}
+		{% Prism.highlightAll() %}
+		{% }); %}
+	</markdown>
+</div>
