@@ -27,7 +27,7 @@
 				{% _.forEach($model.items, function(item, idx) { %}
 				<div class="col-lg-12"
 					 data-xng-view="docs/doc-box.tpl.html"
-					 data-xng-model="{{\ _.xng.assign(_.extend(item, { version: $model.version })) }}"></div>
+					 data-xng-model="{{\ _.xng.assign(_.extend(item, { version: $model.version, nested: 1 })) }}"></div>
 				{% }); %}
 			</div>
 		</div>

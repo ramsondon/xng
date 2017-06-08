@@ -1,5 +1,5 @@
-<div id="{{ _.kebabCase($model.name + $model.version) }}" class="col-lg-12">
-	<h5>{{ $model.name }}</h5>
+<div id="{{ _.kebabCase($model.name + $model.version) }}" class="col-lg-12 level-{{ $model.nested }}">
+	<h{{ $model.nested + 3}}>{{ $model.name }}</h{{ $model.nested + 3}}>
 	<p class="">
 		{{ $model.description }}
 	</p>
@@ -20,6 +20,6 @@
 {% if ($model.items) { %}
 	{% _.forEach($model.items, function(item, idx) { %}
 	<div data-xng-view="docs/doc-box.tpl.html"
-		 data-xng-model="{{\ _.xng.assign(_.extend(item, { version: $model.version})) }}"></div>
+		 data-xng-model="{{\ _.xng.assign(_.extend(item, { version: $model.version, nested: $model.nested + 1})) }}"></div>
 	{% }); %}
 {% } %}
