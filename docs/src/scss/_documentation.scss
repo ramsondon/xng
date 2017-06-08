@@ -40,10 +40,16 @@
 	  }
 	}
   }
-  h5 {
-	background-color: $gray-lighter;
-	padding: 20px;
-	margin-top: 40px;
-  }
 
+  @for $i from 4 through 10 {
+	h#{$i} {
+	  display: block;
+	  background-color: $gray-lighter;
+	  padding-top: max(40px - $i*3px, 10px);
+	  padding-bottom: max(40px - $i*3px, 10px);
+	  padding-left: 20px;
+	  padding-right: 20px;
+	  margin-top: 40px;
+	}
+  }
 }

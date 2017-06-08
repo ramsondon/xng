@@ -232,9 +232,61 @@ header.masthead {
         content: counters(item, ".");
         counter-increment: item;
         padding-right: 5px; }
-  #doc-content h5 {
+  #doc-content h4 {
+    display: block;
     background-color: #eeeeee;
-    padding: 20px;
+    padding-top: 28px;
+    padding-bottom: 28px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 40px; }
+  #doc-content h5 {
+    display: block;
+    background-color: #eeeeee;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 40px; }
+  #doc-content h6 {
+    display: block;
+    background-color: #eeeeee;
+    padding-top: 22px;
+    padding-bottom: 22px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 40px; }
+  #doc-content h7 {
+    display: block;
+    background-color: #eeeeee;
+    padding-top: 19px;
+    padding-bottom: 19px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 40px; }
+  #doc-content h8 {
+    display: block;
+    background-color: #eeeeee;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 40px; }
+  #doc-content h9 {
+    display: block;
+    background-color: #eeeeee;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 40px; }
+  #doc-content h10 {
+    display: block;
+    background-color: #eeeeee;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
     margin-top: 40px; }
 
 .service-box {
