@@ -1,5 +1,11 @@
 # Changelog
 
+### Version 2.0.1
+	
+#### compatible changes
+	* ```_.xng.toKey()``` method is now using lodash's ```_.snakeCase()``` and ```_.escape()``` instead of a regular expression.
+
+
 ### Version 2.0.0
 
 #### new features

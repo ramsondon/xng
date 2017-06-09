@@ -92,7 +92,7 @@ Xng.prototype.fetch = function(resource, type) {
 };
 
 Xng.prototype.toKey = function(str) {
-	return _.snakeCase(str);
+	return _.escape(_.snakeCase(str));
 	// return str.replace(new RegExp('[\/\.-]', 'g'), '_');
 };
 
