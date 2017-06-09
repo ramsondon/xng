@@ -6,6 +6,7 @@ npm install xng
 ```
 
 ![build passing](https://img.shields.io/badge/build-passing-green.svg?style=flat)
+![license MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)
 
 
 
