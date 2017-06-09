@@ -83,8 +83,8 @@ Xng.prototype.fetch = function(resource, type) {
 };
 
 Xng.prototype.toKey = function(str) {
-	// FIXME: check performance of lodash's _.snakeCase()
-	return str.replace(new RegExp('[\/\.-]', 'g'), '_');
+	return _.snakeCase(str);
+	// return str.replace(new RegExp('[\/\.-]', 'g'), '_');
 };
 
 Xng.prototype.waitCache = function(cache, key) {
