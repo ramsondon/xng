@@ -164,6 +164,12 @@
 		  "code": null,
 		  "items": [
 			{
+			  "name": "_.xng.guid",
+			  "language": "markup",
+			  "description": "<code>_.xng.guid() : string</code> returns a unique random string with the following format: <pre>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</pre> Character range is [a-z] and [0-9]",
+			  "code": null
+			}
+			,{
 			  "name": "_.xng.require",
 			  "language": "markup",
 			  "description": "<code>_.xng.require(&lt;src : array|string&gt;, &lt;attrs : object|array|string&gt;) : Promise</code> includes one or more javascript files asynchronously and returns a Promise. the second parameter <code>attrs</code> is used to define attributes of the script element",
