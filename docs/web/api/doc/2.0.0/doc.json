@@ -46,9 +46,9 @@
 		  "code": "api/doc/$version$/text/xng-view.tpl.html",
 		  "items": [
 			{
-			  "name": "Sample api model",
+			  "name": "Sample model",
 			  "language": "json",
-			  "description": "api route <code>api/my/model.json</code>",
+			  "description": "assume that we assigned the resource below to the following <a href=\"#sample-view-2-0-0\">Sample view</a>",
 			  "code": "api/doc/$version$/text/sample-model.json.html"
 			},
 			{
@@ -56,20 +56,34 @@
 			  "language": "markup",
 			  "description": "view template to include at <code>views/my/inner.tpl.html</code>",
 			  "code": "api/doc/$version$/text/sample-template.tpl.html"
+			},
+			{
+			  "name": "Listener",
+			  "language": "markup",
+			  "description": "a view listener is a pair consisting of one \"data-xng-listener\" attribute and of one handler callback function. the callback is executed when the corresponding view has been rendered successfully",
+			  "code": "api/doc/$version$/text/xng-listen.tpl.html"
 			}
 		  ]
 		},
 		{
 		  "name": "Models",
 		  "language": "markup",
-		  "description": "a model or view data can be automatically assigned via the \"data-xng-model\" attribute or can be assigned directly as objects using the <pre>_.xng.assign(&lt;object&gt;)</pre> method",
-		  "code": "api/doc/$version$/text/xng-model.tpl.html"
-		},
-		{
-		  "name": "View Listener",
-		  "language": "markup",
-		  "description": "a view listener is a pair consisting of one \"data-xng-listener\" attribute and of one handler callback function. the callback is executed when the corresponding view has been rendered successfully",
-		  "code": "api/doc/$version$/text/xng-listen.tpl.html"
+		  "description": "a model or view data can be automatically assigned via the \"data-xng-model\" attribute or can be assigned directly as objects using the method: <a href=\"#xng-assign-2-0-0\"><pre>_.xng.assign(&lt;object&gt;)</pre></a>",
+		  "code": null,
+		  "items" : [
+			{
+			  "name": "Api Model (Sample)",
+			  "language": "json",
+			  "description": "assume that we have a resource <code>api/my/model.json</code> which returns the following json object",
+			  "code": "api/doc/$version$/text/sample-model.json.html"
+			},
+			{
+			  "name": "Model-View Assignment",
+			  "language": "markup",
+			  "description": "a model or view data can be automatically assigned via the \"data-xng-model\" attribute or can be assigned directly as objects using the method: <a href=\"#xng-assign-2-0-0\"><pre>_.xng.assign(&lt;object&gt;)</pre></a><strong>Example 1</strong> shows the model assignment as api resource.<br/><strong>Example 2</strong> shows the direct assigment of a model as javascript object.",
+			  "code": "api/doc/$version$/text/xng-model.tpl.html"
+			}
+		  ]
 		}
 	  ]
 	},
@@ -80,58 +94,82 @@
 	  "code": null,
 	  "items": [
 		{
-		  "name": "_.xng.assign",
+		  "name": "Initialization Methods",
 		  "language": "markup",
-		  "description": "<code>_.xng.assign(&lt;obj : object&gt;) : string</code> serializes an object and escapes the serialized object. this method is used to assign a model to a nested view e.g. an item of an list into a separate item's view. the following example shows the navigation view of this documentation page",
-		  "code": "docs/doc-nav.tpl.html"
+		  "description": "all methods in this section can be used for xng initialization at startup time",
+		  "code": null,
+		  "items": [
+			{
+			  "name": "_.xng.base",
+			  "language": "markup",
+			  "description": "<code>_.xng.base(&lt;path : string&gt;) : xng</code> sets the base directory prefix for loading templates and models and returns the xng object itself for method chaining. <code>_.xng.base()</code> is an initialization method and should be called before calling <code>_.xng.run()</code>. if it is called afterwards it will not have any effect.",
+			  "code": null
+			},
+			{
+			  "name": "_.xng.listen",
+			  "language": "markup",
+			  "description": "<code>_.xng.listen(&lt;obj : object|string&gt;, &lt;cb : function&gt;) : xng</code> listens to one or more specific view rendered events and returns the xng object for method chaining. see also: <a href=\"#view-listener-2-0-0\">View Listener</a>",
+			  "code": null
+			},
+			{
+			  "name": "_.xng.route",
+			  "language": "markup",
+			  "description": "<code>_.xng.route(&lt;obj : str|object&gt;, [&lt;func : function&gt;]) : xng</code> listens to one or more specified routing events and returns the xng object for method chaining. this method should be called before calling <code>_.xng.run</code>. if the first parameter is a string then the second should be a function. if the first is an object the second is optional. also see <a href=\"#routing-2-0-0\">Routing</a>",
+			  "code": null
+			},
+			{
+			  "name": "_.xng.run",
+			  "language": "markup",
+			  "description": "<code>_.xng.run() : Promise</code> is the xng start up method. Returns a Promise which's resolve method is triggered when all rendering has been finished successfully. if you are using the <a href=\"xng-fetch-2-0-0\">fetch</a> method in a view it can not be considered for the resovle method of the returned Promise",
+			  "code": null
+			}
+		  ]
 		},
 		{
-		  "name": "_.xng.base",
+		  "name": "View Methods",
 		  "language": "markup",
-		  "description": "<code>_.xng.base(&lt;path : string&gt;) : xng</code> sets the base directory prefix for loading templates and models and returns the xng object itself for method chaining. <code>_.xng.base()</code> is an initialization method and should be called before calling <code>_.xng.run()</code>. if it is called afterwards it will not have any effect.",
-		  "code": null
+		  "description": "all methods in this section can be used in xng's modular defined custom views",
+		  "code": null,
+		  "items": [
+			{
+			  "name": "_.xng.assign",
+			  "language": "markup",
+			  "description": "<code>_.xng.assign(&lt;obj : object&gt;) : string</code> serializes an object and escapes the serialized object. this method is used to assign a model to a nested view e.g. an item of an list into a separate item's view. the following example shows the navigation view of this documentation page",
+			  "code": "docs/doc-nav.tpl.html"
+			},
+			{
+			  "name": "_.xng.fetch",
+			  "language": "markup",
+			  "description": "<code>_.xng.fetch(&lt;resource : string&gt;,&lt;type: string&gt;) : Promise</code>fetches a resource as type \"text\" or \"json\". the resource can be an absolute or relative URL. in the example below we see the asynchronous rendering of the CHANGELOG.md file of this project",
+			  "code": "api/doc/$version$/functions/fetch.tpl.html"
+			},
+			{
+			  "name": "_.xng.nl2br",
+			  "language": "markup",
+			  "description": "<code>_.xng.nl2br(&lt;text : string&gt;) : string</code>replaces <code>\\n</code> to <code>&lt;br/&gt;</code> and returns the new string",
+			  "code": null
+			},
+			{
+			  "name": "_.xng.put",
+			  "language": "markup",
+			  "description": "<code>_.xng.put(&lt;data : string&gt;, &lt;selector : string&gt;, &lt;trigger : string&gt;) : void</code> puts specific content to a given dom selector. this method is useful to assign asynchronously fetched content to a specific dom element to avoid concurrency problems. the third param is the name of a <a href=\"#view-listener-2-0-0\">view listener</a> to be triggered on finished rendering. as an example you can see <a href=\"#xng-fetch-2-0-0\">_.xng.fetch<a>",
+			  "code": null
+			}
+		  ]
 		},
 		{
-		  "name": "_.xng.fetch",
+		  "name": "Utils",
 		  "language": "markup",
-		  "description": "<code>_.xng.fetch(&lt;resource : string&gt;,&lt;type: string&gt;) : Promise</code>fetches a resource as type \"text\" or \"json\". the resource can be an absolute or relative URL. in the example below we see the asynchronous rendering of the CHANGELOG.md file of this project",
-		  "code": "api/doc/$version$/functions/fetch.tpl.html"
-		},
-		{
-		  "name": "_.xng.listen",
-		  "language": "markup",
-		  "description": "<code>_.xng.listen(&lt;obj : object|string&gt;, &lt;cb : function&gt;) : xng</code> listens to one or more specific view rendered events and returns the xng object for method chaining. see also: <a href=\"#view-listener-2-0-0\">View Listener</a>",
-		  "code": null
-		},
-		{
-		  "name": "_.xng.nl2br",
-		  "language": "markup",
-		  "description": "<code>_.xng.nl2br(&lt;text : string&gt;) : string</code>replaces <code>\\n</code> to <code>&lt;br/&gt;</code> and returns the new string",
-		  "code": null
-		},
-		{
-		  "name": "_.xng.put",
-		  "language": "markup",
-		  "description": "<code>_.xng.put(&lt;data : string&gt;, &lt;selector : string&gt;, &lt;trigger : string&gt;) : void</code> puts specific content to a given dom selector. this method is useful to assign asynchronously fetched content to a specific dom element to avoid concurrency problems. the third param is the name of a <a href=\"#view-listener-2-0-0\">view listener</a> to be triggered on finished rendering. as an example you can see <a href=\"#xng-fetch-2-0-0\">_.xng.fetch<a>",
-		  "code": null
-		},
-		{
-		  "name": "_.xng.require",
-		  "language": "markup",
-		  "description": "<code>_.xng.require(&lt;src : array|string&gt;, &lt;attrs : object|array|string&gt;) : Promise</code> includes one or more javascript files asynchronously and returns a Promise. the second parameter <code>attrs</code> is used to define attributes of the script element",
-		  "code": null
-		},
-		{
-		  "name": "_.xng.route",
-		  "language": "markup",
-		  "description": "<code>_.xng.route(&lt;obj : str|object&gt;, [&lt;func : function&gt;]) : xng</code> listens to one or more specified routing events and returns the xng object for method chaining. this method should be called before calling <code>_.xng.run</code>. if the first parameter is a string then the second should be a function. if the first is an object the second is optional. also see <a href=\"#routing-2-0-0\">Routing</a>",
-		  "code": null
-		},
-		{
-		  "name": "_.xng.run",
-		  "language": "markup",
-		  "description": "<code>_.xng.run() : Promise</code> is the xng start up method. Returns a Promise which's resolve method is triggered when all rendering has been finished successfully. if you are using the <a href=\"xng-fetch-2-0-0\">fetch</a> method in a view it can not be considered for the resovle method of the returned Promise",
-		  "code": null
+		  "description": "here we cover all additional useful methods",
+		  "code": null,
+		  "items": [
+			{
+			  "name": "_.xng.require",
+			  "language": "markup",
+			  "description": "<code>_.xng.require(&lt;src : array|string&gt;, &lt;attrs : object|array|string&gt;) : Promise</code> includes one or more javascript files asynchronously and returns a Promise. the second parameter <code>attrs</code> is used to define attributes of the script element",
+			  "code": null
+			}
+		  ]
 		}
 	  ]
 	}
