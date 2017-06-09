@@ -70,3 +70,14 @@
 @mixin sans-serif-font() {
     font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
 }
+
+@mixin hyperlink($color) {
+    a {
+        color: $color;
+        @include transition-all;
+        &:hover,
+        &:focus {
+            color: darken($color, .1);
+        }
+    }
+}

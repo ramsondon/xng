@@ -41,18 +41,25 @@ p {
   line-height: 1.5;
   margin-bottom: 20px; }
 
+.text-faded {
+  color: rgba(255, 255, 255, 0.7); }
+
 .bg-light {
   background-color: white; }
 
 .bg-primary {
   background-color: #52BC50 !important; }
+  .bg-primary a {
+    color: #777777;
+    -webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    transition: all .2s; }
+    .bg-primary a:hover, .bg-primary a:focus {
+      color: #777777; }
 
 .bg-dark {
   color: white;
   background-color: #222222 !important; }
-
-.text-faded {
-  color: rgba(255, 255, 255, 0.7); }
 
 section {
   padding: 100px 0; }

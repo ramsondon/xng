@@ -20,14 +20,7 @@ hr.light {
     border-color: white;
 }
 
-a {
-    color: $theme-primary;
-    @include transition-all;
-    &:hover,
-    &:focus {
-        color: darken($theme-primary, .1);
-    }
-}
+@include hyperlink($theme-primary);
 
 h1,
 h2,
@@ -43,20 +36,23 @@ p {
     line-height: 1.5;
     margin-bottom: 20px;
 }
+
+
+.text-faded {
+    color: fade-out(white, .3);
+}
+
+
 .bg-light {
     background-color: white;
 }
 .bg-primary {
     background-color: $theme-primary !important;
+    @include hyperlink($gray-light);
 }
-
 .bg-dark {
     color: white;
     background-color: $gray-darker !important;
-}
-
-.text-faded {
-    color: fade-out(white, .3);
 }
 
 section {
