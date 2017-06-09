@@ -8,7 +8,7 @@
 	{
 	  "title": "Nested",
 	  "iconclass" : "fa-sitemap",
-	  "text": "xng.js supports nested template structures"
+	  "text": "xng.js supports nested and recursive template structures"
 	},
 	{
 	  "title": "Asynchronous",
