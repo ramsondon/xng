@@ -22,6 +22,7 @@ there you can follow the quickstart instructions or directly goto https://ramson
 * _.isObject()
 * _.isString()
 * _.isUndefined()
+* _.snakeCase
 * _.template()
 * _.trimEnd()
 * _.trimStart()
