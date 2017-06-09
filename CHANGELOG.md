@@ -3,6 +3,7 @@
 ### Version 2.0.1
 	
 #### compatible changes
+	* added jest for unit testing
 	* ```_.xng.toKey()``` method is now using lodash's ```_.snakeCase()``` and ```_.escape()``` instead of a regular expression.
 
 
