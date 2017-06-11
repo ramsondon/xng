@@ -9,9 +9,9 @@
 	* removed method ```_.xng.waitCache```; wait is automatically realized by Promise
 	
 #### compatible changes
-
 	* internally using more lodash
 	* additional refactorings and performance updates
+	* bug fixed: _.xng.require() multiple files Promise resolve timing error 
 
 ### Version 2.0.1
 	
