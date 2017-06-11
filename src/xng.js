@@ -1,4 +1,3 @@
-^
 var _randChar = function() {
 	"use strict";
 	return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
@@ -94,22 +93,6 @@ Xng.prototype.toKey = function(str) {
 	// return str.replace(new RegExp('[\/\.-]', 'g'), '_');
 };
 
-Xng.prototype.waitCache = function(cache, key) {
-	return new Promise(function(resolve) {
-		var t=0;
-		var poll = function() {
-			if (t > 0 && key in cache) {
-				clearTimeout(t);
-				t = 0;
-				resolve(key);
-			} else {
-				t = setTimeout(poll, this.wait_cache_freq);
-			}
-		}.bind(this);
-		t = setTimeout(poll, this.wait_cache_freq);
-	}.bind(this));
-};
-
 Xng.prototype.render = function (filepath, model, el, listener) {
 
 	return new Promise(function(resolve) {
@@ -154,19 +137,12 @@ Xng.prototype.guid = function() {
 Xng.prototype.cacheResource = function (resource, cache, res_type) {
 	return new Promise(function (resolve) {
 		var key = this.toKey(resource);
-		if (key in cache.mark) {
-			this.waitCache(cache.cache, key)
-				.then(function (key) {
-					resolve(key);
-				}.bind(this));
-		} else {
-			cache.mark[key] = resource;
-			this.fetch(resource, res_type)
-				.then(function(response) {
-					cache.cache[key] = response;
-					resolve(key);
-				});
-		}
+		if (!(key in cache.mark)) cache.mark[key] = this.fetch(resource, res_type);
+
+		cache.mark[key].then(function(response) {
+			if (!(key in cache.cache)) cache.cache[key] = response;
+			resolve(key);
+		});
 	}.bind(this));
 };
 

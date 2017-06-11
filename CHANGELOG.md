@@ -1,10 +1,17 @@
 # Changelog
 
-### Version 2.0.2
+### Version 3.0.0
 
+#### new features
+	* none
+
+#### incompatible changes
+	* removed method ```_.xng.waitCache```; wait is automatically realized by Promise
+	
 #### compatible changes
 
 	* internally using more lodash
+	* additional refactorings and performance updates
 
 ### Version 2.0.1
 	
