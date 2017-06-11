@@ -6,9 +6,11 @@
 	* none
 
 #### incompatible changes
+	* removed ```_.xng.wait_cache_freq```
 	* removed method ```_.xng.waitCache```; wait is automatically realized by Promise
 	
 #### compatible changes
+	* improved ```_.xng.fetch()``` for enabling an empy remote_base_dir
 	* internally using more lodash
 	* additional refactorings and performance updates
 	* bug fixed: _.xng.require() multiple files Promise resolve timing error 

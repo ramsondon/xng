@@ -43,7 +43,6 @@ var Xng = function () {
 	};
 	this.base_remote_dir = "";
 	this.current_route = "";
-	this.wait_cache_freq = 0;
 	this.model_cache = {
 		mark: {},
 		cache: {}
@@ -68,8 +67,10 @@ Xng.prototype.fetch = function(resource, type) {
 		var url;
 		if (/^http(s)?/.exec(resource)) {
 			url = resource;
-		} else {
+		} else if (this.base_remote_dir.length > 0) {
 			url = _.trimEnd(this.base_remote_dir, '/') + '/' + _.trimStart(resource, '/');
+		} else {
+			url = resource;
 		}
 
 
