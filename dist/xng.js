@@ -362,9 +362,10 @@ Xng.prototype.require = function (src, attrs) {
 		if (_.isString(src)) {
 			load(document, "script", src, resolve);
 		} else {
+			var readyCount = 0;
 			_.forEach(src, function(s, idx) {
 				load(document, "script", s, function() {
-					if (idx === src.length-1) {
+					if (readyCount++ === src.length-1) {
 						resolve(src);
 					}
 				});
