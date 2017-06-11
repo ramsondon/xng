@@ -1,11 +1,13 @@
 # Changelog
 
 ### Version 3.0.0
-
+this version should not affect any normal usage of xng v2.0.0
+	
 #### new features
 	* none
-
+	
 #### incompatible changes
+	* replaced ```_.xng.cacheResource()``` by a Cache, a CachedResource and a ResourceFetcher
 	* removed ```_.xng.wait_cache_freq```
 	* removed method ```_.xng.waitCache```; wait is automatically realized by Promise
 	

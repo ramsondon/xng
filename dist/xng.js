@@ -38,6 +38,94 @@ var _triggerListeners = function(listeners, key, param) {
 };
 
 
+var Cache = function () {
+	this.memory = {};
+};
+
+Cache.prototype.hit = function (key) {
+	return key in this.memory;
+};
+Cache.prototype.fault = function (key) {
+	return ! this.hit(key);
+};
+Cache.prototype.put = function (key, value) {
+	this.memory[key] = value;
+};
+Cache.prototype.get = function (key) {
+	if (this.hit(key))
+		return this.memory[key];
+
+	throw new Error('cache fault');
+};
+
+/**
+ * ResourceCache
+ * @constructor
+ */
+var ResourceCache = function () {
+	this.marker = new Cache();
+	this.memory = new Cache();
+};
+
+ResourceCache.prototype.cache = function (resource, resourceFetcher) {
+	return new Promise(function (resolve) {
+		var key = _.snakeCase(resource);
+		if (this.marker.fault()) this.marker.put(key, resourceFetcher.fetch(resource));
+
+		this.marker.get(key).then(function(response) {
+			if (this.memory.fault(key)) this.memory.put(key, response);
+			resolve(key);
+		}.bind(this));
+	}.bind(this));
+};
+
+ResourceCache.prototype.get = function (key) {
+	return this.memory.get(key);
+};
+
+
+/**
+ * ResourceFetcher
+ * @param type
+ * @constructor
+ */
+var ResourceFetcher = function(type, urlPrefix) {
+	"use strict";
+	this.type = type || "text";
+	this.url_prefix = urlPrefix || "";
+};
+
+ResourceFetcher.prototype.parse = function (resource) {
+	"use strict";
+	if (this.url_prefix.length > 0) {
+		return _.trimEnd(this.url_prefix, '/') + '/' + _.trimStart(resource, '/');
+	}
+	return resource;
+};
+
+ResourceFetcher.prototype.fetch = function (resource) {
+	return new Promise(function (resolve, reject) {
+		var url = this.parse(resource);
+
+		fetch(url).then(function(response) {
+			if (response.status !== 200) {
+				reject('Error Report', 'Status Code: ' + response.status, response.statusText);
+				return;
+			}
+			response[this.type]().then(function(data) {
+				resolve(data);
+			}.bind(this));
+
+		}.bind(this)).catch(function(err) {
+			reject(err);
+		}.bind(this));
+	}.bind(this));
+};
+
+/**
+ * XNG Core
+ * @constructor
+ */
 var Xng = function () {
 	this.attributes = {
 		view: 'data-xng-view',
@@ -52,14 +140,8 @@ var Xng = function () {
 	};
 	this.base_remote_dir = "";
 	this.current_route = "";
-	this.model_cache = {
-		mark: {},
-		cache: {}
-	};
-	this.tpl_cache = {
-		mark: {},
-		cache: {}
-	};
+	this.model_cache = new ResourceCache();
+	this.tpl_cache = new ResourceCache();
 	this.listeners = {
 		route: {},
 		view: {}
@@ -72,35 +154,7 @@ var Xng = function () {
  * @param type string - text or json
  */
 Xng.prototype.fetch = function(resource, type) {
-	return new Promise(function (resolve, reject) {
-		var url;
-		if (/^http(s)?/.exec(resource)) {
-			url = resource;
-		} else if (this.base_remote_dir.length > 0) {
-			url = _.trimEnd(this.base_remote_dir, '/') + '/' + _.trimStart(resource, '/');
-		} else {
-			url = resource;
-		}
-
-
-		fetch(url).then(function(response) {
-			if (response.status !== 200) {
-				reject('Error Report', 'Status Code: ' + response.status, response.statusText);
-				return;
-			}
-			response[type]().then(function(data) {
-				resolve(data);
-			}.bind(this));
-
-		}.bind(this)).catch(function(err) {
-			reject(err);
-		}.bind(this));
-	}.bind(this));
-};
-
-Xng.prototype.toKey = function(str) {
-	return _.escape(_.snakeCase(str));
-	// return str.replace(new RegExp('[\/\.-]', 'g'), '_');
+	return new ResourceFetcher(type, this.base_remote_dir).fetch(resource);
 };
 
 Xng.prototype.render = function (filepath, model, el, listener) {
@@ -122,10 +176,9 @@ Xng.prototype.render = function (filepath, model, el, listener) {
 					}.bind(this));
 
 		}.bind(this);
-
-		this.cacheResource(filepath, this.tpl_cache, 'text')
+		this.tpl_cache.cache(filepath, new ResourceFetcher('text', this.base_remote_dir))
 			.then(function(key) {
-				render(this.tpl_cache.cache[key]);
+				render(this.tpl_cache.get(key));
 			}.bind(this))
 			.catch(function(k) {
 				console.warn(k);
@@ -142,18 +195,6 @@ Xng.prototype.put = function(html, selector, trigger) {
 Xng.prototype.guid = function() {
 	var s = _randChar;
 	return [s()+s(), s(), s(), s(), s()+s()+s()].join('-');
-};
-
-Xng.prototype.cacheResource = function (resource, cache, res_type) {
-	return new Promise(function (resolve) {
-		var key = this.toKey(resource);
-		if (!(key in cache.mark)) cache.mark[key] = this.fetch(resource, res_type);
-
-		cache.mark[key].then(function(response) {
-			if (!(key in cache.cache)) cache.cache[key] = response;
-			resolve(key);
-		});
-	}.bind(this));
 };
 
 Xng.prototype.parseDirectives = function (el) {
@@ -194,9 +235,9 @@ Xng.prototype.include = function(includes) {
 					// check if we assigned a json object
 					_render(directive, this.readAssignment(directive.model), $cur);
 				} catch (e) {
-					this.cacheResource(directive.model, this.model_cache, 'json')
+					this.model_cache.cache(directive.model, new ResourceFetcher('json', this.base_remote_dir))
 						.then(function(key) {
-							_render(directive, this.model_cache.cache[key], $cur);
+							_render(directive, this.model_cache.get(key), $cur);
 						}.bind(this))
 						.catch(function(key) {
 							console.warn(key);
