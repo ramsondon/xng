@@ -1,5 +1,11 @@
+^
+var _randChar = function() {
+	"use strict";
+	return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+};
 
 var _addListener = function(listeners, key, cb) {
+	"use strict";
 	if (_.isObject(key) && _.isUndefined(cb)) {
 		for (var k in key) {
 			_addListener(listeners, k, key[k]);
@@ -10,6 +16,7 @@ var _addListener = function(listeners, key, cb) {
 };
 
 var _triggerListeners = function(listeners, key, param) {
+	"use strict";
 	if (_.isString(key) && key in listeners) {
 		listeners[key](key, param);
 	} else if (_.isArray(key)) {
@@ -140,10 +147,8 @@ Xng.prototype.put = function(html, selector, trigger) {
 };
 
 Xng.prototype.guid = function() {
-	var s = function() {
-		return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-	};
-	return [s() + s(), s(), s(), s(), s() + s() + s()].join('-');
+	var s = _randChar;
+	return [s()+s(), s(), s(), s(), s()+s()+s()].join('-');
 };
 
 Xng.prototype.cacheResource = function (resource, cache, res_type) {
@@ -391,9 +396,7 @@ Xng.prototype.require = function (src, attrs) {
  */
 Xng.prototype.run = function () {
 	// lodash settings
-	for (var s in this.templateSettings) {
-		_.templateSettings[s] = this.templateSettings[s];
-	}
+	_.assign(_.templateSettings, this.templateSettings);
 
 	var p = this.include(document.querySelectorAll('[' + this.attributes.view + ']'));
 

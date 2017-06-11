@@ -1,5 +1,11 @@
 # Changelog
 
+### Version 2.0.2
+
+#### compatible changes
+
+	* internally using more lodash
+
 ### Version 2.0.1
 	
 #### compatible changes

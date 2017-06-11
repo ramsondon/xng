@@ -16,6 +16,7 @@ there you can follow the quickstart instructions or directly goto https://ramson
 
 ##### lodash dependencies: (for anybody who wants to make a custom build)
 
+* _.assign()
 * _.escape()
 * _.forEach()
 * _.isArray()
