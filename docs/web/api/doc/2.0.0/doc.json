@@ -88,7 +88,7 @@
 	  ]
 	},
 	{
-	  "name": "API Reference",
+	  "name": "API Reference $version$",
 	  "language": "markup",
 	  "description": "xng's javascript api is being listed in this section",
 	  "code": null,
