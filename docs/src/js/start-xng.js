@@ -21,6 +21,11 @@
 				}
 			}
 		})
+		.transform({
+			"json_string": function(str) {
+				return JSON.parse(str);
+			}
+		})
 		.run()
 		.then(function() {
 			$('.remove-on-loaded').animate({
@@ -32,10 +37,21 @@
 				'docs/web/js/creative.min.js',
 				"docs/web/js/twitter.min.js",
 				"https://buttons.github.io/buttons.js"
-			]).then(function() {
+			], 'async').then(function() {
 				console.log('xng totally rocks and finished rendering!');
 			});
 
+			window.cookieconsent.initialise({
+				"palette": {
+					"popup": {
+						"background": "#222222"
+					},
+					"button": {
+						"background": "#52BC50"
+					}
+				},
+				"theme": "classic"
+			});
 		});
 
 })();
