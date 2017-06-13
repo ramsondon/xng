@@ -10,7 +10,7 @@
 		{
 		  "name": "npm, github, cdn",
 		  "language": "markup",
-		  "description": "You can install xng via <a href=\"https://www.npmjs.com/package/xng\">npm</a> or download it directly from the <a href=\"https://github.com/ramsondon/xng\">xng github repository</a>. Copy the file xng.min.js from <code>node_modules/xng/dist/xng.min.js</code> into the directory you desire. Or include the file via unpkg <a href=\"https://unpkg.com/xng@2.0.1/dist/xng.min.js\">https://unpkg.com/xng@2.0.1/dist/xng.min.js</a>",
+		  "description": "You can install xng via <a href=\"https://www.npmjs.com/package/xng\">npm</a> or download it directly from the <a href=\"https://github.com/ramsondon/xng\">xng github repository</a>. Copy the file xng.min.js from <code>node_modules/xng/dist/xng.min.js</code> into the directory you desire. Or include the file via unpkg <a href=\"https://unpkg.com/xng@$version$/dist/xng.min.js\">https://unpkg.com/xng@$version$/dist/xng.min.js</a>",
 		  "code": "api/doc/2.0.0/text/install.tpl.html"
 		},
 		{

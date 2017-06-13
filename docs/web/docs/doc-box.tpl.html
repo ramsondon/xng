@@ -1,7 +1,9 @@
 <div id="{{ _.kebabCase($model.name + $model.version) }}" class="col-lg-12 level-{{ $model.nested }}">
 	<h{{ $model.nested + 3}}>{{ $model.name }}</h{{ $model.nested + 3}}>
 	<p class="">
-		{{ $model.description }}
+		{% if ($model.description) { %}
+		{{ $model.description.replace(/\$version\$/g, $model.version) }}
+		{% } %}
 	</p>
 	{% if ($model.code) { %}
 	<pre>
