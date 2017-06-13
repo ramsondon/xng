@@ -4,7 +4,8 @@
 this version should not affect any normal usage of xng v2.0.0
 	
 #### new features
-	* huge internal refactorings
+	* implemented customizable Model Transformations with ```_.xng.transform``` and ```_.xng.defaultTransformer()```.
+	* default model transformations are Json transformations
 	
 #### incompatible changes
 	* replaced ```_.xng.cacheResource()``` by a Cache, a CachedResource and a ResourceFetcher
