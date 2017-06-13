@@ -1,0 +1,32 @@
+<!--
+	if you add the "data-xng-transform" attribute
+	you can transform your model to json with
+	a custom transformer
+-->
+<div data-xng-view="views/my/template.tpl.html"
+	 data-xng-model="api/my/model.json"
+	 data-xng-transform="json_string"></div>
+
+
+<script type="text/javascript">
+	/**
+	 * xng init script
+	 */
+	_.xng
+		// you can register custom model transformations in the xng chain
+		// the object keys (here: "json_string") must match to the
+		// data-xng-transform attribute
+		.transform({
+			"json_string" : function (str) {
+				return JSON.parse(str);
+			}
+		})
+		// xng startup
+		.run();
+</script>
+
+<!--
+	if the "data-xng-transform" attribute is given the model will automatically
+	be transformed via the registered transformation function.
+-->
+

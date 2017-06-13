@@ -30,8 +30,8 @@
 	{
 	  "name": "Concept",
 	  "language": "markup",
-	  "description": "xng has been designed for offering a short and simple api and therefore works with only 4 HTML5 custom attributes.",
-	  "code": "api/doc/2.0.0/text/concept.tpl.html",
+	  "description": "xng has been designed for offering a short and simple api and therefore works with only 5 HTML5 custom attributes.",
+	  "code": "api/doc/$version$/text/concept.tpl.html",
 	  "items": [
 		{
 		  "name": "Routing",
@@ -48,7 +48,7 @@
 			{
 			  "name": "Sample model",
 			  "language": "json",
-			  "description": "assume that we assigned the resource below to the following <a href=\"#sample-view-2-0-0\">Sample view</a>",
+			  "description": "assume that we assigned the resource below to the following <a href=\"#sample-view-3-0-0\">Sample view</a>",
 			  "code": "api/doc/2.0.0/text/sample-model.json.html"
 			},
 			{
@@ -68,7 +68,7 @@
 		{
 		  "name": "Models",
 		  "language": "markup",
-		  "description": "a model or view data can be automatically assigned via the \"data-xng-model\" attribute or can be assigned directly as objects using the method: <a href=\"#xng-assign-2-0-0\"><pre>_.xng.assign(&lt;object&gt;)</pre></a>",
+		  "description": "a model or view data can be automatically assigned via the \"data-xng-model\" attribute or can be assigned directly as objects using the method: <a href=\"#xng-assign-3-0-0\"><pre>_.xng.assign(&lt;object&gt;)</pre></a>",
 		  "code": null,
 		  "items" : [
 			{
@@ -80,8 +80,34 @@
 			{
 			  "name": "Model-View Assignment",
 			  "language": "markup",
-			  "description": "a model or view data can be automatically assigned via the \"data-xng-model\" attribute or can be assigned directly as objects using the method: <a href=\"#xng-assign-2-0-0\"><pre>_.xng.assign(&lt;object&gt;)</pre></a><strong>Example 1</strong> shows the model assignment as api resource.<br/><strong>Example 2</strong> shows the direct assigment of a model as javascript object.",
+			  "description": "a model or view data can be automatically assigned via the \"data-xng-model\" attribute or can be assigned directly as objects using the method: <a href=\"#xng-assign-3-0-0\"><pre>_.xng.assign(&lt;object&gt;)</pre></a><strong>Example 1</strong> shows the model assignment as api resource.<br/><strong>Example 2</strong> shows the direct assigment of a model as javascript object.",
 			  "code": "api/doc/2.0.0/text/xng-model.tpl.html"
+			}
+		  ]
+		},
+		{
+		  "name": "Transformers",
+		  "language": "markup",
+		  "description": "Transformers are required for transforming the model source data into a json model. the transformer api is fully customizable and can easily be extended.",
+		  "code": null,
+		  "items": [
+			{
+			  "name": "data-xng-transform",
+			  "language": "markup",
+			  "description": "the <code>data-xng-transform</code> attribute can be defined in a html tag which also has a <code>data-xng-model</code> attribute. if the attribute is present xng uses the specified transformer for model to json transformation before assigning the model to the view. If the <code>data-xng-transform</code> attribute is absent the model will automatically be transformed by a default json transformer.",
+			  "code": "api/doc/3.0.0/text/transformer-data-xng.tpl.html"
+			},
+			{
+			  "name": "Custom transformers",
+			  "language": "javascript",
+			  "description": "if a <code>data-xng-transform</code> attribute is defined it's value has to be registered using the transformer's register method. See <a href=\"#xng-transform-3-0-0\"><code>_.xng.transform(&lt;obj: Object&gt;) : xng</code></a>",
+			  "code": "api/doc/3.0.0/text/transformer-register.tpl.js"
+			},
+			{
+			  "name": "Transformer Inheritance",
+			  "language": "javascript",
+			  "description": "For fully being customizable you can implement your own Transformer Classes by inheriting the default Transformer class. A transformer must implement the <code>doTransformation(&lt;str : string&gt;) : Object</code> method.",
+			  "code": "api/doc/3.0.0/text/transformer-inheritance.tpl.js"
 			}
 		  ]
 		}
@@ -108,19 +134,25 @@
 			{
 			  "name": "_.xng.listen",
 			  "language": "markup",
-			  "description": "<code>_.xng.listen(&lt;obj : object|string&gt;, &lt;cb : function&gt;) : xng</code> listens to one or more specific view rendered events and returns the xng object for method chaining. see also: <a href=\"#view-listener-2-0-0\">View Listener</a>",
+			  "description": "<code>_.xng.listen(&lt;obj : object|string&gt;, &lt;cb : function&gt;) : xng</code> listens to one or more specific view rendered events and returns the xng object for method chaining. see also: <a href=\"#view-listener-3-0-0\">View Listener</a>",
 			  "code": null
 			},
 			{
 			  "name": "_.xng.route",
 			  "language": "markup",
-			  "description": "<code>_.xng.route(&lt;obj : str|object&gt;, [&lt;func : function&gt;]) : xng</code> listens to one or more specified routing events and returns the xng object for method chaining. this method should be called before calling <code>_.xng.run</code>. if the first parameter is a string then the second should be a function. if the first is an object the second is optional. also see <a href=\"#routing-2-0-0\">Routing</a>",
+			  "description": "<code>_.xng.route(&lt;obj : str|object&gt;, [&lt;func : function&gt;]) : xng</code> listens to one or more specified routing events and returns the xng object for method chaining. this method should be called before calling <code>_.xng.run</code>. if the first parameter is a string then the second should be a function. if the first is an object the second is optional. also see <a href=\"#routing-3-0-0\">Routing</a>",
 			  "code": null
 			},
 			{
 			  "name": "_.xng.run",
 			  "language": "markup",
-			  "description": "<code>_.xng.run() : Promise</code> is the xng start up method. Returns a Promise which's resolve method is triggered when all rendering has been finished successfully. if you are using the <a href=\"xng-fetch-2-0-0\">fetch</a> method in a view it can not be considered for the resovle method of the returned Promise",
+			  "description": "<code>_.xng.run() : Promise</code> is the xng start up method. Returns a Promise which's resolve method is triggered when all rendering has been finished successfully. if you are using the <a href=\"xng-fetch-3-0-0\">fetch</a> method in a view it can not be considered for the resovle method of the returned Promise",
+			  "code": null
+			},
+			{
+			  "name": "_.xng.transform",
+			  "language": "markup",
+			  "description": "<code>_.xng.transform(&lt;obj: Object&gt;) : xng</code> registers one or more model transformers. with this method you can implement your custom model transformers. the default transformer is the json string to json transformer and must not explicitly be assigned. the \"data-xng-transform\" attribute works only together with the \"data-xng-model\" attribute. See also <a href=\"#transformers-3-0-0\">Transformers</a>",
 			  "code": null
 			}
 		  ]
@@ -152,7 +184,7 @@
 			{
 			  "name": "_.xng.put",
 			  "language": "markup",
-			  "description": "<code>_.xng.put(&lt;data : string&gt;, &lt;selector : string&gt;, &lt;trigger : string&gt;) : void</code> puts specific content to a given dom selector. this method is useful to assign asynchronously fetched content to a specific dom element to avoid concurrency problems. the third param is the name of a <a href=\"#view-listener-2-0-0\">view listener</a> to be triggered on finished rendering. as an example you can see <a href=\"#xng-fetch-2-0-0\">_.xng.fetch<a>",
+			  "description": "<code>_.xng.put(&lt;data : string&gt;, &lt;selector : string&gt;, &lt;trigger : string&gt;) : void</code> puts specific content to a given dom selector. this method is useful to assign asynchronously fetched content to a specific dom element to avoid concurrency problems. the third param is the name of a <a href=\"#view-listener-3-0-0\">view listener</a> to be triggered on finished rendering. as an example you can see <a href=\"#xng-fetch-3-0-0\">_.xng.fetch<a>",
 			  "code": null
 			}
 		  ]
