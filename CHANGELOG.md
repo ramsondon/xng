@@ -12,6 +12,7 @@ this version should not affect any normal usage of xng v2.0.0
 	* removed method ```_.xng.waitCache```; wait is automatically realized by Promise
 	
 #### compatible changes
+	* xng engine will not break anymore if a resource has not been found
 	* improved ```_.xng.fetch()``` for enabling an empy remote_base_dir
 	* internally using more lodash
 	* additional refactorings and performance updates
