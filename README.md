@@ -18,6 +18,8 @@ there you can follow the quickstart instructions or directly goto https://ramson
 
 * _.assign()
 * _.escape()
+* _.find()
+* _.first()
 * _.forEach()
 * _.isArray()
 * _.isFunction()
@@ -25,7 +27,9 @@ there you can follow the quickstart instructions or directly goto https://ramson
 * _.isString()
 * _.isUndefined()
 * _.snakeCase
+* _.split
 * _.template()
+* _.trim()
 * _.trimEnd()
 * _.trimStart()
 * _.unescape()
