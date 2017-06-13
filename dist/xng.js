@@ -97,13 +97,13 @@ ResourceCache.prototype.get = function (key) {
 /**
  * ResourceFetcher
  *
- * @param type
+ * @param transformer
  * @param urlPrefix
  * @constructor
  */
-var ResourceFetcher = function(type, urlPrefix) {
+var ResourceFetcher = function(transformer, urlPrefix) {
 	"use strict";
-	this.type = type || "text";
+	this.transformer = transformer || new TextTransformer();
 	this.url_prefix = urlPrefix || "";
 };
 
@@ -125,8 +125,10 @@ ResourceFetcher.prototype.fetch = function (resource) {
 				reject('Error Report', 'Status Code: ' + response.status, response.statusText);
 				return;
 			}
-			response[this.type]().then(function(data) {
-				resolve(data);
+			response.text().then(function(data) {
+				this.transformer.transform(data).then(function(data) {
+					resolve(data);
+				});
 			}.bind(this));
 
 		}.bind(this), reject).catch(function(err) {
@@ -163,16 +165,51 @@ Renderer.prototype.afterRenderHtml = function(func) {
 };
 
 /**
+ * DefaultTransformer 
+ * @constructor
+ */
+var DefaultTransformer = function() {};
+DefaultTransformer.prototype.doTransformation = function(str) {
+	return str;
+};
+DefaultTransformer.prototype.transform = function(str) {
+	return new Promise(function(resolve, reject) {
+		try {
+			resolve(this.doTransformation(str));
+		} catch(err) {
+			reject(str);
+		}
+	}.bind(this));
+};
+
+var TextTransformer = function () {};
+TextTransformer.prototype = Object.create(DefaultTransformer.prototype);
+
+
+var JsonTransformer = function () {};
+JsonTransformer.prototype = Object.create(DefaultTransformer.prototype);
+JsonTransformer.prototype.doTransformation = function (str) {
+	return JSON.parse(str);
+};
+
+
+/**
  * XNG Core
  *
  * @constructor
  */
 var Xng = function () {
+	this.transformers = {
+		'text': new TextTransformer(),
+		'json': new JsonTransformer()
+	};
+	this.defaultModelTransformer = "json";
 	this.attributes = {
 		view: 'data-xng-view',
 		model: 'data-xng-model',
 		listen: 'data-xng-listen',
-		route: 'data-xng-route'
+		route: 'data-xng-route',
+		transform: 'data-xng-transform'
 	};
 	this.templateSettings = {
 		escape: /{{\\([\s\S]+?)}}/g,
@@ -188,6 +225,7 @@ var Xng = function () {
 		view: {}
 	};
 
+
 	/**
 	 * the error template is populated by a {$model: {title: '', message: ''}} object
 	 * @type {string}
@@ -196,12 +234,29 @@ var Xng = function () {
 };
 
 /**
+ * Creates a specific Transformer Class
+ *
+ * @param transformFunc gets a string as first param and returns a Json model object
+ */
+Xng.prototype.createTransformer = function(transformFunc) {
+	var transformer = function(){};
+	transformer.prototype = Object.create(this.defaultTransformer().prototype);
+	transformer.prototype.doTransformation = transformFunc;
+
+	return transformer;
+};
+
+Xng.prototype.defaultTransformer = function() {
+	return DefaultTransformer;
+};
+
+/**
  * fetches a resource and returns a Promise
  * @param resource string - to be fetched
  * @param type string - text or json
  */
 Xng.prototype.fetch = function(resource, type) {
-	return new ResourceFetcher(type, this.base_remote_dir).fetch(resource);
+	return new ResourceFetcher(this.transformers[type], this.base_remote_dir).fetch(resource);
 };
 
 Xng.prototype.render = function (filepath, model, el, listener) {
@@ -217,7 +272,7 @@ Xng.prototype.render = function (filepath, model, el, listener) {
 			}.bind(this));
 		}.bind(this));
 
-		this.tpl_cache.cache(filepath, new ResourceFetcher('text', this.base_remote_dir))
+		this.tpl_cache.cache(filepath, new ResourceFetcher(this.transformers.text, this.base_remote_dir))
 			.then(function(key) {
 				renderer.renderHtml(this.tpl_cache.get(key));
 			}.bind(this), function(src, rf) {
@@ -251,7 +306,8 @@ Xng.prototype.parseDirectives = function (el) {
 	return {
 		model: el.getAttribute(this.attributes.model),
 		template: el.getAttribute(this.attributes.view),
-		listener: el.getAttribute(this.attributes.listen)
+		listener: el.getAttribute(this.attributes.listen),
+		transform: el.getAttribute(this.attributes.transform) || this.defaultModelTransformer
 	}
 };
 
@@ -280,23 +336,24 @@ Xng.prototype.include = function(includes) {
 		_.forEach(includes, function($cur) {
 			var directive = this.parseDirectives($cur);
 			if (directive.model) {
+				this.readAssignment(directive.model, this.transformers[directive.transform])
+					.then(function(model) {
+						_render(directive, model, $cur);
+					}, function() {
+						var rf = new ResourceFetcher(this.transformers[directive.transform], this.base_remote_dir);
+						this.model_cache.cache(directive.model, rf)
+							.then(function(key) {
+								_render(directive, this.model_cache.get(key), $cur);
+							}.bind(this), function(src) {
+								_render(directive, {}, $cur);
+								console.warn('Model Resource not found: ', src);
+							}.bind(this))
+							.catch(function(key) {
+								// _render(directive, {}, $cur);
+								console.warn(key);
+							});
+					}.bind(this));
 
-				try {
-					// check if we assigned a json object
-					_render(directive, this.readAssignment(directive.model), $cur);
-				} catch (e) {
-					this.model_cache.cache(directive.model, new ResourceFetcher('json', this.base_remote_dir))
-						.then(function(key) {
-							_render(directive, this.model_cache.get(key), $cur);
-						}.bind(this), function(src, rf) {
-							_render(directive, {}, $cur);
-							console.warn('Model Resource not found: ', src);
-						}.bind(this))
-						.catch(function(key) {
-							// _render(directive, {}, $cur);
-							console.warn(key);
-						});
-				}
 			} else {
 				_render(directive, null, $cur);
 			}
@@ -326,8 +383,14 @@ Xng.prototype.assign = function (obj) {
 	return _.escape(JSON.stringify(obj));
 };
 
-Xng.prototype.readAssignment = function (obj) {
-	return JSON.parse(_.unescape(obj));
+/**
+ *
+ * @param obj
+ * @param transformer
+ * @return {Promise}
+ */
+Xng.prototype.readAssignment = function (obj, transformer) {
+	return transformer.transform(_.unescape(obj));
 };
 
 Xng.prototype.base = function(base_dir) {
@@ -395,6 +458,27 @@ Xng.prototype.routing = function (el) {
  */
 Xng.prototype.route = function(route, cb) {
 	_addListener(this.listeners.route, route, cb);
+	return this;
+};
+
+/**
+ * registers a model transformer
+ * @param format string
+ * @param transformer {DefaultTransformer}
+ * @return {Xng}
+ */
+Xng.prototype.transform = function (format, transformer) {
+	if (_.isString(format) && _.isFunction(transformer)) {
+		var tclass = this.createTransformer(transformer);
+		this.transform(format, new tclass());
+	} else if (_.isObject(format) && _.isUndefined(transformer)) {
+		for (var t in format) {
+			this.transform(t, format[t]);
+		}
+	} else if (_.isString(format) && ! _.isUndefined(transformer)) {
+		this.transformers[format] = transformer;
+	}
+
 	return this;
 };
 
@@ -491,6 +575,7 @@ Xng.prototype.run = function () {
 	return p;
 };
 
-_.xng = new Xng();
+// create global _.xng instance
+if ( ! _.xng) _.xng = new Xng();
 return Xng;
 }));
