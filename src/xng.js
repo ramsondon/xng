@@ -28,7 +28,11 @@ var _triggerListeners = function(listeners, key, param) {
 	}
 };
 
-
+/**
+ * Cache
+ *
+ * @constructor
+ */
 var Cache = function () {
 	this.memory = {};
 };
@@ -51,6 +55,7 @@ Cache.prototype.get = function (key) {
 
 /**
  * ResourceCache
+ *
  * @constructor
  */
 var ResourceCache = function () {
@@ -59,14 +64,19 @@ var ResourceCache = function () {
 };
 
 ResourceCache.prototype.cache = function (resource, resourceFetcher) {
-	return new Promise(function (resolve) {
+	return new Promise(function (resolve, reject) {
 		var key = _.snakeCase(resource);
 		if (this.marker.fault()) this.marker.put(key, resourceFetcher.fetch(resource));
-
 		this.marker.get(key).then(function(response) {
 			if (this.memory.fault(key)) this.memory.put(key, response);
 			resolve(key);
-		}.bind(this));
+		}.bind(this), function(err) {
+			console.warn('RESOURCE NOT FOUND: ', resource, err);
+			reject(resource, resourceFetcher);
+		}).catch(function () {
+			reject(resource, resourceFetcher);
+		});
+
 	}.bind(this));
 };
 
@@ -77,7 +87,9 @@ ResourceCache.prototype.get = function (key) {
 
 /**
  * ResourceFetcher
+ *
  * @param type
+ * @param urlPrefix
  * @constructor
  */
 var ResourceFetcher = function(type, urlPrefix) {
@@ -100,6 +112,7 @@ ResourceFetcher.prototype.fetch = function (resource) {
 
 		fetch(url).then(function(response) {
 			if (response.status !== 200) {
+				console.warn('Error Report', 'Status Code: ' + response.status, response.statusText);
 				reject('Error Report', 'Status Code: ' + response.status, response.statusText);
 				return;
 			}
@@ -107,14 +120,42 @@ ResourceFetcher.prototype.fetch = function (resource) {
 				resolve(data);
 			}.bind(this));
 
-		}.bind(this)).catch(function(err) {
+		}.bind(this), reject).catch(function(err) {
 			reject(err);
 		}.bind(this));
 	}.bind(this));
 };
 
 /**
+ * Renderer
+ *
+ * @param el
+ * @param model
+ * @constructor
+ */
+var Renderer = function(el, model) {
+	this.el = el || document.createElement('div');
+	this.model = model || {$model: {}};
+	this.afterRenderHtmlListeners = {};
+};
+
+Renderer.prototype.renderHtml = function(html) {
+	var s = document.createElement('script');
+	s.type = 'text/x-xng-tpl';
+	s.innerHTML = html;
+	this.el.appendChild(s);
+	this.el.innerHTML = _.template(this.el.innerHTML)(this.model);
+	this.el.innerHTML = this.el.querySelector('script').innerHTML;
+	_triggerListeners(this.afterRenderHtmlListeners, "all", {el: this.el, model: this.model});
+};
+
+Renderer.prototype.afterRenderHtml = function(func) {
+	_addListener(this.afterRenderHtmlListeners, "all", func);
+};
+
+/**
  * XNG Core
+ *
  * @constructor
  */
 var Xng = function () {
@@ -137,6 +178,12 @@ var Xng = function () {
 		route: {},
 		view: {}
 	};
+
+	/**
+	 * the error template is populated by a {$model: {title: '', message: ''}} object
+	 * @type {string}
+	 */
+	this.errorTemplate = '<div class="error"><h4>{{ $model.title }}</h4><p>{{ $model.message }}</p></div>';
 };
 
 /**
@@ -151,28 +198,31 @@ Xng.prototype.fetch = function(resource, type) {
 Xng.prototype.render = function (filepath, model, el, listener) {
 
 	return new Promise(function(resolve) {
+		var renderer = new Renderer(el, model);
 
-		var render = function(html) {
-			var s = document.createElement('script');
-			s.type = 'text/x-xng-tpl';
-			s.innerHTML = html;
-			el.appendChild(s);
-			el.innerHTML = _.template(el.innerHTML)(model);
-			el.innerHTML = el.querySelector('script').innerHTML;
+		renderer.afterRenderHtml(function() {
+			var views = el.querySelectorAll('['+ this.attributes.view +']');
+			this.include(views).then(function () {
+				resolve();
+				_triggerListeners(this.listeners.view, listener, el);
+			}.bind(this));
+		}.bind(this));
 
-				this.include(el.querySelectorAll('['+ this.attributes.view +']'))
-					.then(function () {
-						resolve();
-						_triggerListeners(this.listeners.view, listener, el);
-					}.bind(this));
-
-		}.bind(this);
 		this.tpl_cache.cache(filepath, new ResourceFetcher('text', this.base_remote_dir))
 			.then(function(key) {
-				render(this.tpl_cache.get(key));
+				renderer.renderHtml(this.tpl_cache.get(key));
+			}.bind(this), function(src, rf) {
+				// render error template if view could not be fetched!
+				renderer.model = _.cloneDeep(model);
+				renderer.model.$model = {
+					title: 'Resource Not Found',
+					message: 'Resource ' + filepath + ' could not be loaded!'
+				};
+				renderer.renderHtml(this.errorTemplate);
+				console.warn('Resource not found: ', filepath);
 			}.bind(this))
 			.catch(function(k) {
-				console.warn(k);
+				console.warn('error has been catched', k);
 			});
 	}.bind(this));
 };
@@ -229,8 +279,12 @@ Xng.prototype.include = function(includes) {
 					this.model_cache.cache(directive.model, new ResourceFetcher('json', this.base_remote_dir))
 						.then(function(key) {
 							_render(directive, this.model_cache.get(key), $cur);
+						}.bind(this), function(src, rf) {
+							_render(directive, {}, $cur);
+							console.warn('Model Resource not found: ', src);
 						}.bind(this))
 						.catch(function(key) {
+							// _render(directive, {}, $cur);
 							console.warn(key);
 						});
 				}
