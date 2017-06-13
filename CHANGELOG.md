@@ -4,19 +4,19 @@
 this version should not affect any normal usage of xng v2.0.0
 	
 #### new features
-	* none
+	* huge internal refactorings
 	
 #### incompatible changes
 	* replaced ```_.xng.cacheResource()``` by a Cache, a CachedResource and a ResourceFetcher
-	* removed ```_.xng.wait_cache_freq```
+	* removed ```_.xng.wait_cache_freq``` variable
 	* removed method ```_.xng.waitCache```; wait is automatically realized by Promise
 	
 #### compatible changes
 	* xng engine will not break anymore if a resource has not been found
-	* improved ```_.xng.fetch()``` for enabling an empy remote_base_dir
+	* improved ```_.xng.fetch()``` for enabling an empy ```_.xng.remote_base_dir```
 	* internally using more lodash
 	* additional refactorings and performance updates
-	* bug fixed: _.xng.require() multiple files Promise resolve timing error 
+	* bug fixed: ```_.xng.require()``` multiple files Promise resolve timing error 
 
 ### Version 2.0.1
 	
