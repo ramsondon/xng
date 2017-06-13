@@ -94,7 +94,7 @@
 			{
 			  "name": "data-xng-transform",
 			  "language": "markup",
-			  "description": "the <code>data-xng-transform</code> attribute can be defined in a html tag which also has a <code>data-xng-model</code> attribute. if the attribute is present xng uses the specified transformer for model to json transformation before assigning the model to the view. If the <code>data-xng-transform</code> attribute is absent the model will automatically be transformed by a default json transformer.",
+			  "description": "the <code>data-xng-transform</code> attribute can be defined as an attribute of a dom element which also has a <code>data-xng-model</code> attribute. if the attribute is present xng uses the specified transformer for model to json transformation before assigning the model to the view. If the <code>data-xng-transform</code> attribute is absent the model will automatically be transformed by a default json transformer.",
 			  "code": "api/doc/3.0.0/text/transformer-data-xng.tpl.html"
 			},
 			{

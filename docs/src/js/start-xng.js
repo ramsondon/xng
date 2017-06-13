@@ -40,18 +40,5 @@
 			], 'async').then(function() {
 				console.log('xng totally rocks and finished rendering!');
 			});
-
-			window.cookieconsent.initialise({
-				"palette": {
-					"popup": {
-						"background": "#222222"
-					},
-					"button": {
-						"background": "#52BC50"
-					}
-				},
-				"theme": "classic"
-			});
 		});
-
 })();
