@@ -12,7 +12,7 @@
     "fetch",
     "promise"
   ],
-  "main" : "dist/xng.min.js",
+  "main": "dist/xng.min.js",
   "homepage": "https://ramsondon.github.io/xng",
   "bugs": {
     "url": "https://github.com/ramsondon/xng/issues",
