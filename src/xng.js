@@ -370,18 +370,25 @@ Xng.prototype.nl2br = function(str, is_xhtml) {
 	return str;
 };
 
+var ASSIGN_SYMBOL = "/xng.assignment/";
 Xng.prototype.assign = function (obj) {
-	return _.escape(JSON.stringify(obj));
+	return _.escape(ASSIGN_SYMBOL + JSON.stringify(_.toPlainObject(obj)));
 };
 
 /**
- *
  * @param obj
  * @param transformer
  * @return {Promise}
  */
 Xng.prototype.readAssignment = function (obj, transformer) {
-	return transformer.transform(_.unescape(obj));
+	var str = _.unescape(obj);
+	if (_.startsWith(str, ASSIGN_SYMBOL)) {
+		str = str.replace(ASSIGN_SYMBOL, "");
+		return transformer.transform(str);
+	}
+	return new Promise(function(resolve, reject) {
+		reject(str);
+	});
 };
 
 Xng.prototype.base = function(base_dir) {
