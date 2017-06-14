@@ -199,6 +199,7 @@ JsonTransformer.prototype.doTransformation = function (str) {
  * @constructor
  */
 var Xng = function () {
+	this.ASSIGNMENT_SYMBOL = "/xng.assignment." + this.guid() + "/";
 	this.transformers = {
 		'text': new TextTransformer(),
 		'json': new JsonTransformer()
@@ -379,9 +380,8 @@ Xng.prototype.nl2br = function(str, is_xhtml) {
 	return str;
 };
 
-var ASSIGN_SYMBOL = "/xng.assignment/";
 Xng.prototype.assign = function (obj) {
-	return _.escape(ASSIGN_SYMBOL + JSON.stringify(_.toPlainObject(obj)));
+	return _.escape(this.ASSIGNMENT_SYMBOL + JSON.stringify(_.toPlainObject(obj)));
 };
 
 /**
@@ -391,8 +391,8 @@ Xng.prototype.assign = function (obj) {
  */
 Xng.prototype.readAssignment = function (obj, transformer) {
 	var str = _.unescape(obj);
-	if (_.startsWith(str, ASSIGN_SYMBOL)) {
-		str = str.replace(ASSIGN_SYMBOL, "");
+	if (_.startsWith(str, this.ASSIGNMENT_SYMBOL)) {
+		str = str.replace(this.ASSIGNMENT_SYMBOL, "");
 		return transformer.transform(str);
 	}
 	return new Promise(function(resolve, reject) {
