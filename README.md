@@ -17,6 +17,7 @@ there you can follow the quickstart instructions or directly goto https://ramson
 ##### lodash dependencies: (for anybody who wants to make a custom build)
 
 * _.assign()
+* _.cloneDeep()
 * _.escape()
 * _.find()
 * _.first()
@@ -26,9 +27,11 @@ there you can follow the quickstart instructions or directly goto https://ramson
 * _.isObject()
 * _.isString()
 * _.isUndefined()
-* _.snakeCase
-* _.split
+* _.snakeCase()
+* _.split()
 * _.template()
+* _.templateSettings
+* _.toString()
 * _.trim()
 * _.trimEnd()
 * _.trimStart()
