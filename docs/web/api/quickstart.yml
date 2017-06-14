@@ -1,0 +1,21 @@
+items:
+  - language: "markup"
+    description: >
+      Include requirements at the end of the body
+      tag to prevent the browser from blocking.
+    code: "api/text/index.html"
+  - language: "markup"
+    description: "index.html at root<code>./index.html</code>"
+    code: "api/text/include-template.html"
+  - language: "json"
+    description: "api route <code>./api/model.json</code>"
+    code: "api/text/json.html"
+  - language: "markup"
+    description: "template to include at <code>./tpl/main.tpl.html</code>"
+    code: "api/text/template.html"
+  - language: "markup"
+    description: "start your xng in your <code>index.html</code>"
+    code: "api/text/javascript.html"
+  - language: "markup"
+    description: "resulting <code>index.html</code> after page loading"
+    code: "api/text/result.html"
