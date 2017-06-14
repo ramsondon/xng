@@ -13,6 +13,7 @@ this version should not affect any normal usage of xng v2.0.0
 	* removed method ```_.xng.waitCache```; wait is automatically realized by Promise
 	
 #### compatible changes
+	* _.xng.assign() method will prefix the stringified object with a symbol to differenciate a local and a remote model because of infinite Transformation possibilities
 	* xng engine will not break anymore if a resource has not been found
 	* improved ```_.xng.fetch()``` for enabling an empy ```_.xng.remote_base_dir```
 	* internally using more lodash
