@@ -8,7 +8,11 @@
 		<a class="navbar-brand" href="#">xng.js {{\ $model.name }}</a>
 		<div class="collapse navbar-collapse" id="docNavbar{{ $model.id }}">
 			<ul class="navbar-nav ml-auto">
-				<li class="nav-item" data-xng-view="tpl/items/dropdown.tpl.html" data-xng-model="api/doc/versions.json"></li>
+				<li class="nav-item"
+					data-xng-view="tpl/items/dropdown.tpl.html"
+					data-xng-model="api/doc/versions.json"
+					data-xng-transform="json_string">
+				</li>
 				<li class="nav-item">
 					<a class="btn btn-danger xng-route" href="#changelog">Changelog</a>
 				</li>

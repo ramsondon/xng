@@ -1,7 +1,7 @@
 <ol class="nav flex-column">
 	{% _.forEach($model.items, function(item, idx) { %}
 	<li class="nav-item">
-		<a href="#{{ _.kebabCase(item.name + $model.version) }}">{{ item.name }}</a>
+		<a href="#{{ _.kebabCase(item.name + $model.version) }}">{{ item.name.replace(/\$version\$/g, $model.version) }}</a>
 		{% if (item.items) { %}
 			<div data-xng-view="docs/doc-nav.tpl.html"
 				 data-xng-model="{{\ _.xng.assign(_.extend(item, { version: $model.version})) }}">

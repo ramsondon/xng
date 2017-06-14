@@ -1,5 +1,25 @@
 # Changelog
 
+### Version 3.0.0
+this version should not affect any normal usage of xng v2.0.0
+	
+#### new features
+	* implemented customizable Model Transformations with ```_.xng.transform``` and ```_.xng.defaultTransformer()```.
+	* default model transformations are Json transformations
+	
+#### incompatible changes
+	* replaced ```_.xng.cacheResource()``` by a Cache, a CachedResource and a ResourceFetcher
+	* removed ```_.xng.wait_cache_freq``` variable
+	* removed method ```_.xng.waitCache```; wait is automatically realized by Promise
+	
+#### compatible changes
+	* _.xng.assign() method will prefix the stringified object with a symbol to differenciate a local and a remote model because of infinite Transformation possibilities
+	* xng engine will not break anymore if a resource has not been found
+	* improved ```_.xng.fetch()``` for enabling an empy ```_.xng.remote_base_dir```
+	* internally using more lodash
+	* additional refactorings and performance updates
+	* bug fixed: ```_.xng.require()``` multiple files Promise resolve timing error 
+
 ### Version 2.0.1
 	
 #### compatible changes

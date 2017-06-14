@@ -4,9 +4,9 @@
 	_.xng
 		.base('docs/web')
 		.listen({
-			"*": function (trigger, view) {
-				console.log('view: ', view.getAttribute('data-xng-view'), trigger);
-			},
+			// "*": function (trigger, view) {
+				// console.log('view: ', view.getAttribute('data-xng-view'), trigger);
+			// },
 			"markdown_init" : function () {
 				_.xng.require('docs/vendor/tagdown.min.js', 'async');
 			}
@@ -21,6 +21,14 @@
 				}
 			}
 		})
+		.transform({
+			"yml": function(str) {
+				return YAML.parse(str);
+			},
+			"json_string": function(str) {
+				return JSON.parse(str);
+			}
+		})
 		.run()
 		.then(function() {
 			$('.remove-on-loaded').animate({
@@ -32,10 +40,8 @@
 				'docs/web/js/creative.min.js',
 				"docs/web/js/twitter.min.js",
 				"https://buttons.github.io/buttons.js"
-			]).then(function() {
+			], 'async').then(function() {
 				console.log('xng totally rocks and finished rendering!');
 			});
-
 		});
-
 })();

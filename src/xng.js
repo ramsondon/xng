@@ -1,5 +1,10 @@
+var _randChar = function() {
+	"use strict";
+	return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+};
 
 var _addListener = function(listeners, key, cb) {
+	"use strict";
 	if (_.isObject(key) && _.isUndefined(cb)) {
 		for (var k in key) {
 			_addListener(listeners, k, key[k]);
@@ -10,6 +15,7 @@ var _addListener = function(listeners, key, cb) {
 };
 
 var _triggerListeners = function(listeners, key, param) {
+	"use strict";
 	if (_.isString(key) && key in listeners) {
 		listeners[key](key, param);
 	} else if (_.isArray(key)) {
@@ -22,13 +28,180 @@ var _triggerListeners = function(listeners, key, param) {
 	}
 };
 
+/**
+ * Cache
+ *
+ * @constructor
+ */
+var Cache = function () {
+	this.memory = {};
+};
 
+Cache.prototype.hit = function (key) {
+	return key in this.memory;
+};
+Cache.prototype.fault = function (key) {
+	return ! this.hit(key);
+};
+Cache.prototype.put = function (key, value) {
+	this.memory[key] = value;
+};
+Cache.prototype.get = function (key) {
+	if (this.hit(key))
+		return this.memory[key];
+
+	throw new Error('cache fault');
+};
+
+/**
+ * ResourceCache
+ *
+ * @constructor
+ */
+var ResourceCache = function () {
+	this.marker = new Cache();
+	this.memory = new Cache();
+};
+
+ResourceCache.prototype.cache = function (resource, resourceFetcher) {
+	return new Promise(function (resolve, reject) {
+		var key = _.snakeCase(resource);
+		if (this.marker.fault()) this.marker.put(key, resourceFetcher.fetch(resource));
+		this.marker.get(key).then(function(response) {
+			if (this.memory.fault(key)) this.memory.put(key, response);
+			resolve(key);
+		}.bind(this), function(err) {
+			console.warn('RESOURCE NOT FOUND: ', resource, err);
+			reject(resource, resourceFetcher);
+		}).catch(function () {
+			reject(resource, resourceFetcher);
+		});
+
+	}.bind(this));
+};
+
+ResourceCache.prototype.get = function (key) {
+	return this.memory.get(key);
+};
+
+
+/**
+ * ResourceFetcher
+ *
+ * @param transformer
+ * @param urlPrefix
+ * @constructor
+ */
+var ResourceFetcher = function(transformer, urlPrefix) {
+	"use strict";
+	this.transformer = transformer || new TextTransformer();
+	this.url_prefix = urlPrefix || "";
+};
+
+ResourceFetcher.prototype.parse = function (resource) {
+	"use strict";
+	if (this.url_prefix.length > 0) {
+		return _.trimEnd(this.url_prefix, '/') + '/' + _.trimStart(resource, '/');
+	}
+	return resource;
+};
+
+ResourceFetcher.prototype.fetch = function (resource) {
+	return new Promise(function (resolve, reject) {
+		var url = this.parse(resource);
+
+		fetch(url).then(function(response) {
+			if (response.status !== 200) {
+				console.warn('Error Report', 'Status Code: ' + response.status, response.statusText);
+				reject('Error Report', 'Status Code: ' + response.status, response.statusText);
+				return;
+			}
+			response.text().then(function(data) {
+				this.transformer.transform(data).then(function(data) {
+					resolve(data);
+				});
+			}.bind(this));
+
+		}.bind(this), reject).catch(function(err) {
+			reject(err);
+		}.bind(this));
+	}.bind(this));
+};
+
+/**
+ * Renderer
+ *
+ * @param el
+ * @param model
+ * @constructor
+ */
+var Renderer = function(el, model) {
+	this.el = el || document.createElement('div');
+	this.model = model || {$model: {}};
+	this.afterRenderHtmlListeners = {};
+};
+
+Renderer.prototype.renderHtml = function(html) {
+	var s = document.createElement('script');
+	s.type = 'text/x-xng-tpl';
+	s.innerHTML = html;
+	this.el.appendChild(s);
+	this.el.innerHTML = _.template(this.el.innerHTML)(this.model);
+	this.el.innerHTML = this.el.querySelector('script').innerHTML;
+	_triggerListeners(this.afterRenderHtmlListeners, "all", {el: this.el, model: this.model});
+};
+
+Renderer.prototype.afterRenderHtml = function(func) {
+	_addListener(this.afterRenderHtmlListeners, "all", func);
+};
+
+/**
+ * DefaultTransformer 
+ * @constructor
+ */
+var DefaultTransformer = function() {};
+DefaultTransformer.prototype.doTransformation = function(str) {
+	return str;
+};
+DefaultTransformer.prototype.transform = function(str) {
+	return new Promise(function(resolve, reject) {
+		try {
+			resolve(this.doTransformation(str));
+		} catch(err) {
+			reject(str);
+		}
+	}.bind(this));
+};
+
+var TextTransformer = function () {};
+TextTransformer.prototype = Object.create(DefaultTransformer.prototype);
+
+
+var JsonTransformer = function () {};
+JsonTransformer.prototype = Object.create(DefaultTransformer.prototype);
+JsonTransformer.prototype.doTransformation = function (str) {
+	return JSON.parse(str);
+};
+
+
+/**
+ * XNG Core
+ *
+ * @constructor
+ */
 var Xng = function () {
+	this.ASSIGNMENT_SYMBOL = "/xng.assignment." + this.guid() + "/";
+	this.transformers = {
+		'text': new TextTransformer(),
+		'json': new JsonTransformer()
+	};
+	this.defaultModelTransformer = "json";
 	this.attributes = {
 		view: 'data-xng-view',
 		model: 'data-xng-model',
 		listen: 'data-xng-listen',
-		route: 'data-xng-route'
+		route: 'data-xng-route',
+		transform: 'data-xng-transform'
 	};
 	this.templateSettings = {
 		escape: /{{\\([\s\S]+?)}}/g,
@@ -37,19 +210,36 @@ var Xng = function () {
 	};
 	this.base_remote_dir = "";
 	this.current_route = "";
-	this.wait_cache_freq = 0;
-	this.model_cache = {
-		mark: {},
-		cache: {}
-	};
-	this.tpl_cache = {
-		mark: {},
-		cache: {}
-	};
+	this.model_cache = new ResourceCache();
+	this.tpl_cache = new ResourceCache();
 	this.listeners = {
 		route: {},
 		view: {}
 	};
+
+
+	/**
+	 * the error template is populated by a {$model: {title: '', message: ''}} object
+	 * @type {string}
+	 */
+	this.errorTemplate = '<div class="error"><h4>{{ $model.title }}</h4><p>{{ $model.message }}</p></div>';
+};
+
+/**
+ * Creates a specific Transformer Class
+ *
+ * @param transformFunc gets a string as first param and returns a Json model object
+ */
+Xng.prototype.createTransformer = function(transformFunc) {
+	var transformer = function(){};
+	transformer.prototype = Object.create(this.defaultTransformer().prototype);
+	transformer.prototype.doTransformation = transformFunc;
+
+	return transformer;
+};
+
+Xng.prototype.defaultTransformer = function() {
+	return DefaultTransformer;
 };
 
 /**
@@ -58,77 +248,37 @@ var Xng = function () {
  * @param type string - text or json
  */
 Xng.prototype.fetch = function(resource, type) {
-	return new Promise(function (resolve, reject) {
-		var url;
-		if (/^http(s)?/.exec(resource)) {
-			url = resource;
-		} else {
-			url = _.trimEnd(this.base_remote_dir, '/') + '/' + _.trimStart(resource, '/');
-		}
-
-
-		fetch(url).then(function(response) {
-			if (response.status !== 200) {
-				reject('Error Report', 'Status Code: ' + response.status, response.statusText);
-				return;
-			}
-			response[type]().then(function(data) {
-				resolve(data);
-			}.bind(this));
-
-		}.bind(this)).catch(function(err) {
-			reject(err);
-		}.bind(this));
-	}.bind(this));
-};
-
-Xng.prototype.toKey = function(str) {
-	return _.escape(_.snakeCase(str));
-	// return str.replace(new RegExp('[\/\.-]', 'g'), '_');
-};
-
-Xng.prototype.waitCache = function(cache, key) {
-	return new Promise(function(resolve) {
-		var t=0;
-		var poll = function() {
-			if (t > 0 && key in cache) {
-				clearTimeout(t);
-				t = 0;
-				resolve(key);
-			} else {
-				t = setTimeout(poll, this.wait_cache_freq);
-			}
-		}.bind(this);
-		t = setTimeout(poll, this.wait_cache_freq);
-	}.bind(this));
+	return new ResourceFetcher(this.transformers[type], this.base_remote_dir).fetch(resource);
 };
 
 Xng.prototype.render = function (filepath, model, el, listener) {
 
 	return new Promise(function(resolve) {
+		var renderer = new Renderer(el, model);
 
-		var render = function(html) {
-			var s = document.createElement('script');
-			s.type = 'text/x-xng-tpl';
-			s.innerHTML = html;
-			el.appendChild(s);
-			el.innerHTML = _.template(el.innerHTML)(model);
-			el.innerHTML = el.querySelector('script').innerHTML;
+		renderer.afterRenderHtml(function() {
+			var views = el.querySelectorAll('['+ this.attributes.view +']');
+			this.include(views).then(function () {
+				resolve();
+				_triggerListeners(this.listeners.view, listener, el);
+			}.bind(this));
+		}.bind(this));
 
-				this.include(el.querySelectorAll('['+ this.attributes.view +']'))
-					.then(function () {
-						resolve();
-						_triggerListeners(this.listeners.view, listener, el);
-					}.bind(this));
-
-		}.bind(this);
-
-		this.cacheResource(filepath, this.tpl_cache, 'text')
+		this.tpl_cache.cache(filepath, new ResourceFetcher(this.transformers.text, this.base_remote_dir))
 			.then(function(key) {
-				render(this.tpl_cache.cache[key]);
+				renderer.renderHtml(this.tpl_cache.get(key));
+			}.bind(this), function(src, rf) {
+				// render error template if view could not be fetched!
+				renderer.model = _.cloneDeep(model);
+				renderer.model.$model = {
+					title: 'Resource Not Found',
+					message: 'Resource ' + filepath + ' could not be loaded!'
+				};
+				renderer.renderHtml(this.errorTemplate);
+				console.warn('Resource not found: ', filepath);
 			}.bind(this))
 			.catch(function(k) {
-				console.warn(k);
+				console.warn('error has been catched', k);
 			});
 	}.bind(this));
 };
@@ -140,36 +290,16 @@ Xng.prototype.put = function(html, selector, trigger) {
 };
 
 Xng.prototype.guid = function() {
-	var s = function() {
-		return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-	};
-	return [s() + s(), s(), s(), s(), s() + s() + s()].join('-');
-};
-
-Xng.prototype.cacheResource = function (resource, cache, res_type) {
-	return new Promise(function (resolve) {
-		var key = this.toKey(resource);
-		if (key in cache.mark) {
-			this.waitCache(cache.cache, key)
-				.then(function (key) {
-					resolve(key);
-				}.bind(this));
-		} else {
-			cache.mark[key] = resource;
-			this.fetch(resource, res_type)
-				.then(function(response) {
-					cache.cache[key] = response;
-					resolve(key);
-				});
-		}
-	}.bind(this));
+	var s = _randChar;
+	return [s()+s(), s(), s(), s(), s()+s()+s()].join('-');
 };
 
 Xng.prototype.parseDirectives = function (el) {
 	return {
 		model: el.getAttribute(this.attributes.model),
 		template: el.getAttribute(this.attributes.view),
-		listener: el.getAttribute(this.attributes.listen)
+		listener: el.getAttribute(this.attributes.listen),
+		transform: el.getAttribute(this.attributes.transform) || this.defaultModelTransformer
 	}
 };
 
@@ -198,19 +328,24 @@ Xng.prototype.include = function(includes) {
 		_.forEach(includes, function($cur) {
 			var directive = this.parseDirectives($cur);
 			if (directive.model) {
+				this.readAssignment(directive.model, this.transformers[directive.transform])
+					.then(function(model) {
+						_render(directive, model, $cur);
+					}, function() {
+						var rf = new ResourceFetcher(this.transformers[directive.transform], this.base_remote_dir);
+						this.model_cache.cache(directive.model, rf)
+							.then(function(key) {
+								_render(directive, this.model_cache.get(key), $cur);
+							}.bind(this), function(src) {
+								_render(directive, {}, $cur);
+								console.warn('Model Resource not found: ', src);
+							}.bind(this))
+							.catch(function(key) {
+								// _render(directive, {}, $cur);
+								console.warn(key);
+							});
+					}.bind(this));
 
-				try {
-					// check if we assigned a json object
-					_render(directive, this.readAssignment(directive.model), $cur);
-				} catch (e) {
-					this.cacheResource(directive.model, this.model_cache, 'json')
-						.then(function(key) {
-							_render(directive, this.model_cache.cache[key], $cur);
-						}.bind(this))
-						.catch(function(key) {
-							console.warn(key);
-						});
-				}
 			} else {
 				_render(directive, null, $cur);
 			}
@@ -237,11 +372,23 @@ Xng.prototype.nl2br = function(str, is_xhtml) {
 };
 
 Xng.prototype.assign = function (obj) {
-	return _.escape(JSON.stringify(obj));
+	return _.escape(this.ASSIGNMENT_SYMBOL + JSON.stringify(_.toPlainObject(obj)));
 };
 
-Xng.prototype.readAssignment = function (obj) {
-	return JSON.parse(_.unescape(obj));
+/**
+ * @param obj
+ * @param transformer
+ * @return {Promise}
+ */
+Xng.prototype.readAssignment = function (obj, transformer) {
+	var str = _.unescape(obj);
+	if (_.startsWith(str, this.ASSIGNMENT_SYMBOL)) {
+		str = str.replace(this.ASSIGNMENT_SYMBOL, "");
+		return transformer.transform(str);
+	}
+	return new Promise(function(resolve, reject) {
+		reject(str);
+	});
 };
 
 Xng.prototype.base = function(base_dir) {
@@ -313,6 +460,27 @@ Xng.prototype.route = function(route, cb) {
 };
 
 /**
+ * registers a model transformer
+ * @param format string
+ * @param transformer {DefaultTransformer}
+ * @return {Xng}
+ */
+Xng.prototype.transform = function (format, transformer) {
+	if (_.isString(format) && _.isFunction(transformer)) {
+		var tclass = this.createTransformer(transformer);
+		this.transform(format, new tclass());
+	} else if (_.isObject(format) && _.isUndefined(transformer)) {
+		for (var t in format) {
+			this.transform(t, format[t]);
+		}
+	} else if (_.isString(format) && ! _.isUndefined(transformer)) {
+		this.transformers[format] = transformer;
+	}
+
+	return this;
+};
+
+/**
  * Adds view listeners
  * @param key
  * @param cb
@@ -372,9 +540,10 @@ Xng.prototype.require = function (src, attrs) {
 		if (_.isString(src)) {
 			load(document, "script", src, resolve);
 		} else {
+			var readyCount = 0;
 			_.forEach(src, function(s, idx) {
 				load(document, "script", s, function() {
-					if (idx === src.length-1) {
+					if (readyCount++ >= src.length-1) {
 						resolve(src);
 					}
 				});
@@ -391,9 +560,7 @@ Xng.prototype.require = function (src, attrs) {
  */
 Xng.prototype.run = function () {
 	// lodash settings
-	for (var s in this.templateSettings) {
-		_.templateSettings[s] = this.templateSettings[s];
-	}
+	_.assign(_.templateSettings, this.templateSettings);
 
 	var p = this.include(document.querySelectorAll('[' + this.attributes.view + ']'));
 
@@ -406,4 +573,5 @@ Xng.prototype.run = function () {
 	return p;
 };
 
-_.xng = new Xng();
+// create global _.xng instance
+if ( ! _.xng) _.xng = new Xng();
