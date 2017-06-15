@@ -286,7 +286,11 @@ QueryRouter.prototype.getQueryObject = function() {
 };
 
 QueryRouter.prototype.link = function(segment) {
-	return _.first(this.l().href.split('?')) + '?page=' + segment;
+	var href = this.l().href;
+	var split = href.split('?');
+	var prefix = _.first(split);
+	console.log(href, split, prefix);
+	return prefix + '?page=' + segment;
 };
 
 
