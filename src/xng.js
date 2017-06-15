@@ -400,6 +400,7 @@ Xng.prototype.matches = function(str, href) {
 	var match = false;
 	var _calcMatch = function(str) {
 		var url = _.trimStart(href, '#');
+		url = _.trimEnd(url, '/');
 		// root route
 		if (((! str || str === '.') && url.length <= 0) || (str === url)) {
 			match = true;
