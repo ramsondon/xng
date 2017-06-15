@@ -1,5 +1,11 @@
 # Changelog
 
+### Version 3.1.0
+
+#### compatible changes
+	* implemented configurable router
+	* HashRouter and QueryRouter available
+
 ### Version 3.0.1
 
 #### compatible changes
