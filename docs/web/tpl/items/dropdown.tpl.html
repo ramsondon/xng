@@ -4,7 +4,7 @@
 	</button>
 	<div class="dropdown-menu" aria-labelledby="{{\ $model.id }}">
 		{% _.forEach($model.items, function(item) { %}
-			<a class="dropdown-item" href="{{\ item.href }}">{{\ item.name }}</a>
+			<a class="dropdown-item" href="{{\ _.xng.link(item.href) }}">{{\ item.name }}</a>
 		{% }); %}
 	</div>
 </div>

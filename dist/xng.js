@@ -192,6 +192,112 @@ JsonTransformer.prototype.doTransformation = function (str) {
 	return JSON.parse(str);
 };
 
+var Router = function (attribute) {
+	this.attribute = attribute;
+	this.current_route = "";
+	this.listeners = {};
+};
+
+Router.prototype.l = function() {
+	return window.location;
+};
+Router.prototype.read = function()  {
+	return this.l().href;
+};
+Router.prototype.redirect = function(path)  {
+	this.l().href = path
+};
+
+Router.prototype.routing = function (el) {
+	var selector = '[' + this.attribute + ']';
+	var routes = el.querySelectorAll(selector);
+
+	var root = null, match = null;
+
+	_.forEach(routes, function(element) {
+		var route = _.split(element.getAttribute(this.attribute), ',').map(function (v) {return _.trim(v);});
+
+		root = ((_.find('.', route) || null === root) ? _.first(route) : root);
+		if (this.matches(route, this.read())) {
+			element.style.display = '';
+			match = this.l().hash;
+			_triggerListeners(this.listeners, route);
+		} else {
+			element.style.display = 'none';
+		}
+	}.bind(this));
+
+	if (null === match && routes.length > 0) {
+		// root.element.style.display = 'block';
+		match = root;
+		// redirect on invalid route
+		this.redirect(root.replace('.', ''));
+	}
+	this.current_route = match;
+};
+Router.prototype.matches = function (str, href) {
+	var match = false;
+	var _calcMatch = function(str) {
+		var url = _.trimEnd(href, '/');
+		// root route
+		if (((! str || str === '.') && url.length <= 0) || (str === url)) {
+			match = true;
+			return false;
+		}
+	};
+	if (_.isArray(str)) {
+		_.forEach(str, _calcMatch);
+	} else {
+		_calcMatch(_.toString(str));
+	}
+
+	return match;
+};
+Router.prototype.link = function(segment) {
+	return segment;
+};
+
+var HashRouter = function(attribute) {
+	Router.call(this, attribute);
+};
+HashRouter.prototype = Object.create(Router.prototype);
+HashRouter.prototype.read = function()  {
+	return _.trimStart(this.l().hash, '#');
+};
+HashRouter.prototype.redirect = function(path) {
+	this.l().hash = path;
+};
+HashRouter.prototype.link = function(segment) {
+	return '#' + segment;
+};
+
+
+var QueryRouter = function(attribute) {
+	Router.call(this, attribute);
+	this.param = "page";
+};
+QueryRouter.prototype = Object.create(Router.prototype);
+QueryRouter.prototype.read = function() {
+	var o = this.getQueryObject();
+	return "page" in o ? o.page : "";
+};
+QueryRouter.prototype.redirect = function(path) {
+	this.l().search = path;
+};
+QueryRouter.prototype.getQueryObject = function() {
+	var search = decodeURI(this.l().search.substring(1));
+
+	if (search.length <= 0) {
+		return {};
+	}
+
+	return JSON.parse('{"' + search.replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+};
+
+QueryRouter.prototype.link = function(segment) {
+	return this.l().origin + '?page=' + segment;
+};
+
 
 /**
  * XNG Core
@@ -199,6 +305,10 @@ JsonTransformer.prototype.doTransformation = function (str) {
  * @constructor
  */
 var Xng = function () {
+	this.ROUTER_FACTORY = {
+		"HashRouter": HashRouter,
+		"QueryRouter": QueryRouter
+	};
 	this.ASSIGNMENT_SYMBOL = "/xng.assignment." + this.guid() + "/";
 	this.transformers = {
 		'text': new TextTransformer(),
@@ -218,9 +328,10 @@ var Xng = function () {
 		interpolate: /{{([\s\S]+?)}}/g
 	};
 	this.base_remote_dir = "";
-	this.current_route = "";
 	this.model_cache = new ResourceCache();
 	this.tpl_cache = new ResourceCache();
+
+	this.router = new HashRouter(this.attributes.route);
 	this.listeners = {
 		route: {},
 		view: {}
@@ -245,6 +356,15 @@ Xng.prototype.createTransformer = function(transformFunc) {
 	transformer.prototype.doTransformation = transformFunc;
 
 	return transformer;
+};
+
+Xng.prototype.using = function(router_str_id) {
+	var rc = this.ROUTER_FACTORY[router_str_id];
+	this.router = new rc(this.attributes.route);
+	return this;
+};
+Xng.prototype.link = function(segment) {
+	return this.router.link(segment);
 };
 
 Xng.prototype.defaultTransformer = function() {
@@ -322,7 +442,7 @@ Xng.prototype.include = function(includes) {
 		// fixme: refactor to Promise.all([render_promises]) after _.forEach()
 		var _render = function (directive, model, $cur) {
 			this.render(directive.template, {
-				$route: this.current_route,
+				$route: this.router.current_route,
 				$model: model
 			}, $cur, directive.listener)
 				.then(function() {
@@ -405,59 +525,17 @@ Xng.prototype.base = function(base_dir) {
 	return this;
 };
 
-Xng.prototype.matches = function(str, href) {
-	var match = false;
-	var _calcMatch = function(str) {
-		var url = _.trimStart(href, '#');
-		url = _.trimEnd(url, '/');
-		// root route
-		if (((! str || str === '.') && url.length <= 0) || (str === url)) {
-			match = true;
-			return false;
-		}
-	};
-	if (_.isArray(str)) {
-		_.forEach(str, _calcMatch);
-	} else {
-		_calcMatch(_.toString(str));
-	}
-
-	return match;
-};
 
 /**
  * executes the router
  * @param el
  */
 Xng.prototype.routing = function (el) {
-
-	var selector = '[' + this.attributes.route + ']';
-	var routes = el.querySelectorAll(selector);
-
-	var root = null, match = null;
-
-	_.forEach(routes, function(element) {
-		var route = _.split(element.getAttribute(this.attributes.route), ',').map(function (v) {return _.trim(v);});
-
-		root = ((_.find('.', route) || null === root) ? _.first(route) : root);
-		if (this.matches(route, window.location.hash)) {
-			element.style.display = '';
-			match = window.location.hash;
-			_triggerListeners(this.listeners.route, route);
-		} else {
-			element.style.display = 'none';
-		}
-	}.bind(this));
-
-	if (null === match && routes.length > 0) {
-		// root.element.style.display = 'block';
-		match = root;
-		// redirect on invalid route
-		window.location.hash = root.replace('.', '');
-	}
-	this.current_route = match;
+	this.router.routing(el);
 };
-
+Xng.prototype.matches = function(str, href) {
+	return this.router.matches(str, href);
+};
 /**
  * Adds routing listeners
  * @param route
@@ -465,7 +543,8 @@ Xng.prototype.routing = function (el) {
  * @return {Xng}
  */
 Xng.prototype.route = function(route, cb) {
-	_addListener(this.listeners.route, route, cb);
+	// _addListener(this.listeners.route, route, cb);
+	_addListener(this.router.listeners, route, cb);
 	return this;
 };
 
@@ -560,7 +639,6 @@ Xng.prototype.require = function (src, attrs) {
 			});
 		}
 
-
 	}.bind(this));
 };
 
@@ -571,6 +649,8 @@ Xng.prototype.require = function (src, attrs) {
 Xng.prototype.run = function () {
 	// lodash settings
 	_.assign(_.templateSettings, this.templateSettings);
+	// assign router attribute for overrides
+	this.router.attribute = this.attributes.route;
 
 	var p = this.include(document.querySelectorAll('[' + this.attributes.view + ']'));
 

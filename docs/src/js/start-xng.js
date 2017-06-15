@@ -21,6 +21,7 @@
 				}
 			}
 		})
+		.using("QueryRouter")
 		.transform({
 			"yml": function(str) {
 				return YAML.parse(str);
