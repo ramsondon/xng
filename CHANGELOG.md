@@ -1,5 +1,10 @@
 # Changelog
 
+### Version 3.0.1
+
+#### compatible changes
+	* fixed routing bug when a "/" is at the end of the route
+
 ### Version 3.0.0
 this version should not affect any normal usage of xng v2.0.0
 	
