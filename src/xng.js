@@ -286,7 +286,7 @@ QueryRouter.prototype.getQueryObject = function() {
 };
 
 QueryRouter.prototype.link = function(segment) {
-	return this.l().origin + '?page=' + segment;
+	return _.first(this.l().href.split('?')) + '?page=' + segment;
 };
 
 
