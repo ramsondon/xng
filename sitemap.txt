@@ -1,7 +1,8 @@
 https://ramsondon.github.io/xng
-https://ramsondon.github.io/xng/#
-https://ramsondon.github.io/xng/#changelog
-https://ramsondon.github.io/xng/#documentation
-https://ramsondon.github.io/xng/#doc
-https://ramsondon.github.io/xng/#doc/2.0.0
-https://ramsondon.github.io/xng/#doc/1.0.1
+https://ramsondon.github.io/xng/changelog
+https://ramsondon.github.io/xng/documentation
+https://ramsondon.github.io/xng/doc
+https://ramsondon.github.io/xng/docs
+https://ramsondon.github.io/xng/doc/3.0.0
+https://ramsondon.github.io/xng/doc/2.0.0
+https://ramsondon.github.io/xng/doc/1.0.1
