@@ -279,7 +279,7 @@ var QueryRouter = function(attribute) {
 QueryRouter.prototype = Object.create(Router.prototype);
 QueryRouter.prototype.read = function() {
 	var o = this.getQueryObject();
-	return "page" in o ? o.page : "";
+	return this.param in o ? o.page : "";
 };
 QueryRouter.prototype.redirect = function(path) {
 	this.l().search = path;
@@ -287,19 +287,12 @@ QueryRouter.prototype.redirect = function(path) {
 QueryRouter.prototype.getQueryObject = function() {
 	var search = decodeURI(this.l().search.substring(1));
 
-	if (search.length <= 0) {
-		return {};
-	}
-
+	if (search.length <= 0) return {};
 	return JSON.parse('{"' + search.replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
 };
 
 QueryRouter.prototype.link = function(segment) {
-	var href = this.l().href;
-	var split = href.split('?');
-	var prefix = _.first(split);
-	console.log(href, split, prefix);
-	return prefix + '?page=' + segment;
+	return _.first(this.l().href.split('?')) + '?' + this.param + '=' + segment;
 };
 
 
