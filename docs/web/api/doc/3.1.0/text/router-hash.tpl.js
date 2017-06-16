@@ -1,0 +1,1 @@
+_.xng.using("HashRouter");

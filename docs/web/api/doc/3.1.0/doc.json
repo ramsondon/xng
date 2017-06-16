@@ -36,8 +36,28 @@
 		{
 		  "name": "Routing",
 		  "language": "markup",
-		  "description": "xng routing is realized via the window location's hash value. This means the main page will be accessible e.g. at <pre>https://ramsondon.github.io/xng</pre> and the changelog page will be at<pre>https://ramsondon.github.io/xng/#changes</pre> and <pre>https://ramsondon.github.io/xng/#changelog, https://ramsondon.github.io/xng/#change/log</pre>",
-		  "code": "api/doc/2.0.0/text/xng-route.tpl.html"
+		  "description": "xng routing is realized by a router. The default router works with the location's hash value. The second option is to use routing via url query params instead of using the hash value to get a better seo result.",
+		  "code": "api/doc/2.0.0/text/xng-route.tpl.html",
+		  "items": [
+			{
+			  "name": "Choosing a Router",
+			  "language": "markup",
+			  "description": "you can call the <code>_.xng.using</code> method with parameter <code>HashRouter</code> or <code>QueryRouter</code> to select the router of your needs.",
+			  "code": null
+			},
+			{
+			  "name": "Hash Router",
+			  "language": "javascript",
+			  "description": "hash routing is realized via the url hash value. This means the main page will be accessible e.g. at <code>https://ramsondon.github.io/xng</code> and the changelog page will be at<code>https://ramsondon.github.io/xng/#changes</code> and <br/><code>https://ramsondon.github.io/xng/#changelog, https://ramsondon.github.io/xng/#change/log</code>",
+			  "code": "api/doc/3.1.0/text/router-hash.tpl.js"
+			},
+			{
+			  "name": "Query Router",
+			  "language": "javascript",
+			  "description": "query routing is realized via the url query param.This means the main page will be accessible e.g. at <code>https://ramsondon.github.io/xng</code> and the changelog page will be at<code>https://ramsondon.github.io/xng/?page=changes</code> and <br/><code>https://ramsondon.github.io/xng/?page=changelog, https://ramsondon.github.io/xng/?page=change/log</code>",
+			  "code": "api/doc/3.1.0/text/router-query.tpl.js"
+			}
+		  ]
 		},
 		{
 		  "name": "Views",
@@ -144,6 +164,12 @@
 			  "code": null
 			},
 			{
+			  "name": "_.xng.using",
+			  "language": "markup",
+			  "description": "<code>_.xng.using(&lt;obj : str&gt;) : xng</code> sets the routing strategy and returns the xng object for method chaining. this method should be called before calling <code>_.xng.run</code>. See also: <a href=\"#choosing-a-router-3-1-0\"><code>Choosing a Router</code></a>",
+			  "code": null
+			},
+			{
 			  "name": "_.xng.run",
 			  "language": "markup",
 			  "description": "<code>_.xng.run() : Promise</code> is the xng start up method. Returns a Promise which's resolve method is triggered when all rendering has been finished successfully. if you are using the <a href=\"xng-fetch-3-1-0\">fetch</a> method in a view it can not be considered for the resovle method of the returned Promise",
@@ -185,6 +211,12 @@
 			  "name": "_.xng.put",
 			  "language": "markup",
 			  "description": "<code>_.xng.put(&lt;data : string&gt;, &lt;selector : string&gt;, &lt;trigger : string&gt;) : void</code> puts specific content to a given dom selector. this method is useful to assign asynchronously fetched content to a specific dom element to avoid concurrency problems. the third param is the name of a <a href=\"#listener-3-1-0\">view listener</a> to be triggered on finished rendering. as an example you can see <a href=\"#xng-fetch-3-1-0\">_.xng.fetch<a>",
+			  "code": null
+			},
+			{
+			  "name": "_.xng.link",
+			  "language": "markup",
+			  "description": "<code>_.xng.link(&lt;route : string&gt;) : string</code> outputs the correct link depending on routing strategy. See also: <a href=\"#choosing-a-router-3-1-0\">Choosing a Router</a>",
 			  "code": null
 			}
 		  ]
