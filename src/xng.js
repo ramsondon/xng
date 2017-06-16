@@ -71,7 +71,7 @@ ResourceCache.prototype.cache = function (resource, resourceFetcher) {
 			if (this.memory.fault(key)) this.memory.put(key, response);
 			resolve(key);
 		}.bind(this), function(err) {
-			console.warn('RESOURCE NOT FOUND: ', resource, err);
+			console.warn('resource not found: ', resource, err);
 			reject(resource, resourceFetcher);
 		}).catch(function () {
 			reject(resource, resourceFetcher);
@@ -156,7 +156,7 @@ Renderer.prototype.afterRenderHtml = function(func) {
 };
 
 /**
- * DefaultTransformer 
+ * DefaultTransformer
  * @constructor
  */
 var DefaultTransformer = function() {};
@@ -191,10 +191,16 @@ JsonTransformer.prototype.doTransformation = function (str) {
  */
 var Router = function (attr) {
 	this.attribute = attr;
-	this.current_route = "";
+	this.redirectOnInvalid = true;
+	this.routeMap = {
+		elements: [],
+		routes: {}
+	};
 	this.listeners = {};
 };
-
+Router.prototype.current = function () {
+	return _.trim(this.read(), "/");
+};
 Router.prototype.l = function() {
 	return window.location;
 };
@@ -204,55 +210,66 @@ Router.prototype.read = function()  {
 Router.prototype.redirect = function(path)  {
 	this.l().href = path
 };
-
-Router.prototype.routing = function (el) {
+Router.prototype.collect = function(el) {
 	var selector = '[' + this.attribute + ']';
 	var routes = el.querySelectorAll(selector);
 
-	var root = null, match = null;
-
 	_.forEach(routes, function(element) {
-		var route = _.split(element.getAttribute(this.attribute), ',').map(function (v) {return _.trim(v);});
 
-		root = ((_.find('.', route) || null === root) ? _.first(route) : root);
-		if (this.matches(route, this.read())) {
-			element.style.display = '';
-			match = this.l().hash;
-			_triggerListeners(this.listeners, route);
-		} else {
-			element.style.display = 'none';
+		// cache element in global elements list
+		if ( ! _.find(this.routeMap.elements, function (e) {
+				return e === element;
+			})) {
+			this.routeMap.elements.push(element);
+
+			var av = element.getAttribute(this.attribute);
+			_.compact(_.split(av, ',')).forEach(function (v) {
+				var r = _.trim(v);
+				if ( ! (r in this.routeMap.routes)) {
+					this.routeMap.routes[r] = {
+						route: r,
+						elements: []
+					}
+				}
+				if ( ! _.find(this.routeMap.routes[r].elements, function (e) {
+						return e === element;
+					})) {
+					this.routeMap.routes[r].elements.push(element);
+				}
+			}.bind(this));
 		}
 	}.bind(this));
 
-	if (null === match && routes.length > 0) {
-		// root.element.style.display = 'block';
-		match = root;
-		// redirect on invalid route
-		this.redirect(root.replace('.', ''));
-	}
-	this.current_route = match;
-};
-Router.prototype.matches = function (str, href) {
-	var match = false;
-	var _calcMatch = function(str) {
-		var url = _.trimEnd(href, '/');
-		// root route
-		if (((! str || str === '.') && url.length <= 0) || (str === url)) {
-			match = true;
-			return false;
-		}
-	};
-	if (_.isArray(str)) {
-		_.forEach(str, _calcMatch);
-	} else {
-		_calcMatch(_.toString(str));
-	}
-
-	return match;
+	return routes.length;
 };
 Router.prototype.link = function(segment) {
 	return segment;
 };
+Router.prototype.listen = function() {
+	var cur = this.current();
+	var _in  = function (r) {
+		return r in this.routeMap.routes;
+	}.bind(this);
+
+	var _show = function (r) {
+		var route = this.routeMap.routes[r];
+		this.routeMap.elements.forEach(function(e) {e.style.display = 'none';});
+		route.elements.forEach(function(e) {e.style.display = '';});
+		_triggerListeners(this.listeners, route.routes);
+	}.bind(this);
+
+	if (_in(cur)) {
+		_show(cur);
+	} else if(cur.length <= 0 && _in(".")) {
+		_show(".");
+	} else if (cur.length <= 0) {
+		_show(_.first(this.routeMap.routes));
+	} else if (this.redirectOnInvalid) {
+		// redirect on invalid route
+		this.redirect("");
+	}
+};
+
 
 /**
  * HashRouter
@@ -271,6 +288,12 @@ HashRouter.prototype.redirect = function(path) {
 };
 HashRouter.prototype.link = function(segment) {
 	return '#' + segment;
+};
+HashRouter.prototype.listen = function() {
+	Router.prototype.listen.apply(this, arguments);
+	window.onhashchange = function() {
+		Router.prototype.listen.apply(this, arguments);
+	}.bind(this);
 };
 
 /**
@@ -291,14 +314,34 @@ QueryRouter.prototype.redirect = function(path) {
 	this.l().search = path;
 };
 QueryRouter.prototype.getQueryObject = function() {
-	var search = decodeURI(this.l().search.substring(1));
+	var search = decodeURIComponent(this.l().search.substring(1));
 
 	if (search.length <= 0) return {};
 	return JSON.parse('{"' + search.replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
 };
-QueryRouter.prototype.link = function(segment) {
-	return _.first(this.l().href.split('?')) + '?' + this.param + '=' + segment;
+QueryRouter.prototype.toQueryString = function(obj, prefix) {
+	var str = [], p;
+	for(p in obj) {
+		if (obj.hasOwnProperty(p)) {
+			var k = prefix ? prefix + "[" + p + "]" : p, v = obj[p];
+			str.push((v !== null && typeof v === "object") ?
+				this.toQueryString(v, k) :
+				encodeURIComponent(k) + "=" + encodeURIComponent(v));
+		}
+	}
+
+	return str.join("&");
 };
+QueryRouter.prototype.link = function(segment) {
+	var search = this.getQueryObject();
+	search[this.param] = segment;
+	return this.l().origin + '?' + this.toQueryString(search) + this.l().hash;
+	// return _.first(this.l().href.split('?')) + '?' + this.param + '=' + segment;
+};
+QueryRouter.prototype.listen = function() {
+	Router.prototype.listen.apply(this, arguments);
+};
+
 
 
 /**
@@ -335,10 +378,8 @@ var Xng = function () {
 
 	this.router = new HashRouter(this.attributes.route);
 	this.listeners = {
-		route: {},
 		view: {}
 	};
-
 
 	/**
 	 * the error template is populated by a {$model: {title: '', message: ''}} object
@@ -360,6 +401,9 @@ Xng.prototype.createTransformer = function(transformFunc) {
 	return transformer;
 };
 
+Xng.prototype.defaultTransformer = function() {
+	return DefaultTransformer;
+};
 Xng.prototype.using = function(router) {
 	var rc = this.ROUTER_FACTORY[router];
 	this.router = new rc(this.attributes.route);
@@ -367,10 +411,6 @@ Xng.prototype.using = function(router) {
 };
 Xng.prototype.link = function(segment) {
 	return this.router.link(segment);
-};
-
-Xng.prototype.defaultTransformer = function() {
-	return DefaultTransformer;
 };
 
 /**
@@ -402,11 +442,11 @@ Xng.prototype.render = function (filepath, model, el, listener) {
 				// render error template if view could not be fetched!
 				renderer.model = _.cloneDeep(model);
 				renderer.model.$model = {
-					title: 'Resource Not Found',
-					message: 'Resource ' + filepath + ' could not be loaded!'
+					title: 'resource not found',
+					message: 'resource ' + filepath + ' could not be loaded!'
 				};
 				renderer.renderHtml(this.errorTemplate);
-				console.warn('Resource not found: ', filepath);
+				console.warn('resource not found: ', filepath);
 			}.bind(this))
 			.catch(function(k) {
 				console.warn('error has been catched', k);
@@ -444,14 +484,16 @@ Xng.prototype.include = function(includes) {
 		// fixme: refactor to Promise.all([render_promises]) after _.forEach()
 		var _render = function (directive, model, $cur) {
 			this.render(directive.template, {
-				$route: this.router.current_route,
+				$route: this.router.current(),
 				$model: model
 			}, $cur, directive.listener)
 				.then(function() {
+					this.router.collect($cur);
 					// wait for all components to resolve this promise
 					if (++f_count === includes.length) {
 						resolve();
-						this.routing($cur);
+						// this.routing($cur);
+						// this.router.collect($cur);
 					}
 				}.bind(this));
 		}.bind(this);
@@ -469,7 +511,7 @@ Xng.prototype.include = function(includes) {
 								_render(directive, this.model_cache.get(key), $cur);
 							}.bind(this), function(src) {
 								_render(directive, {}, $cur);
-								console.warn('Model Resource not found: ', src);
+								console.warn('model resource not found: ', src);
 							}.bind(this))
 							.catch(function(key) {
 								// _render(directive, {}, $cur);
@@ -527,17 +569,6 @@ Xng.prototype.base = function(base_dir) {
 	return this;
 };
 
-
-/**
- * executes the router
- * @param el
- */
-Xng.prototype.routing = function (el) {
-	this.router.routing(el);
-};
-Xng.prototype.matches = function(str, href) {
-	return this.router.matches(str, href);
-};
 /**
  * Adds routing listeners
  * @param route
@@ -545,7 +576,6 @@ Xng.prototype.matches = function(str, href) {
  * @return {Xng}
  */
 Xng.prototype.route = function(route, cb) {
-	// _addListener(this.listeners.route, route, cb);
 	_addListener(this.router.listeners, route, cb);
 	return this;
 };
@@ -657,9 +687,7 @@ Xng.prototype.run = function () {
 	var p = this.include(document.querySelectorAll('[' + this.attributes.view + ']'));
 
 	p.then(function() {
-		window.onhashchange = function() {
-			this.routing(document);
-		}.bind(this);
+		this.router.listen();
 	}.bind(this));
 
 	return p;

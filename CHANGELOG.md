@@ -9,6 +9,7 @@
 #### compatible changes
 	* implemented configurable router
 	* HashRouter and QueryRouter available
+	* removed ```_.xng.matches``` and ```_.xng.routing```
 
 ### Version 3.0.1
 
