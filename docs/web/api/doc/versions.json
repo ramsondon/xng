@@ -3,6 +3,12 @@
   "label": "Select Version",
   "items": [
 	{
+	  "id": "v030100",
+	  "version": "3.1.0",
+	  "name": "3.1.0",
+	  "href": "doc/3.1.0"
+	},
+	{
 	  "id": "v030000",
 	  "version": "3.0.0",
 	  "name": "3.0.0",
