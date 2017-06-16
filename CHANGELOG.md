@@ -2,6 +2,10 @@
 
 ### Version 3.1.0
 
+#### new features
+	* ```_.xng.using```: to declare the routing strategy (HashRouter and QuerRouter are implemented) 
+	* ```_.xng.link```: view method should be used for all internal links to make the view independent of routers
+
 #### compatible changes
 	* implemented configurable router
 	* HashRouter and QueryRouter available
