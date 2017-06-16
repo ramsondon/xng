@@ -11,19 +11,21 @@ npm install xng
 
 
 for the docs you can look into the source or go to https://ramsondon.github.io/xng.
-there you can follow the quickstart instructions or directly goto https://ramsondon.github.io/xng/#doc.
+there you can follow the quickstart instructions or directly goto https://ramsondon.github.io/xng/docs.
 
 
 ##### lodash dependencies: (for anybody who wants to make a custom build)
 
 * _.assign()
 * _.cloneDeep()
+* _.compact()
 * _.escape()
 * _.find()
 * _.first()
 * _.forEach()
 * _.isArray()
 * _.isFunction()
+* _.isNull()
 * _.isObject()
 * _.isString()
 * _.isUndefined()
