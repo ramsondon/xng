@@ -183,8 +183,14 @@ JsonTransformer.prototype.doTransformation = function (str) {
 	return JSON.parse(str);
 };
 
-var Router = function (attribute) {
-	this.attribute = attribute;
+
+/**
+ * Router
+ * @param attr the data-xng-route attribute
+ * @constructor
+ */
+var Router = function (attr) {
+	this.attribute = attr;
 	this.current_route = "";
 	this.listeners = {};
 };
@@ -248,8 +254,13 @@ Router.prototype.link = function(segment) {
 	return segment;
 };
 
-var HashRouter = function(attribute) {
-	Router.call(this, attribute);
+/**
+ * HashRouter
+ * @param attr the data-xng-route attribute
+ * @constructor
+ */
+var HashRouter = function(attr) {
+	Router.call(this, attr);
 };
 HashRouter.prototype = Object.create(Router.prototype);
 HashRouter.prototype.read = function()  {
@@ -262,9 +273,13 @@ HashRouter.prototype.link = function(segment) {
 	return '#' + segment;
 };
 
-
-var QueryRouter = function(attribute) {
-	Router.call(this, attribute);
+/**
+ * QueryRouter
+ * @param attr the data-xng-route attribute
+ * @constructor
+ */
+var QueryRouter = function(attr) {
+	Router.call(this, attr);
 	this.param = "page";
 };
 QueryRouter.prototype = Object.create(Router.prototype);
@@ -281,7 +296,6 @@ QueryRouter.prototype.getQueryObject = function() {
 	if (search.length <= 0) return {};
 	return JSON.parse('{"' + search.replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
 };
-
 QueryRouter.prototype.link = function(segment) {
 	return _.first(this.l().href.split('?')) + '?' + this.param + '=' + segment;
 };
@@ -346,8 +360,8 @@ Xng.prototype.createTransformer = function(transformFunc) {
 	return transformer;
 };
 
-Xng.prototype.using = function(router_str_id) {
-	var rc = this.ROUTER_FACTORY[router_str_id];
+Xng.prototype.using = function(router) {
+	var rc = this.ROUTER_FACTORY[router];
 	this.router = new rc(this.attributes.route);
 	return this;
 };
