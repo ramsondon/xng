@@ -506,6 +506,19 @@ pre[class*=language-]:after, pre[class*=language-]:before {
     -webkit-animation-delay: 0.5s;
     animation-delay: 0.5s; }
 
+#changelog-content h1 {
+  margin-bottom: 20px; }
+
+#changelog-content h3,
+#changelog-content h4 {
+  padding: 10px !important;
+  background-color: #eeeeee; }
+
+#changelog-content h4 {
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  border-bottom: 1px dotted #222222; }
+
 .text-primary {
   color: #52BC50 !important; }
 
