@@ -10,7 +10,7 @@
 	<div data-xng-view="tpl/footer.tpl.html"></div>
 </div>
 {% _.forEach($model.items, function(item, idx) { %}
-	<div data-xng-route="{% if (idx === 0) { %}doc, docs, documentation, {% } %}doc/{{ item.version }}" style="display: none">
+	<div data-xng-route="{% if (idx === 0) { %}doc, docs, documentation, {% } %}{{\ 'doc/' + item.version }}" style="display: none">
 		<div data-xng-view="docs/nav.tpl.html" data-xng-model="{{\ _.xng.assign(item) }}"></div>
 		<div data-xng-view="docs/doc.tpl.html" data-xng-model="api/doc/{{\ item.version}}/doc.json"></div>
 		<div data-xng-view="tpl/footer.tpl.html"></div>
