@@ -208,7 +208,7 @@ var Router = function (attr) {
 	this.listeners = {};
 };
 Router.prototype.current = function () {
-	return _.trim(this.read(), "/");
+	return this.normalize(this.read());
 };
 Router.prototype.l = function() {
 	return window.location;
@@ -219,9 +219,27 @@ Router.prototype.read = function()  {
 Router.prototype.redirect = function(path)  {
 	this.l().href = path
 };
+Router.prototype.normalize = function (path) {
+	return _.trim(_.trim(path||""),'/');
+};
+/**
+ * parses a path to an array of pathes
+ * @param route
+ * @return {Array}
+ */
+Router.prototype.parse = function(route)  {
+	route = route || "";
+	route = _.split(route, ',');
+	route = _.compact(route);
+	return route.map(function (v) {
+		return this.normalize(v);
+	}.bind(this));
+};
+Router.prototype.select = function(el) {
+	return el.querySelectorAll('[' + this.attribute + ']');
+};
 Router.prototype.collect = function(el) {
-	var selector = '[' + this.attribute + ']';
-	var routes = el.querySelectorAll(selector);
+	var routes = this.select(el);
 
 	_.forEach(routes, function(element) {
 
@@ -232,8 +250,7 @@ Router.prototype.collect = function(el) {
 			this.routeMap.elements.push(element);
 
 			var av = element.getAttribute(this.attribute);
-			_.compact(_.split(av, ',')).forEach(function (v) {
-				var r = _.trim(v);
+			this.parse(av).forEach(function (r) {
 				if ( ! (r in this.routeMap.routes)) {
 					this.routeMap.routes[r] = {
 						route: r,
@@ -290,7 +307,11 @@ var HashRouter = function(attr) {
 };
 HashRouter.prototype = Object.create(Router.prototype);
 HashRouter.prototype.read = function()  {
-	return _.trimStart(this.l().hash, '#');
+	return this.l().hash;
+};
+HashRouter.prototype.normalize = function (path) {
+	return _.trimStart(Router.prototype.normalize.apply(this, arguments), '#');
+	// return _.trim(_.trim(path),'/');
 };
 HashRouter.prototype.redirect = function(path) {
 	this.l().hash = path;
@@ -318,6 +339,9 @@ QueryRouter.prototype = Object.create(Router.prototype);
 QueryRouter.prototype.read = function() {
 	var o = this.getQueryObject();
 	return this.param in o ? o.page : "";
+};
+QueryRouter.prototype.normalize = function (path) {
+	return _.trimStart(Router.prototype.normalize.apply(this, arguments), '?');
 };
 QueryRouter.prototype.redirect = function(path) {
 	this.l().search = path;
@@ -488,20 +512,17 @@ Xng.prototype.include = function(includes) {
 
 		// count finish rendering actions
 		var f_count = 0;
-
+		var _try_resolve = function () {
+			if (++f_count === includes.length) {
+				resolve();
+			}
+		};
 		// fixme: refactor to Promise.all([render_promises]) after _.forEach()
 		var _render = function (directive, model, $cur) {
 			this.render(directive.template, {
 				$route: this.router.current(),
 				$model: model
-			}, $cur, directive.listener)
-				.then(function() {
-					this.router.collect($cur);
-					// wait for all components to resolve this promise
-					if (++f_count === includes.length) {
-						resolve();
-					}
-				}.bind(this));
+			}, $cur, directive.listener).then(_try_resolve.bind(this));
 		}.bind(this);
 
 		_.forEach(includes, function($cur) {
@@ -693,6 +714,7 @@ Xng.prototype.run = function () {
 	var p = this.include(document.querySelectorAll('[' + this.attributes.view + ']'));
 
 	p.then(function() {
+		this.router.collect(document);
 		this.router.listen();
 	}.bind(this));
 
