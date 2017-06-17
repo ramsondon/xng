@@ -342,16 +342,15 @@ QueryRouter.prototype.toQueryString = function(obj, prefix) {
 	return str.join("&");
 };
 QueryRouter.prototype.link = function(segment) {
-	var search = this.getQueryObject();
-	search[this.param] = segment;
-	return this.l().origin + '?' + this.toQueryString(search) + this.l().hash;
+	return '?' + this.param + '=' + segment;
+	// var search = this.getQueryObject();
+	// search[this.param] = segment;
+	// return this.l().origin + '?' + this.toQueryString(search) + this.l().hash;
 	// return _.first(this.l().href.split('?')) + '?' + this.param + '=' + segment;
 };
 QueryRouter.prototype.listen = function() {
 	Router.prototype.listen.apply(this, arguments);
 };
-
-
 
 /**
  * XNG Core
