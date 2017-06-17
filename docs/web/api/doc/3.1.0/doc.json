@@ -202,6 +202,12 @@
 			  "code": "api/doc/2.0.0/functions/fetch.tpl.html"
 			},
 			{
+			  "name": "_.xng.link",
+			  "language": "markup",
+			  "description": "<code>_.xng.link(&lt;route : string&gt;) : string</code> outputs the correct link depending on routing strategy. See also: <a href=\"#choosing-a-router-3-1-0\">Choosing a Router</a>",
+			  "code": "api/doc/3.1.0/functions/xng-link.tpl.html"
+			},
+			{
 			  "name": "_.xng.nl2br",
 			  "language": "markup",
 			  "description": "<code>_.xng.nl2br(&lt;text : string&gt;) : string</code>replaces <code>\\n</code> to <code>&lt;br/&gt;</code> and returns the new string",
@@ -211,12 +217,6 @@
 			  "name": "_.xng.put",
 			  "language": "markup",
 			  "description": "<code>_.xng.put(&lt;data : string&gt;, &lt;selector : string&gt;, &lt;trigger : string&gt;) : void</code> puts specific content to a given dom selector. this method is useful to assign asynchronously fetched content to a specific dom element to avoid concurrency problems. the third param is the name of a <a href=\"#listener-3-1-0\">view listener</a> to be triggered on finished rendering. as an example you can see <a href=\"#xng-fetch-3-1-0\">_.xng.fetch<a>",
-			  "code": null
-			},
-			{
-			  "name": "_.xng.link",
-			  "language": "markup",
-			  "description": "<code>_.xng.link(&lt;route : string&gt;) : string</code> outputs the correct link depending on routing strategy. See also: <a href=\"#choosing-a-router-3-1-0\">Choosing a Router</a>",
 			  "code": null
 			}
 		  ]
