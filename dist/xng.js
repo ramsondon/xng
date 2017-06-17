@@ -500,8 +500,6 @@ Xng.prototype.include = function(includes) {
 					// wait for all components to resolve this promise
 					if (++f_count === includes.length) {
 						resolve();
-						// this.routing($cur);
-						// this.router.collect($cur);
 					}
 				}.bind(this));
 		}.bind(this);
