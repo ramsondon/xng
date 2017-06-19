@@ -13,6 +13,10 @@ npm install xng
 for the docs you can look into the source or go to https://ramsondon.github.io/xng.	
 there you can follow the quickstart instructions or directly goto https://ramsondon.github.io/xng?page=documentation.
 
+Changelog available at:
+* https://ramsondon.github.io/xng/?page=changelog
+* https://github.com/ramsondon/xng/blob/master/CHANGELOG.md
+
 
 ##### lodash dependencies: (for anybody who wants to make a custom build)
 
