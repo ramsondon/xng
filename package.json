@@ -1,7 +1,7 @@
 {
   "title": "xng.js",
   "name": "xng",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "the lightweight powerful javascript template loader on top of lodash",
   "keywords": [
     "frontend",

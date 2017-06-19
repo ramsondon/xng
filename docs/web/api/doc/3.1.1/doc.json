@@ -1,0 +1,247 @@
+{
+  "version": "3.1.1",
+  "items" : [
+	{
+	  "name": "Installation",
+	  "language": "markup",
+	  "description": null,
+	  "code": "",
+	  "items": [
+		{
+		  "name": "npm, github, cdn",
+		  "language": "markup",
+		  "description": "You can install xng via <a href=\"https://www.npmjs.com/package/xng\">npm</a> or download it directly from the <a href=\"https://github.com/ramsondon/xng\">xng github repository</a>. Copy the file xng.min.js from <code>node_modules/xng/dist/xng.min.js</code> into the directory you desire. Or include the file via unpkg <a href=\"https://unpkg.com/xng@$version$/dist/xng.min.js\">https://unpkg.com/xng@$version$/dist/xng.min.js</a>",
+		  "code": "api/doc/2.0.0/text/install.tpl.html"
+		},
+		{
+		  "name": "Requirements",
+		  "language": "markup",
+		  "description": "xng requires <a href=\"https://lodash.com\">lodash</a> and is tested under the current version 4.17.4.<br/>Include requirements at the end of the body tag to prevent the browser from blocking. Moreover xng is built with the fetch api and therefore requires the browser to support it!",
+		  "code": "api/text/index.html"
+		},
+		{
+		  "name": "init xng via javascript",
+		  "language": "javascript",
+		  "description": "start your xng in your main entry point. in this website we use the github page's index.html",
+		  "code": "api/doc/2.0.0/text/run-js.tpl.js"
+		}
+	  ]
+	},
+	{
+	  "name": "Concept",
+	  "language": "markup",
+	  "description": "xng has been designed for offering a short and simple api and therefore works with only 5 HTML5 custom attributes.",
+	  "code": "api/doc/3.0.0/text/concept.tpl.html",
+	  "items": [
+		{
+		  "name": "Routing",
+		  "language": "markup",
+		  "description": "xng routing is realized by a router. The default router works with the location's hash value. The second option is to use routing via url query params instead of using the hash value to get a better seo result.",
+		  "code": "api/doc/2.0.0/text/xng-route.tpl.html",
+		  "items": [
+			{
+			  "name": "Choosing a Router",
+			  "language": "markup",
+			  "description": "you can call the <code>_.xng.using</code> method with parameter <code>HashRouter</code> or <code>QueryRouter</code> to select the router of your needs.",
+			  "code": null
+			},
+			{
+			  "name": "Hash Router",
+			  "language": "javascript",
+			  "description": "hash routing is realized via the url hash value. This means the main page will be accessible e.g. at <code>https://ramsondon.github.io/xng</code> and the changelog page will be at<code>https://ramsondon.github.io/xng/#changes</code> and <br/><code>https://ramsondon.github.io/xng/#changelog, https://ramsondon.github.io/xng/#change/log</code>",
+			  "code": "api/doc/3.1.0/text/router-hash.tpl.js"
+			},
+			{
+			  "name": "Query Router",
+			  "language": "javascript",
+			  "description": "query routing is realized via the url query param.This means the main page will be accessible e.g. at <code>https://ramsondon.github.io/xng</code> and the changelog page will be at<code>https://ramsondon.github.io/xng/?page=changes</code> and <br/><code>https://ramsondon.github.io/xng/?page=changelog, https://ramsondon.github.io/xng/?page=change/log</code>",
+			  "code": "api/doc/3.1.0/text/router-query.tpl.js"
+			}
+		  ]
+		},
+		{
+		  "name": "Views",
+		  "language": "markup",
+		  "description": "xng views are included automatically asynchronously via the \"data-xng-view\" attribute",
+		  "code": "api/doc/2.0.0/text/xng-view.tpl.html",
+		  "items": [
+			{
+			  "name": "Sample model",
+			  "language": "json",
+			  "description": "assume that we assigned the resource below to the following <a href=\"#sample-view-3-1-1\">Sample view</a>",
+			  "code": "api/doc/2.0.0/text/sample-model.json.html"
+			},
+			{
+			  "name": "Sample view",
+			  "language": "markup",
+			  "description": "view template to include at <code>views/my/inner.tpl.html</code>",
+			  "code": "api/doc/2.0.0/text/sample-template.tpl.html"
+			},
+			{
+			  "name": "Listener",
+			  "language": "markup",
+			  "description": "a view listener is a pair consisting of one \"data-xng-listener\" attribute and of one handler callback function. the callback is executed when the corresponding view has been rendered successfully",
+			  "code": "api/doc/2.0.0/text/xng-listen.tpl.html"
+			}
+		  ]
+		},
+		{
+		  "name": "Models",
+		  "language": "markup",
+		  "description": "a model or view data can be automatically assigned via the \"data-xng-model\" attribute or can be assigned directly as objects using the method: <a href=\"#xng-assign-3-1-1\"><pre>_.xng.assign(&lt;object&gt;)</pre></a>",
+		  "code": null,
+		  "items" : [
+			{
+			  "name": "Api Model (Sample)",
+			  "language": "json",
+			  "description": "assume that we have a resource <code>api/my/model.json</code> which returns the following json object",
+			  "code": "api/doc/2.0.0/text/sample-model.json.html"
+			},
+			{
+			  "name": "Model-View Assignment",
+			  "language": "markup",
+			  "description": "a model or view data can be automatically assigned via the \"data-xng-model\" attribute or can be assigned directly as objects using the method: <a href=\"#xng-assign-3-1-1\"><pre>_.xng.assign(&lt;object&gt;)</pre></a><strong>Example 1</strong> shows the model assignment as api resource.<br/><strong>Example 2</strong> shows the direct assigment of a model as javascript object.",
+			  "code": "api/doc/2.0.0/text/xng-model.tpl.html"
+			}
+		  ]
+		},
+		{
+		  "name": "Transformers",
+		  "language": "markup",
+		  "description": "Transformers are required for transforming the model source data into a json model. the transformer api is fully customizable and can easily be extended.",
+		  "code": null,
+		  "items": [
+			{
+			  "name": "data-xng-transform",
+			  "language": "markup",
+			  "description": "the <code>data-xng-transform</code> attribute can be defined as an attribute of a dom element which also has a <code>data-xng-model</code> attribute. if the attribute is present xng uses the specified transformer for model to json transformation before assigning the model to the view. If the <code>data-xng-transform</code> attribute is absent the model will automatically be transformed by a default json transformer.",
+			  "code": "api/doc/3.0.0/text/transformer-data-xng.tpl.html"
+			},
+			{
+			  "name": "Custom transformers",
+			  "language": "javascript",
+			  "description": "if a <code>data-xng-transform</code> attribute is defined it's value has to be registered using the transformer's register method. See <a href=\"#xng-transform-3-1-1\"><code>_.xng.transform(&lt;obj: Object&gt;) : xng</code></a>",
+			  "code": "api/doc/3.0.0/text/transformer-register.tpl.js"
+			},
+			{
+			  "name": "Transformer Inheritance",
+			  "language": "javascript",
+			  "description": "For fully being customizable you can implement your own Transformer Classes by inheriting the default Transformer class. A transformer must implement the <code>doTransformation(&lt;str : string&gt;) : Object</code> method.",
+			  "code": "api/doc/3.0.0/text/transformer-inheritance.tpl.js"
+			}
+		  ]
+		}
+	  ]
+	},
+	{
+	  "name": "API Reference $version$",
+	  "language": "markup",
+	  "description": "xng's javascript api is being listed in this section",
+	  "code": null,
+	  "items": [
+		{
+		  "name": "Initialization Methods",
+		  "language": "markup",
+		  "description": "all methods in this section can be used for xng initialization at startup time",
+		  "code": null,
+		  "items": [
+			{
+			  "name": "_.xng.base",
+			  "language": "markup",
+			  "description": "<code>_.xng.base(&lt;path : string&gt;) : xng</code> sets the base directory prefix for loading templates and models and returns the xng object itself for method chaining. <code>_.xng.base()</code> is an initialization method and should be called before calling <code>_.xng.run()</code>. if it is called afterwards it will not have any effect.",
+			  "code": null
+			},
+			{
+			  "name": "_.xng.listen",
+			  "language": "markup",
+			  "description": "<code>_.xng.listen(&lt;obj : object|string&gt;, &lt;cb : function&gt;) : xng</code> listens to one or more specific view rendered events and returns the xng object for method chaining. see also: <a href=\"#listener-3-1-1\">View Listener</a>",
+			  "code": null
+			},
+			{
+			  "name": "_.xng.route",
+			  "language": "markup",
+			  "description": "<code>_.xng.route(&lt;obj : str|object&gt;, [&lt;func : function&gt;]) : xng</code> listens to one or more specified routing events and returns the xng object for method chaining. this method should be called before calling <code>_.xng.run</code>. if the first parameter is a string then the second should be a function. if the first is an object the second is optional. also see <a href=\"#routing-3-1-1\">Routing</a>",
+			  "code": null
+			},
+			{
+			  "name": "_.xng.using",
+			  "language": "markup",
+			  "description": "<code>_.xng.using(&lt;obj : str&gt;) : xng</code> sets the routing strategy and returns the xng object for method chaining. this method should be called before calling <code>_.xng.run</code>. See also: <a href=\"#choosing-a-router-3-1-1\"><code>Choosing a Router</code></a>",
+			  "code": null
+			},
+			{
+			  "name": "_.xng.run",
+			  "language": "markup",
+			  "description": "<code>_.xng.run() : Promise</code> is the xng start up method. Returns a Promise which's resolve method is triggered when all rendering has been finished successfully. if you are using the <a href=\"xng-fetch-3-1-1\">fetch</a> method in a view it can not be considered for the resovle method of the returned Promise",
+			  "code": null
+			},
+			{
+			  "name": "_.xng.transform",
+			  "language": "markup",
+			  "description": "<code>_.xng.transform(&lt;obj: Object&gt;) : xng</code> registers one or more model transformers. with this method you can implement your custom model transformers. the default transformer is the json string to json transformer and must not explicitly be assigned. the \"data-xng-transform\" attribute works only together with the \"data-xng-model\" attribute. See also <a href=\"#transformers-3-1-1\">Transformers</a>",
+			  "code": null
+			}
+		  ]
+		},
+		{
+		  "name": "View Methods",
+		  "language": "markup",
+		  "description": "all methods in this section can be used in xng's modular defined custom views",
+		  "code": null,
+		  "items": [
+			{
+			  "name": "_.xng.assign",
+			  "language": "markup",
+			  "description": "<code>_.xng.assign(&lt;obj : object&gt;) : string</code> serializes an object and escapes the serialized object. this method is used to assign a model to a nested view e.g. an item of an list into a separate item's view. the following example shows the navigation view of this documentation page",
+			  "code": "docs/doc-nav.tpl.html"
+			},
+			{
+			  "name": "_.xng.fetch",
+			  "language": "markup",
+			  "description": "<code>_.xng.fetch(&lt;resource : string&gt;,&lt;type: string&gt;) : Promise</code>fetches a resource as type \"text\" or \"json\". the resource can be an absolute or relative URL. in the example below we see the asynchronous rendering of the CHANGELOG.md file of this project",
+			  "code": "api/doc/2.0.0/functions/fetch.tpl.html"
+			},
+			{
+			  "name": "_.xng.link",
+			  "language": "markup",
+			  "description": "<code>_.xng.link(&lt;route : string&gt;) : string</code> outputs the correct link depending on routing strategy. See also: <a href=\"#choosing-a-router-3-1-1\">Choosing a Router</a>",
+			  "code": "api/doc/3.1.0/functions/xng-link.tpl.html"
+			},
+			{
+			  "name": "_.xng.nl2br",
+			  "language": "markup",
+			  "description": "<code>_.xng.nl2br(&lt;text : string&gt;) : string</code>replaces <code>\\n</code> to <code>&lt;br/&gt;</code> and returns the new string",
+			  "code": null
+			},
+			{
+			  "name": "_.xng.put",
+			  "language": "markup",
+			  "description": "<code>_.xng.put(&lt;data : string&gt;, &lt;selector : string&gt;, &lt;trigger : string&gt;) : void</code> puts specific content to a given dom selector. this method is useful to assign asynchronously fetched content to a specific dom element to avoid concurrency problems. the third param is the name of a <a href=\"#listener-3-1-1\">view listener</a> to be triggered on finished rendering. as an example you can see <a href=\"#xng-fetch-3-1-1\">_.xng.fetch<a>",
+			  "code": null
+			}
+		  ]
+		},
+		{
+		  "name": "Utils",
+		  "language": "markup",
+		  "description": "here we cover all additional useful methods",
+		  "code": null,
+		  "items": [
+			{
+			  "name": "_.xng.guid",
+			  "language": "markup",
+			  "description": "<code>_.xng.guid() : string</code> returns a unique random string with the following format: <pre>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</pre> Character range is [a-z] and [0-9]",
+			  "code": null
+			}
+			,{
+			  "name": "_.xng.require",
+			  "language": "markup",
+			  "description": "<code>_.xng.require(&lt;src : array|string&gt;, &lt;attrs : object|array|string&gt;) : Promise</code> includes one or more javascript files asynchronously and returns a Promise. the second parameter <code>attrs</code> is used to define attributes of the script element",
+			  "code": null
+			}
+		  ]
+		}
+	  ]
+	}
+  ]
+}
