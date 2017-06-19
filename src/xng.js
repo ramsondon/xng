@@ -269,10 +269,16 @@ Router.prototype.listen = function() {
 	}.bind(this);
 
 	var _show = function (r) {
-		var route = this.routeMap.routes[r];
-		this.routeMap.elements.forEach(function(e) {e.style.display = 'none';});
-		route.elements.forEach(function(e) {e.style.display = '';});
-		_triggerListeners(this.listeners, route.routes);
+		if (this.routeMap.elements.length > 0 && r in this.routeMap.routes) {
+			var route = this.routeMap.routes[r];
+			this.routeMap.elements.forEach(function (e) {
+				e.style.display = 'none';
+			});
+			route.elements.forEach(function (e) {
+				e.style.display = '';
+			});
+			_triggerListeners(this.listeners, route.routes);
+		}
 	}.bind(this);
 
 	if (_in(cur)) {
