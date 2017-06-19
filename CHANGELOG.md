@@ -1,5 +1,10 @@
 # Changelog
 
+### Version 3.1.1
+
+#### compatible changes
+	* fixed empty routes error
+
 ### Version 3.1.0
 
 #### new features
