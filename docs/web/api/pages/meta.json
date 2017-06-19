@@ -1,0 +1,268 @@
+{
+  "$head": {
+	"meta": [
+	  {
+		"charset": "utf-8"
+	  },
+	  {
+		"name": "viewport",
+		"content": "width=device-width, initial-scale=1, shrink-to-fit=no"
+	  },
+	  {
+		"name": "author",
+		"content": "Matthias Schmid, M.Sc."
+	  },
+	  {
+		"name": "email",
+		"content": "ramsondon@gmail.com"
+	  },
+	  {
+		"name": "robots",
+		"content": "index, follow, all"
+	  },
+	  {
+		"name": "theme-color",
+		"content": "#222222"
+	  },
+	  {
+		"name": "msapplication-navbutton-color",
+		"content": "#222222"
+	  },
+	  {
+		"name": "apple-mobile-web-app-status-bar-style",
+		"content": "#222222"
+	  },
+	  {
+		"name": "apple-mobile-web-app-title",
+		"content": "favicon"
+	  },
+	  {
+		"name": "application-name",
+		"content": "favicon"
+	  },
+	  {
+		"name": "msapplication-TileColor",
+		"content": "#222222"
+	  },
+	  {
+		"name": "msapplication-TileImage",
+		"content": "favicon/mstile-144x144.png"
+	  },
+	  {
+		"name": "msapplication-config",
+		"content": "favicon/browserconfig.xml"
+	  },
+	  {
+		"name": "description",
+		"content": "$description$"
+	  },
+	  {
+		"name": "keywords",
+		"content": "$keywords$"
+	  },
+	  {
+		"property": "og:url",
+		"content": "$url$"
+	  },
+	  {
+		"property": "og:title",
+		"content": "$title$"
+	  },
+	  {
+		"property": "og:description",
+		"content": "$description$"
+	  },
+	  {
+		"property": "og:type",
+		"content": "website"
+	  },
+	  {
+		"property": "og:locale",
+		"content": "en_US"
+	  },
+	  {
+		"property": "og:image",
+		"content": "$image$"
+	  },
+	  {
+		"itemprop": "image",
+		"content": "$image$"
+	  },
+	  {
+		"itemprop": "name",
+		"content": "$title$"
+	  },
+	  {
+		"itemprop": "description",
+		"content": "$description$"
+	  },
+	  {
+		"name": "twitter:title",
+		"content": "$title$"
+	  },
+	  {
+		"name": "twitter:description",
+		"content": "$description$"
+	  },
+	  {
+		"name": "twitter:image",
+		"content": "$image$"
+	  },
+	  {
+		"name": "twitter:site",
+		"content": "@ramsondon"
+	  },
+	  {
+		"name": "twitter:creator",
+		"content": "@ramsondon"
+	  },
+	  {
+		"name": "twitter:card",
+		"content": "summary"
+	  }
+	],
+	"link": [
+	  {
+		"rel": "apple-touch-icon",
+		"sizes": "57x57",
+		"href": "favicon/apple-touch-icon-57x57.png"
+	  },
+	  {
+		"rel": "apple-touch-icon",
+		"sizes": "60x60",
+		"href": "favicon/apple-touch-icon-60x60.png"
+	  },
+	  {
+		"rel": "apple-touch-icon",
+		"sizes": "72x72",
+		"href": "favicon/apple-touch-icon-72x72.png"
+	  },
+	  {
+		"rel": "apple-touch-icon",
+		"sizes": "76x76",
+		"href": "favicon/apple-touch-icon-76x76.png"
+	  },
+	  {
+		"rel": "apple-touch-icon",
+		"sizes": "114x114",
+		"href": "favicon/apple-touch-icon-114x114.png"
+	  },
+	  {
+		"rel": "apple-touch-icon",
+		"sizes": "120x120",
+		"href": "favicon/apple-touch-icon-120x120.png"
+	  },
+	  {
+		"rel": "apple-touch-icon",
+		"sizes": "144x144",
+		"href": "favicon/apple-touch-icon-144x144.png"
+	  },
+	  {
+		"rel": "apple-touch-icon",
+		"sizes": "152x152",
+		"href": "favicon/apple-touch-icon-152x152.png"
+	  },
+	  {
+		"rel": "apple-touch-icon",
+		"sizes": "180x180",
+		"href": "favicon/apple-touch-icon-180x180.png"
+	  },
+	  {
+		"rel": "icon",
+		"type": "image/png",
+		"sizes": "32x32",
+		"href": "favicon/favicon-32x32.png"
+	  },
+	  {
+		"rel": "icon",
+		"type": "image/png",
+		"sizes": "192x192",
+		"href": "favicon/android-chrome-192x192.png"
+	  },
+	  {
+		"rel": "icon",
+		"type": "image/png",
+		"sizes": "16x16",
+		"href": "favicon/favicon-16sx16.png"
+	  },
+	  {
+		"rel": "shortcut icon",
+		"href": "favicon/favicon.ico"
+	  },
+	  {
+		"rel": "manifest",
+		"href": "favicon/manifest.json"
+	  },
+	  {
+		"rel": "mask-icon",
+		"href": "favicon/safari-pinned-tab.svg",
+		"color": "#222222"
+	  },
+	  {
+		"rel": "stylesheet",
+		"type": "text/css",
+		"href": "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css",
+		"integrity": "sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ",
+		"crossorigin": "anonymous"
+	  },
+	  {
+		"rel": "stylesheet",
+		"type": "text/css",
+		"href": "https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism.min.css"
+	  },
+	  {
+		"rel": "stylesheet",
+		"type": "text/css",
+		"href": "https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-coy.min.css"
+	  },
+	  {
+		"rel": "stylesheet",
+		"type": "text/css",
+		"href": "https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/plugins/line-numbers/prism-line-numbers.css"
+	  },
+	  {
+		"rel": "stylesheet",
+		"type": "text/css",
+		"href": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+	  },
+	  {
+		"rel": "stylesheet",
+		"href": "https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
+	  },
+	  {
+		"rel": "stylesheet",
+		"href": "https://fonts.googleapis.com/css?family=Droid+Sans"
+	  },
+	  {
+		"rel": "stylesheet",
+		"href": "docs/web/css/creative.min.css"
+	  }
+	],
+	"title": "$title$"
+  },
+  "$map": {
+	"$global": {
+	  "$image$": "https://ramsondon.github.io/xng/docs/web/img/xng.png"
+	},
+	"$pages": {
+	  ".": {
+		"$title$": "xng.js async template loader engine",
+		"$description$": "the lightweight powerful javascript template loader on top of lodash",
+		"$keywords$": "xng, javascript, js, framework, frontend, template",
+		"$url$": "https://ramsondon.github.io/xng"
+	  },
+	  "changelog": {
+		"$title$": "Changelog: xng.js async template loader engine",
+		"$description$": "changelog of all xng.js (the lightweight javascript template loader on top of lodash) versions",
+		"$keywords$": "xng, javascript, js, framework, frontend, template, changelog",
+		"$url$": "https://ramsondon.github.io/xng/?page=changelog"
+	  },
+	  "docs": {
+		"$title$": "Documentation: xng.js async template loader engine",
+		"$description$": "Documentation of all xng.js (the lightweight javascript template loader on top of lodash) versions",
+		"$keywords$": "xng, javascript, js, framework, frontend, template, documentation",
+		"$url$": "https://ramsondon.github.io/xng/?page=docs"
+	  }
+	}
+  }
+}
