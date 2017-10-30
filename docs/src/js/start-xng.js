@@ -21,8 +21,8 @@
 				}
 			}
 		})
-		.using("QueryRouter")
-		// .using("HashRouter")
+		//.using("QueryRouter")
+		.using("HashRouter")
 		.transform({
 			"yml": function(str) {
 				return YAML.parse(str);
