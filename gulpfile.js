@@ -1,5 +1,4 @@
 var gulp = require('gulp');
-var sass = require('gulp-sass');
 var browserSync = require('browser-sync').create();
 var header = require('gulp-header');
 var cleanCSS = require('gulp-clean-css');
@@ -8,6 +7,7 @@ var uglify = require('gulp-uglify');
 var umd = require('gulp-umd');
 var pkg = require('./package.json');
 var clean = require('gulp-clean');
+const sass = require('gulp-sass')(require('sass'));
 
 
 // Set the banner content
@@ -21,54 +21,30 @@ var banner = ['/*!\n',
 
 
 // Compiles SCSS files from /scss into /css
-gulp.task('sass', function() {
-    gulp.src('docs/src/scss/creative.scss')
+gulp.task('sass', gulp.series(function() {
+    return gulp.src('docs/src/scss/creative.scss')
         .pipe(sass())
         .pipe(header(banner, { pkg: pkg }))
         .pipe(gulp.dest('docs/src/css'))
         .pipe(browserSync.reload({
             stream: true
-        }))
-});
+        }));
+}));
 
 // Minify compiled CSS
-gulp.task('minify-css', ['sass'], function() {
-    gulp.src('docs/src/css/creative.css')
+gulp.task('minify-css', gulp.series('sass', function() {
+    return gulp.src('docs/src/css/creative.css')
         .pipe(cleanCSS({ compatibility: 'ie8' }))
         .pipe(rename({ suffix: '.min' }))
         .pipe(gulp.dest('docs/web/css'))
         .pipe(browserSync.reload({
             stream: true
         }));
-});
+}));
 
-// Minify custom JS
-gulp.task('minify-js', ['umd'],function() {
-	gulp.src(['docs/src/js/**/*.js'])
-    	.pipe(uglify())
-        .pipe(header(banner, { pkg: pkg }))
-        .pipe(rename({ suffix: '.min' }))
-        .pipe(gulp.dest('docs/web/js'))
-        .pipe(browserSync.reload({
-            stream: true
-        }));
+// UMD
 
-	gulp.src(['dist/xng.js'])
-    	.pipe(uglify())
-        .pipe(header(banner, { pkg: pkg }))
-        .pipe(rename({ suffix: '.min' }))
-        .pipe(gulp.dest('dist'))
-        .pipe(browserSync.reload({
-            stream: true
-        }));
-});
-
-// gulp.task('copy', function() {
-// 	return gulp.src('docs/web/js/xng.min.js')
-// 		.pipe(gulp.dest('dist'));
-// });
-
-gulp.task('umd', function(file) {
+gulp.task('umd', gulp.series(function(file) {
 	var umdDefinition = {
 		dependencies: function(file	) {
 			return [
@@ -90,7 +66,34 @@ gulp.task('umd', function(file) {
 		.pipe(umd(umdDefinition))
 		.pipe(gulp.dest('dist'));
 
-});
+}));
+
+
+// Minify custom JS
+gulp.task('minify-js', gulp.series('umd', function() {
+	return gulp.src(['docs/src/js/**/*.js'])
+    	.pipe(uglify())
+        .pipe(header(banner, { pkg: pkg }))
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(gulp.dest('docs/web/js'))
+        .pipe(browserSync.reload({
+            stream: true
+        }));
+
+	gulp.src(['dist/xng.js'])
+    	.pipe(uglify())
+        .pipe(header(banner, { pkg: pkg }))
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(gulp.dest('dist'))
+        .pipe(browserSync.reload({
+            stream: true
+        }));
+}));
+
+// gulp.task('copy', function() {
+// 	return gulp.src('docs/web/js/xng.min.js')
+// 		.pipe(gulp.dest('dist'));
+// });
 
 // gulp.task('clean', function () {
 // 	return gulp.src('docs/web/js/xng.min.js', {read: false})
@@ -98,19 +101,19 @@ gulp.task('umd', function(file) {
 // });
 
 // Default task
-gulp.task('default', ['sass', 'minify-css', 'umd', 'minify-js']);
+gulp.task('default', gulp.series('sass', 'minify-css', 'umd', 'minify-js'));
 
 // Configure the browserSync task
-gulp.task('browserSync', function() {
+gulp.task('browserSync', gulp.series(function() {
     browserSync.init({
         server: {
-            baseDir: ''
+            baseDir: './'
         }
     })
-});
+}));
 
 // Dev task with browserSync
-gulp.task('dev', ['browserSync', 'sass', 'minify-css', 'umd', 'minify-js'], function() {
+gulp.task('dev', gulp.series('sass', 'minify-css', 'umd', 'minify-js', 'browserSync', function() {
     gulp.watch('docs/src/scss/*.scss', ['sass']);
     gulp.watch('docs/src/css/*.css', ['minify-css']);
     gulp.watch('docs/src/js/*.js', ['minify-js']);
@@ -118,4 +121,5 @@ gulp.task('dev', ['browserSync', 'sass', 'minify-css', 'umd', 'minify-js'], func
     // Reloads the browser whenever HTML or JS files change
     gulp.watch('*.html', browserSync.reload);
     gulp.watch('docs/js/**/*.js', browserSync.reload);
-});
+
+}));

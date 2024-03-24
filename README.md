@@ -42,3 +42,8 @@ Changelog available at:
 * _.trimEnd()
 * _.trimStart()
 * _.unescape()
+
+
+# Development
+
+npm install

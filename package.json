@@ -1,7 +1,7 @@
 {
   "title": "xng.js",
   "name": "xng",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "the lightweight powerful javascript template loader on top of lodash",
   "keywords": [
     "frontend",
@@ -27,22 +27,23 @@
     "type": "git",
     "url": "https://github.com/ramsondon/xng.git"
   },
-  "dependencies": {
-    "lodash": "^4.17.4"
-  },
   "scripts": {
     "test": "jest"
   },
   "devDependencies": {
-    "browser-sync": "^2.18.8",
-    "gulp": "^3.9.1",
-    "gulp-clean": "^0.3.2",
-    "gulp-clean-css": "3.2.0",
-    "gulp-header": "1.8.8",
-    "gulp-rename": "^1.2.2",
-    "gulp-sass": "^3.1.0",
-    "gulp-uglify": "^2.1.2",
-    "gulp-umd": "^0.2.1",
-    "jest": "^20.0.4"
+    "browser-sync": "^3.0.2",
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-header": "^2.0.9",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^5.1.0",
+    "gulp-uglify": "^3.0.2",
+    "gulp-umd": "^2.0.0",
+    "jest": "^29.7.0",
+    "sass": "^1.72.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
   }
 }

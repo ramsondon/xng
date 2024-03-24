@@ -1,7 +1,7 @@
 
 $loader-dimension: 160px;
 $loader-speed: 1.5s;
-$loader-anim-delay: $loader-speed/3;
+$loader-anim-delay: calc($loader-speed / 3);
 
 @-webkit-keyframes uil-ripple {
   0% {
