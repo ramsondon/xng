@@ -1,5 +1,12 @@
 # Changelog
 
+### Version 3.1.2
+
+#### compatible changes
+    * updated lodash to version 4.17.21
+    * updated development dependencies
+    * added package-lock.json
+
 ### Version 3.1.1
 
 #### compatible changes
