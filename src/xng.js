@@ -1,4 +1,4 @@
-var _randChar = function() {
+const _randChar = function() {
 	"use strict";
 	return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 };
@@ -6,7 +6,7 @@ var _randChar = function() {
 const _addListener = function(listeners, key, cb) {
 	"use strict";
 	if (_.isObject(key) && _.isUndefined(cb)) {
-		for (var k in key) {
+		for (let k in key) {
 			_addListener(listeners, k, key[k]);
 		}
 	} else if (_.isString(key) && _.isFunction(cb)) {
@@ -263,8 +263,6 @@ Router.prototype.link = function(segment) {
 	return segment;
 };
 Router.prototype.listen = function() {
-	var cur = this.current();
-	var _in  = function (r) {
 	const cur = this.current();
 	const _in  = function (r) {
 		return r in this.routeMap.routes;
@@ -525,7 +523,6 @@ Xng.prototype.include = function(includes) {
 		}.bind(this);
 
 		_.forEach(includes, function($cur) {
-			var directive = this.parseDirectives($cur);
 			const directive = this.parseDirectives($cur);
 			if (directive.model) {
 				this.readAssignment(directive.model, this.transformers[directive.transform])
@@ -565,7 +562,7 @@ Xng.prototype.include = function(includes) {
  */
 Xng.prototype.nl2br = function(str, is_xhtml) {
 	if (_.isString(str)) {
-		var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+		const breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
 		return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 	}
 	return str;
@@ -581,7 +578,7 @@ Xng.prototype.assign = function (obj) {
  * @return {Promise}
  */
 Xng.prototype.readAssignment = function (obj, transformer) {
-	var str = _.unescape(obj);
+	let str = _.unescape(obj);
 	if (_.startsWith(str, this.ASSIGNMENT_SYMBOL)) {
 		str = str.replace(this.ASSIGNMENT_SYMBOL, "");
 		return transformer.transform(str);
@@ -615,11 +612,9 @@ Xng.prototype.route = function(route, cb) {
  */
 Xng.prototype.transform = function (format, transformer) {
 	if (_.isString(format) && _.isFunction(transformer)) {
-		var tclass = this.createTransformer(transformer);
 		const tclass = this.createTransformer(transformer);
 		this.transform(format, new tclass());
 	} else if (_.isObject(format) && _.isUndefined(transformer)) {
-		for (var t in format) {
 		for (let t in format) {
 			this.transform(t, format[t]);
 		}
@@ -661,13 +656,11 @@ Xng.prototype.require = function (src, attrs) {
 				js.setAttribute(attrs, '');
 			}
 			if (_.isObject(attrs)) {
-				for (var a in attrs) {
 				for (let a in attrs) {
 					js.setAttribute(a, attrs[a]);
 				}
 			}
 			if (_.isArray(attrs)) {
-				for (var i=0; i < attrs.length; i++) {
 				for (let i=0; i < attrs.length; i++) {
 					js.setAttribute(attrs[i], '');
 				}
@@ -692,9 +685,8 @@ Xng.prototype.require = function (src, attrs) {
 		if (_.isString(src)) {
 			load(document, "script", src, resolve);
 		} else {
-			var readyCount = 0;
-			_.forEach(src, function(s, idx) {
 			let readyCount = 0;
+			_.forEach(src, function(s, idx) {
 				load(document, "script", s, function() {
 					if (readyCount++ >= src.length-1) {
 						resolve(src);

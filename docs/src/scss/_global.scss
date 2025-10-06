@@ -1,4 +1,8 @@
 // Global styling for this template
+@use 'sass:color';
+@use '../scss/variables' as *;
+@use '../scss/mixins' as mixins;
+
 html,
 body {
     width: 100%;
@@ -6,7 +10,7 @@ body {
 }
 
 body {
-    @include serif-font;
+    @include mixins.serif-font;
     background-color: $gray-darker;
 }
 
@@ -20,7 +24,7 @@ hr.light {
     border-color: white;
 }
 
-@include hyperlink($theme-primary);
+@include mixins.hyperlink($theme-primary);
 
 h1,
 h2,
@@ -28,7 +32,7 @@ h3,
 h4,
 h5,
 h6 {
-    @include sans-serif-font;
+    @include mixins.sans-serif-font;
 }
 
 p {
@@ -39,7 +43,7 @@ p {
 
 
 .text-faded {
-    color: fade-out(white, .3);
+    color: color.adjust(white, $alpha: -.3);
 }
 
 
@@ -48,7 +52,7 @@ p {
 }
 .bg-primary {
     background-color: $theme-primary !important;
-    @include hyperlink($gray-light);
+    @include mixins.hyperlink($gray-light);
 }
 .bg-dark {
     color: white;

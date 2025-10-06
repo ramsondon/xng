@@ -1,6 +1,6 @@
 /*!
- * ramsondon.github.io - xng.js v3.1.2 (https://ramsondon.github.io/xng)
- * Copyright 2017 -2024 Matthias Schimd <ramsondon@gmail.com> (https://ramsondon.github.io)
+ * ramsondon.github.io - xng.js v4.0.0 (https://ramsondon.github.io/xng)
+ * Copyright 2017 -2025 Matthias Schimd <ramsondon@gmail.com> (https://ramsondon.github.io)
  * Licensed under MIT (https://github.com/ramsondon/xng/blob/master/LICENSE)
  */
 html,
@@ -11,7 +11,7 @@ body {
 
 body {
   font-family: "Droid Sans", "Helvetica Neue", Arial, sans-serif;
-  background-color: #222222;
+  background-color: black;
 }
 
 hr {
@@ -31,7 +31,7 @@ a {
   transition: all 0.2s;
 }
 a:hover, a:focus {
-  color: #52bc50;
+  color: rgb(61.8719008264, 156.9214876033, 60.0785123967);
 }
 
 h1,
@@ -61,18 +61,18 @@ p {
   background-color: #52BC50 !important;
 }
 .bg-primary a {
-  color: #777777;
+  color: black;
   -webkit-transition: all 0.2s;
   -moz-transition: all 0.2s;
   transition: all 0.2s;
 }
 .bg-primary a:hover, .bg-primary a:focus {
-  color: #777777;
+  color: hsl(0, 0%, -10%);
 }
 
 .bg-dark {
   color: white;
-  background-color: #222222 !important;
+  background-color: black !important;
 }
 
 section {
@@ -89,13 +89,13 @@ section {
 
 ::-moz-selection {
   color: white;
-  background: #222222;
+  background: black;
   text-shadow: none;
 }
 
 ::selection {
   color: white;
-  background: #222222;
+  background: black;
   text-shadow: none;
 }
 
@@ -110,11 +110,11 @@ img::-moz-selection {
 }
 
 body {
-  -webkit-tap-highlight-color: #222222;
+  -webkit-tap-highlight-color: black;
 }
 
 nav.navbar.fixed-top {
-  border-color: rgba(34, 34, 34, 0.05);
+  border-color: rgba(0, 0, 0, 0.05);
   background-color: white;
   font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
   -webkit-transition: all 0.2s;
@@ -128,20 +128,20 @@ nav.navbar.fixed-top .navbar-brand {
   font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
 }
 nav.navbar.fixed-top .navbar-brand:hover, nav.navbar.fixed-top .navbar-brand:focus {
-  color: #52bc50;
+  color: rgb(61.8719008264, 156.9214876033, 60.0785123967);
 }
 nav.navbar.fixed-top .navbar-toggle {
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
-  color: #222222;
+  color: black;
 }
 nav.navbar.fixed-top .navbar-nav > li.nav-item > a.nav-link,
 nav.navbar.fixed-top .navbar-nav > li.nav-item > a.nav-link:focus {
   font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
-  color: #222222;
+  color: black;
 }
 nav.navbar.fixed-top .navbar-nav > li.nav-item > a.nav-link:hover,
 nav.navbar.fixed-top .navbar-nav > li.nav-item > a.nav-link:focus:hover {
@@ -176,7 +176,7 @@ nav.navbar.fixed-top .navbar-nav > li.nav-item > a.nav-link:focus.active:hover {
     color: white;
   }
   nav.navbar.fixed-top.navbar-shrink {
-    border-color: rgba(34, 34, 34, 0.05);
+    border-color: rgba(0, 0, 0, 0.05);
     background-color: white;
   }
   nav.navbar.fixed-top.navbar-shrink .navbar-brand {
@@ -184,11 +184,11 @@ nav.navbar.fixed-top .navbar-nav > li.nav-item > a.nav-link:focus.active:hover {
     color: #52BC50;
   }
   nav.navbar.fixed-top.navbar-shrink .navbar-brand:hover, nav.navbar.fixed-top.navbar-shrink .navbar-brand:focus {
-    color: #52bc50;
+    color: rgb(61.8719008264, 156.9214876033, 60.0785123967);
   }
   nav.navbar.fixed-top.navbar-shrink .navbar-nav > li.nav-item > a.nav-link,
   nav.navbar.fixed-top.navbar-shrink .navbar-nav > li.nav-item > a.nav-link:focus {
-    color: #222222;
+    color: black;
   }
   nav.navbar.fixed-top.navbar-shrink .navbar-nav > li.nav-item > a.nav-link:hover,
   nav.navbar.fixed-top.navbar-shrink .navbar-nav > li.nav-item > a.nav-link:focus:hover {
@@ -202,7 +202,7 @@ header.masthead {
   min-height: auto;
   text-align: center;
   color: white;
-  background-color: #222222;
+  background-color: black;
   background-position: center;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -292,7 +292,7 @@ header.masthead .header-content .header-content-inner p {
 #doc-content .nav-wrapper ol.nav li.nav-item a {
   font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
   font-size: 10px;
-  color: #222222;
+  color: black;
   border-bottom: 1px dotted;
 }
 #doc-content .nav-wrapper ol.nav li.nav-item a.title {
@@ -301,14 +301,14 @@ header.masthead .header-content .header-content-inner p {
 #doc-content .nav-wrapper ol.nav li.nav-item:before {
   font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
   font-size: 10px;
-  color: #222222;
+  color: black;
   content: counters(item, ".");
   counter-increment: item;
   padding-right: 5px;
 }
 #doc-content h4 {
   display: block;
-  background-color: #eeeeee;
+  background-color: black;
   padding-top: 28px;
   padding-bottom: 28px;
   padding-left: 20px;
@@ -317,7 +317,7 @@ header.masthead .header-content .header-content-inner p {
 }
 #doc-content h5 {
   display: block;
-  background-color: #eeeeee;
+  background-color: black;
   padding-top: 25px;
   padding-bottom: 25px;
   padding-left: 20px;
@@ -326,7 +326,7 @@ header.masthead .header-content .header-content-inner p {
 }
 #doc-content h6 {
   display: block;
-  background-color: #eeeeee;
+  background-color: black;
   padding-top: 22px;
   padding-bottom: 22px;
   padding-left: 20px;
@@ -335,7 +335,7 @@ header.masthead .header-content .header-content-inner p {
 }
 #doc-content h7 {
   display: block;
-  background-color: #eeeeee;
+  background-color: black;
   padding-top: 19px;
   padding-bottom: 19px;
   padding-left: 20px;
@@ -344,7 +344,7 @@ header.masthead .header-content .header-content-inner p {
 }
 #doc-content h8 {
   display: block;
-  background-color: #eeeeee;
+  background-color: black;
   padding-top: 16px;
   padding-bottom: 16px;
   padding-left: 20px;
@@ -353,7 +353,7 @@ header.masthead .header-content .header-content-inner p {
 }
 #doc-content h9 {
   display: block;
-  background-color: #eeeeee;
+  background-color: black;
   padding-top: 13px;
   padding-bottom: 13px;
   padding-left: 20px;
@@ -362,7 +362,7 @@ header.masthead .header-content .header-content-inner p {
 }
 #doc-content h10 {
   display: block;
-  background-color: #eeeeee;
+  background-color: black;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 20px;
@@ -444,12 +444,12 @@ footer {
 }
 footer .footer-below {
   padding: 10px;
-  background-color: #222222;
-  color: #eeeeee;
+  background-color: black;
+  color: black;
 }
 footer .footer-above {
   padding: 10px;
-  background-color: #333333;
+  background-color: black;
 }
 
 .call-to-action {
@@ -469,7 +469,7 @@ footer .footer-above {
 }
 .scroll-top .btn {
   font-size: 20px;
-  background-color: #222222;
+  background-color: black;
   color: white;
   width: 50px;
   height: 50px;
@@ -623,12 +623,12 @@ pre[class*=language-]:after, pre[class*=language-]:before {
 #changelog-content h3,
 #changelog-content h4 {
   padding: 10px !important;
-  background-color: #eeeeee;
+  background-color: black;
 }
 #changelog-content h4 {
   padding-top: 5px !important;
   padding-bottom: 5px !important;
-  border-bottom: 1px dotted #222222;
+  border-bottom: 1px dotted black;
 }
 
 .text-primary {
@@ -641,29 +641,29 @@ pre[class*=language-]:after, pre[class*=language-]:before {
 }
 
 .btn-default {
-  color: #222222;
+  color: black;
   border-color: white;
   background-color: white;
 }
 .btn-default:focus, .btn-default.focus {
-  color: #222222;
-  border-color: #bfbfbf;
-  background-color: #e6e6e6;
+  color: black;
+  border-color: rgb(191.25, 191.25, 191.25);
+  background-color: rgb(229.5, 229.5, 229.5);
 }
 .btn-default:hover {
-  color: #222222;
-  border-color: #e0e0e0;
-  background-color: #e6e6e6;
+  color: black;
+  border-color: rgb(224.4, 224.4, 224.4);
+  background-color: rgb(229.5, 229.5, 229.5);
 }
 .btn-default:active, .btn-default.active, .open > .btn-default.dropdown-toggle {
-  color: #222222;
-  border-color: #e0e0e0;
-  background-color: #e6e6e6;
+  color: black;
+  border-color: rgb(224.4, 224.4, 224.4);
+  background-color: rgb(229.5, 229.5, 229.5);
 }
 .btn-default:active:hover, .btn-default:active:focus, .btn-default:active.focus, .btn-default.active:hover, .btn-default.active:focus, .btn-default.active.focus, .open > .btn-default.dropdown-toggle:hover, .open > .btn-default.dropdown-toggle:focus, .open > .btn-default.dropdown-toggle.focus {
-  color: #222222;
-  border-color: #bfbfbf;
-  background-color: #d4d4d4;
+  color: black;
+  border-color: rgb(191.25, 191.25, 191.25);
+  background-color: rgb(211.65, 211.65, 211.65);
 }
 .btn-default:active, .btn-default.active, .open > .btn-default.dropdown-toggle {
   background-image: none;
@@ -674,7 +674,7 @@ pre[class*=language-]:after, pre[class*=language-]:before {
 }
 .btn-default .badge {
   color: white;
-  background-color: #222222;
+  background-color: black;
 }
 
 .btn-primary {
@@ -684,23 +684,23 @@ pre[class*=language-]:after, pre[class*=language-]:before {
 }
 .btn-primary:focus, .btn-primary.focus {
   color: white;
-  border-color: #286627;
-  background-color: #3e9d3c;
+  border-color: rgb(40.0599173554, 101.6012396694, 38.8987603306);
+  background-color: rgb(61.8719008264, 156.9214876033, 60.0785123967);
 }
 .btn-primary:hover {
   color: white;
-  border-color: #3b9639;
-  background-color: #3e9d3c;
+  border-color: rgb(58.9636363636, 149.5454545455, 57.2545454545);
+  background-color: rgb(61.8719008264, 156.9214876033, 60.0785123967);
 }
 .btn-primary:active, .btn-primary.active, .open > .btn-primary.dropdown-toggle {
   color: white;
-  border-color: #3b9639;
-  background-color: #3e9d3c;
+  border-color: rgb(58.9636363636, 149.5454545455, 57.2545454545);
+  background-color: rgb(61.8719008264, 156.9214876033, 60.0785123967);
 }
 .btn-primary:active:hover, .btn-primary:active:focus, .btn-primary:active.focus, .btn-primary.active:hover, .btn-primary.active:focus, .btn-primary.active.focus, .open > .btn-primary.dropdown-toggle:hover, .open > .btn-primary.dropdown-toggle:focus, .open > .btn-primary.dropdown-toggle.focus {
   color: white;
-  border-color: #286627;
-  background-color: #348332;
+  border-color: rgb(40.0599173554, 101.6012396694, 38.8987603306);
+  background-color: rgb(51.6929752066, 131.1053719008, 50.1946280992);
 }
 .btn-primary:active, .btn-primary.active, .open > .btn-primary.dropdown-toggle {
   background-image: none;

@@ -1,3 +1,7 @@
+@use 'sass:color';
+@use './variables.scss' as *;
+@use './mixins.scss' as mixins;
+
 // Styling for the portfolio section
 .portfolio-box {
     position: relative;
@@ -13,8 +17,8 @@
         text-align: center;
         opacity: 0;
         color: white;
-        background: fade-out($theme-primary, .1);
-        @include transition-all;
+        background: color.adjust($theme-primary, $alpha: -.1);
+        @include mixins.transition-all;
         .portfolio-box-caption-content {
             position: absolute;
             top: 50%;
@@ -24,7 +28,7 @@
             .project-category,
             .project-name {
                 padding: 0 15px;
-                @include sans-serif-font;
+                @include mixins.sans-serif-font;
             }
             .project-category {
                 font-size: 14px;

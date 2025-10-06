@@ -1,3 +1,7 @@
+@use 'sass:color';
+@use './variables.scss' as *;
+@use './mixins.scss' as mixins;
+
 // Styling for the masthead
 header.masthead {
     position: relative;
@@ -8,7 +12,7 @@ header.masthead {
     background-color: $header-bg-color;
     //background-image: url('../img/header4.jpg');
     background-position: center;
-    @include background-cover;
+    @include mixins.background-cover;
     .header-content {
         position: relative;
         width: 100%;
@@ -29,7 +33,7 @@ header.masthead {
                 font-size: 16px;
                 font-weight: 300;
                 margin-bottom: 50px;
-                color: fade-out(white, .3);
+                color: color.adjust(white, $alpha: -.3);
             }
         }
     }
