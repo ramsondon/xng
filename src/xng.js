@@ -3,7 +3,7 @@ var _randChar = function() {
 	return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 };
 
-var _addListener = function(listeners, key, cb) {
+const _addListener = function(listeners, key, cb) {
 	"use strict";
 	if (_.isObject(key) && _.isUndefined(cb)) {
 		for (var k in key) {
@@ -14,7 +14,7 @@ var _addListener = function(listeners, key, cb) {
 	}
 };
 
-var _triggerListeners = function(listeners, key, param) {
+const _triggerListeners = function(listeners, key, param) {
 	"use strict";
 	if (_.isString(key) && key in listeners) {
 		listeners[key](key, param);
@@ -33,7 +33,7 @@ var _triggerListeners = function(listeners, key, param) {
  *
  * @constructor
  */
-var Cache = function () {
+const Cache = function () {
 	this.memory = {};
 };
 
@@ -58,14 +58,14 @@ Cache.prototype.get = function (key) {
  *
  * @constructor
  */
-var ResourceCache = function () {
+const ResourceCache = function () {
 	this.marker = new Cache();
 	this.memory = new Cache();
 };
 
 ResourceCache.prototype.cache = function (resource, resourceFetcher) {
 	return new Promise(function (resolve, reject) {
-		var key = _.snakeCase(resource);
+		const key = snakeCase(resource);
 		if (this.marker.fault()) this.marker.put(key, resourceFetcher.fetch(resource));
 		this.marker.get(key).then(function(response) {
 			if (this.memory.fault(key)) this.memory.put(key, response);
@@ -92,7 +92,7 @@ ResourceCache.prototype.get = function (key) {
  * @param urlPrefix
  * @constructor
  */
-var ResourceFetcher = function(transformer, urlPrefix) {
+const ResourceFetcher = function(transformer, urlPrefix) {
 	"use strict";
 	this.transformer = transformer || new TextTransformer();
 	this.url_prefix = urlPrefix || "";
@@ -108,7 +108,7 @@ ResourceFetcher.prototype.parse = function (resource) {
 
 ResourceFetcher.prototype.fetch = function (resource) {
 	return new Promise(function (resolve, reject) {
-		var url = this.parse(resource);
+		const url = this.parse(resource);
 
 		fetch(url).then(function(response) {
 			if (response.status !== 200) {
@@ -135,14 +135,14 @@ ResourceFetcher.prototype.fetch = function (resource) {
  * @param model
  * @constructor
  */
-var Renderer = function(el, model) {
+const Renderer = function(el, model) {
 	this.el = el || document.createElement('div');
 	this.model = model || {$model: {}};
 	this.afterRenderHtmlListeners = {};
 };
 
 Renderer.prototype.renderHtml = function(html) {
-	var s = document.createElement('script');
+	const s = document.createElement('script');
 	s.type = 'text/x-xng-tpl';
 	s.innerHTML = html;
 	this.el.appendChild(s);
@@ -159,7 +159,7 @@ Renderer.prototype.afterRenderHtml = function(func) {
  * DefaultTransformer
  * @constructor
  */
-var DefaultTransformer = function() {};
+const DefaultTransformer = function() {};
 DefaultTransformer.prototype.doTransformation = function(str) {
 	return str;
 };
@@ -173,11 +173,11 @@ DefaultTransformer.prototype.transform = function(str) {
 	}.bind(this));
 };
 
-var TextTransformer = function () {};
+const TextTransformer = function () {};
 TextTransformer.prototype = Object.create(DefaultTransformer.prototype);
 
 
-var JsonTransformer = function () {};
+const JsonTransformer = function () {};
 JsonTransformer.prototype = Object.create(DefaultTransformer.prototype);
 JsonTransformer.prototype.doTransformation = function (str) {
 	return JSON.parse(str);
@@ -189,7 +189,7 @@ JsonTransformer.prototype.doTransformation = function (str) {
  * @param attr the data-xng-route attribute
  * @constructor
  */
-var Router = function (attr) {
+const Router = function (attr) {
 	this.attribute = attr;
 	this.redirectOnInvalid = true;
 	this.routeMap = {
@@ -230,7 +230,7 @@ Router.prototype.select = function(el) {
 	return el.querySelectorAll('[' + this.attribute + ']');
 };
 Router.prototype.collect = function(el) {
-	var routes = this.select(el);
+	const routes = this.select(el);
 
 	_.forEach(routes, function(element) {
 
@@ -240,7 +240,7 @@ Router.prototype.collect = function(el) {
 			})) {
 			this.routeMap.elements.push(element);
 
-			var av = element.getAttribute(this.attribute);
+			const av = element.getAttribute(this.attribute);
 			this.parse(av).forEach(function (r) {
 				if ( ! (r in this.routeMap.routes)) {
 					this.routeMap.routes[r] = {
@@ -265,12 +265,14 @@ Router.prototype.link = function(segment) {
 Router.prototype.listen = function() {
 	var cur = this.current();
 	var _in  = function (r) {
+	const cur = this.current();
+	const _in  = function (r) {
 		return r in this.routeMap.routes;
 	}.bind(this);
 
-	var _show = function (r) {
+	const _show = function (r) {
 		if (this.routeMap.elements.length > 0 && r in this.routeMap.routes) {
-			var route = this.routeMap.routes[r];
+			const route = this.routeMap.routes[r];
 			this.routeMap.elements.forEach(function (e) {
 				e.style.display = 'none';
 			});
@@ -299,7 +301,7 @@ Router.prototype.listen = function() {
  * @param attr the data-xng-route attribute
  * @constructor
  */
-var HashRouter = function(attr) {
+const HashRouter = function(attr) {
 	Router.call(this, attr);
 };
 HashRouter.prototype = Object.create(Router.prototype);
@@ -328,13 +330,13 @@ HashRouter.prototype.listen = function() {
  * @param attr the data-xng-route attribute
  * @constructor
  */
-var QueryRouter = function(attr) {
+const QueryRouter = function(attr) {
 	Router.call(this, attr);
 	this.param = "page";
 };
 QueryRouter.prototype = Object.create(Router.prototype);
 QueryRouter.prototype.read = function() {
-	var o = this.getQueryObject();
+	const o = this.getQueryObject();
 	return this.param in o ? o.page : "";
 };
 QueryRouter.prototype.normalize = function (path) {
@@ -344,16 +346,16 @@ QueryRouter.prototype.redirect = function(path) {
 	this.l().search = path;
 };
 QueryRouter.prototype.getQueryObject = function() {
-	var search = decodeURIComponent(this.l().search.substring(1));
+	const search = decodeURIComponent(this.l().search.substring(1));
 
 	if (search.length <= 0) return {};
 	return JSON.parse('{"' + search.replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
 };
 QueryRouter.prototype.toQueryString = function(obj, prefix) {
-	var str = [], p;
-	for(p in obj) {
+	const str = [];
+	for(let p in obj) {
 		if (obj.hasOwnProperty(p)) {
-			var k = prefix ? prefix + "[" + p + "]" : p, v = obj[p];
+			const k = prefix ? prefix + "[" + p + "]" : p, v = obj[p];
 			str.push((v !== null && typeof v === "object") ?
 				this.toQueryString(v, k) :
 				encodeURIComponent(k) + "=" + encodeURIComponent(v));
@@ -364,7 +366,7 @@ QueryRouter.prototype.toQueryString = function(obj, prefix) {
 };
 QueryRouter.prototype.link = function(segment) {
 	// return '?' + this.param + '=' + segment;
-	var search = this.getQueryObject();
+	const search = this.getQueryObject();
 	search[this.param] = segment;
 	return '?' + this.toQueryString(search) + this.l().hash;
 	// return _.first(this.l().href.split('?')) + '?' + this.param + '=' + segment;
@@ -378,7 +380,7 @@ QueryRouter.prototype.listen = function() {
  *
  * @constructor
  */
-var Xng = function () {
+const Xng = function () {
 	this.ROUTER_FACTORY = {
 		"HashRouter": HashRouter,
 		"QueryRouter": QueryRouter
@@ -423,7 +425,7 @@ var Xng = function () {
  * @param transformFunc gets a string as first param and returns a Json model object
  */
 Xng.prototype.createTransformer = function(transformFunc) {
-	var transformer = function(){};
+	const transformer = function(){};
 	transformer.prototype = Object.create(this.defaultTransformer().prototype);
 	transformer.prototype.doTransformation = transformFunc;
 
@@ -434,7 +436,7 @@ Xng.prototype.defaultTransformer = function() {
 	return DefaultTransformer;
 };
 Xng.prototype.using = function(router) {
-	var rc = this.ROUTER_FACTORY[router];
+	const rc = this.ROUTER_FACTORY[router];
 	this.router = new rc(this.attributes.route);
 	return this;
 };
@@ -454,10 +456,10 @@ Xng.prototype.fetch = function(resource, type) {
 Xng.prototype.render = function (filepath, model, el, listener) {
 
 	return new Promise(function(resolve) {
-		var renderer = new Renderer(el, model);
+		const renderer = new Renderer(el, model);
 
 		renderer.afterRenderHtml(function() {
-			var views = el.querySelectorAll('['+ this.attributes.view +']');
+			const views = el.querySelectorAll('['+ this.attributes.view +']');
 			this.include(views).then(function () {
 				resolve();
 				_triggerListeners(this.listeners.view, listener, el);
@@ -484,13 +486,13 @@ Xng.prototype.render = function (filepath, model, el, listener) {
 };
 
 Xng.prototype.put = function(html, selector, trigger) {
-	var el = document.querySelector(selector);
+	const el = document.querySelector(selector);
 	el.innerHTML = html;
 	_triggerListeners(this.listeners.view, trigger, el);
 };
 
 Xng.prototype.guid = function() {
-	var s = _randChar;
+	const s = _randChar;
 	return [s()+s(), s(), s(), s(), s()+s()+s()].join('-');
 };
 
@@ -508,14 +510,14 @@ Xng.prototype.include = function(includes) {
 	return new Promise(function (resolve) {
 
 		// count finish rendering actions
-		var f_count = 0;
-		var _try_resolve = function () {
+		let f_count = 0;
+		const _try_resolve = function () {
 			if (++f_count === includes.length) {
 				resolve();
 			}
 		};
 		// fixme: refactor to Promise.all([render_promises]) after _.forEach()
-		var _render = function (directive, model, $cur) {
+		const _render = function (directive, model, $cur) {
 			this.render(directive.template, {
 				$route: this.router.current(),
 				$model: model
@@ -524,12 +526,13 @@ Xng.prototype.include = function(includes) {
 
 		_.forEach(includes, function($cur) {
 			var directive = this.parseDirectives($cur);
+			const directive = this.parseDirectives($cur);
 			if (directive.model) {
 				this.readAssignment(directive.model, this.transformers[directive.transform])
 					.then(function(model) {
 						_render(directive, model, $cur);
 					}, function() {
-						var rf = new ResourceFetcher(this.transformers[directive.transform], this.base_remote_dir);
+						const rf = new ResourceFetcher(this.transformers[directive.transform], this.base_remote_dir);
 						this.model_cache.cache(directive.model, rf)
 							.then(function(key) {
 								_render(directive, this.model_cache.get(key), $cur);
@@ -613,9 +616,11 @@ Xng.prototype.route = function(route, cb) {
 Xng.prototype.transform = function (format, transformer) {
 	if (_.isString(format) && _.isFunction(transformer)) {
 		var tclass = this.createTransformer(transformer);
+		const tclass = this.createTransformer(transformer);
 		this.transform(format, new tclass());
 	} else if (_.isObject(format) && _.isUndefined(transformer)) {
 		for (var t in format) {
+		for (let t in format) {
 			this.transform(t, format[t]);
 		}
 	} else if (_.isString(format) && ! _.isUndefined(transformer)) {
@@ -645,9 +650,9 @@ Xng.prototype.listen = function(key, cb) {
 Xng.prototype.require = function (src, attrs) {
 	return new Promise(function(resolve) {
 
-		var load = (function(d, s, src, callback) {
-			var id = src.replace(new RegExp('[\/\.:]', 'g'), '_');
-			var js, fjs = d.getElementsByTagName(s)[0];
+		const load = (function(d, s, src, callback) {
+			const id = src.replace(new RegExp('[\/\.:]', 'g'), '_');
+			let js, fjs = d.getElementsByTagName(s)[0];
 			if (d.getElementById(id)) return;
 			js = d.createElement(s);
 			js.id = id;
@@ -657,11 +662,13 @@ Xng.prototype.require = function (src, attrs) {
 			}
 			if (_.isObject(attrs)) {
 				for (var a in attrs) {
+				for (let a in attrs) {
 					js.setAttribute(a, attrs[a]);
 				}
 			}
 			if (_.isArray(attrs)) {
 				for (var i=0; i < attrs.length; i++) {
+				for (let i=0; i < attrs.length; i++) {
 					js.setAttribute(attrs[i], '');
 				}
 			}
@@ -687,6 +694,7 @@ Xng.prototype.require = function (src, attrs) {
 		} else {
 			var readyCount = 0;
 			_.forEach(src, function(s, idx) {
+			let readyCount = 0;
 				load(document, "script", s, function() {
 					if (readyCount++ >= src.length-1) {
 						resolve(src);
@@ -708,7 +716,7 @@ Xng.prototype.run = function () {
 	// assign router attribute for overrides
 	this.router.attribute = this.attributes.route;
 
-	var p = this.include(document.querySelectorAll('[' + this.attributes.view + ']'));
+	const p = this.include(document.querySelectorAll('[' + this.attributes.view + ']'));
 
 	p.then(function() {
 		this.router.collect(document);
