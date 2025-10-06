@@ -1,18 +1,22 @@
 // Styling for the navbar
 //#mainNav, #docNav {
+@use 'sass:color';
+@use './variables.scss' as *;
+@use './mixins.scss' as mixins;
+
 nav.navbar.fixed-top {
-    border-color: fade-out($gray-darker, .95);
+    border-color: color.adjust($gray-darker, $alpha: -.95);
     background-color: white;
-    @include sans-serif-font;
-    @include transition-all;
+    @include mixins.sans-serif-font;
+    @include mixins.transition-all;
     .navbar-brand {
         font-weight: 700;
         text-transform: uppercase;
         color: $theme-primary;
-        @include sans-serif-font;
+        @include mixins.sans-serif-font;
         &:hover,
         &:focus {
-            color: darken($theme-primary, .1);
+            color: color.adjust($theme-primary, $lightness: -10%);
         }
     }
     .navbar-toggle {
@@ -43,10 +47,10 @@ nav.navbar.fixed-top {
         }
     }
     @media (min-width: 992px) {
-        border-color: fade-out(white, .7);
+        border-color: color.adjust(white, $alpha: -.7);
         background-color: transparent;
         .navbar-brand {
-            color: fade-out(white, .3);
+            color: color.adjust(white, $alpha: -.3);
             &:hover,
             &:focus {
                 color: white;
@@ -54,20 +58,20 @@ nav.navbar.fixed-top {
         }
         .navbar-nav > li.nav-item > a.nav-link,
         .navbar-nav > li.nav-item > a.nav-link:focus {
-            color: fade-out(white, .3);
+            color: color.adjust(white, $alpha: -.3);
             &:hover {
                 color: white;
             }
         }
         &.navbar-shrink {
-            border-color: fade-out($gray-darker, .95);
+            border-color: color.adjust($gray-darker, $alpha: -.95);
             background-color: white;
             .navbar-brand {
                 font-size: 16px;
                 color: $theme-primary;
                 &:hover,
                 &:focus {
-                    color: darken($theme-primary, .1);
+                    color: color.adjust($theme-primary, $lightness: -10%);
                 }
             }
             .navbar-nav > li.nav-item > a.nav-link,

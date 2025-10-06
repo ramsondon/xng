@@ -1,3 +1,6 @@
+@use './variables.scss' as *;
+@use './mixins.scss' as mixins;
+
 // Bootstrap overrides for this template
 .text-primary {
     color: $theme-primary !important;
@@ -9,11 +12,11 @@
 }
 
 .btn-default {
-    @include button-variant($gray-darker, white, white);
+    @include mixins.button-variant($gray-darker, white, white);
 }
 
 .btn-primary {
-    @include button-variant(white, $theme-primary, $theme-primary);
+    @include mixins.button-variant(white, $theme-primary, $theme-primary);
 }
 
 .btn {
@@ -21,7 +24,7 @@
     text-transform: uppercase;
     border: none;
     border-radius: 300px;
-    @include sans-serif-font;
+    @include mixins.sans-serif-font;
 }
 
 .btn-xl {

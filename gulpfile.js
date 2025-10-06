@@ -1,17 +1,17 @@
-var gulp = require('gulp');
-var browserSync = require('browser-sync').create();
-var header = require('gulp-header');
-var cleanCSS = require('gulp-clean-css');
-var rename = require("gulp-rename");
-var uglify = require('gulp-uglify');
-var umd = require('gulp-umd');
-var pkg = require('./package.json');
-var clean = require('gulp-clean');
+const gulp = require('gulp');
+const browserSync = require('browser-sync').create();
+const header = require('gulp-header');
+const cleanCSS = require('gulp-clean-css');
+const rename = require("gulp-rename");
+const uglify = require('gulp-uglify');
+const umd = require('gulp-umd');
+const pkg = require('./package.json');
+const clean = require('gulp-clean');
 const sass = require('gulp-sass')(require('sass'));
 
 
 // Set the banner content
-var banner = ['/*!\n',
+const banner = ['/*!\n',
 	' * ramsondon.github.io - <%= pkg.title %> v<%= pkg.version %> (<%= pkg.homepage %>)\n',
 	' * Copyright 2017 -' + (new Date()).getFullYear(), ' <%= pkg.author %>\n',
 	' * Licensed under <%= pkg.license %> (https://github.com/ramsondon/<%= pkg.name %>/blob/master/LICENSE)\n',
@@ -45,7 +45,7 @@ gulp.task('minify-css', gulp.series('sass', function() {
 // UMD
 
 gulp.task('umd', gulp.series(function(file) {
-	var umdDefinition = {
+	const umdDefinition = {
 		dependencies: function(file	) {
 			return [
 				{
@@ -121,5 +121,4 @@ gulp.task('dev', gulp.series('sass', 'minify-css', 'umd', 'minify-js', 'browserS
     // Reloads the browser whenever HTML or JS files change
     gulp.watch('*.html', browserSync.reload);
     gulp.watch('docs/js/**/*.js', browserSync.reload);
-
 }));

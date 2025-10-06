@@ -1,4 +1,5 @@
 // Variables
+@use 'sass:color';
 
 // Gray and Brand Colors for use across theme
 
@@ -6,10 +7,10 @@ $theme-primary:    #F05F40;
 $theme-primary:    #52BC50;
 
 $gray-base:        #000 !default;
-$gray-darker:	   lighten($gray-base, 13.5%) !default; // #222
-$gray-dark:		   lighten($gray-base, 20%) !default;   // #333
-$gray:			   lighten($gray-base, 33.5%) !default; // #555
-$gray-light:	   lighten($gray-base, 46.7%) !default; // #777
-$gray-lighter:	   lighten($gray-base, 93.5%) !default; // #eee
+$gray-darker:	   color.adjust($gray-base, $alpha: .135) !default; // #222
+$gray-dark:		   color.adjust($gray-base, $alpha: .20) !default;   // #333
+$gray:			   color.adjust($gray-base, $alpha: .335) !default; // #555
+$gray-light:	   color.adjust($gray-base, $alpha: .467) !default; // #777
+$gray-lighter:	   color.adjust($gray-base, $alpha: .935) !default; // #eee
 
 $header-bg-color: $gray-darker;

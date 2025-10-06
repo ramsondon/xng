@@ -1,3 +1,5 @@
+@use './variables.scss' as *;
+
 @mixin docNavFontStyle() {
   font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
   font-size: 10px;
